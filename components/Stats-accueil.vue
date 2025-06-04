@@ -49,4 +49,4 @@ const stats = [
 ]
 
 const visible = ref(stats.map(() => false))
-</script> 
+</script>

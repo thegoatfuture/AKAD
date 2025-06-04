@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 const remainingTime = ref(86400) // 24h en secondes
 
