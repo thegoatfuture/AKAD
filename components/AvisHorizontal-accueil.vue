@@ -7,12 +7,12 @@
 
     <div class="relative z-10 max-w-7xl mx-auto px-6">
       <!-- Ligne du haut -->
-      <div class="relative overflow-hidden mb-14">
+      <div class="relative overflow-hidden mb-14 group">
         <div class="fade-left" />
         <div class="fade-right" />
         <div class="flex gap-10 whitespace-nowrap animate-premium-scroll-top px-2">
           <TestimonialCardPremium
-            v-for="(testimonial, index) in testimonials.slice(0, 4)"
+            v-for="(testimonial, index) in firstRow"
             :key="'top-' + index"
             :testimonial="testimonial"
             :highlight="index === 1"
@@ -21,12 +21,12 @@
       </div>
 
       <!-- Ligne du bas -->
-      <div class="relative overflow-hidden">
+      <div class="relative overflow-hidden group">
         <div class="fade-left" />
         <div class="fade-right" />
         <div class="flex gap-10 whitespace-nowrap animate-premium-scroll-bottom px-2">
           <TestimonialCardPremium
-            v-for="(testimonial, index) in testimonials.slice(4, 8)"
+            v-for="(testimonial, index) in secondRow"
             :key="'bottom-' + index"
             :testimonial="testimonial"
             :highlight="index === 2"
@@ -38,6 +38,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import TestimonialCardPremium from './TestimonialCardPremium.vue'
 
 const testimonials = [
@@ -50,6 +51,10 @@ const testimonials = [
   { name: 'Clara P.', date: '05/08/2024', title: 'Stratégie compatible', content: "J'ai pu appliquer ma méthode sans contrainte." },
   { name: 'Romain E.', date: '22/10/2024', title: 'Conditions réelles', content: "Le mode démo reflète parfaitement les marchés." }
 ]
+
+const half = Math.ceil(testimonials.length / 2)
+const firstRow = computed(() => testimonials.slice(0, half))
+const secondRow = computed(() => testimonials.slice(half))
 </script>
 
 <style scoped>
@@ -67,8 +72,16 @@ const testimonials = [
   animation: premium-scroll-top 18s linear infinite;
 }
 
+.group:hover .animate-premium-scroll-top {
+  animation-play-state: paused;
+}
+
 .animate-premium-scroll-bottom {
   animation: premium-scroll-bottom 22s linear infinite;
+}
+
+.group:hover .animate-premium-scroll-bottom {
+  animation-play-state: paused;
 }
 
 .fade-left,
