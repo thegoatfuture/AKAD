@@ -1,10 +1,10 @@
-# Nuxt Minimal Starter
+# AKAD Nuxt Application
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+AKAD is a Nuxt 3 project that powers a trading challenge platform. It provides the web interface for participants to track their progress, access educational content and manage their accounts.
 
 ## Setup
 
-Make sure to install dependencies:
+Install dependencies using your preferred package manager:
 
 ```bash
 # npm
@@ -20,9 +20,9 @@ yarn install
 bun install
 ```
 
-## Development Server
+## Development
 
-Start the development server on `http://localhost:3000`:
+Start a local dev server at `http://localhost:3000`:
 
 ```bash
 # npm
@@ -38,38 +38,36 @@ yarn dev
 bun run dev
 ```
 
-## Production
-
-Build the application for production:
+Lint the project:
 
 ```bash
-# npm
+npm run lint
+```
+
+## Deployment
+
+Create an optimized production build:
+
+```bash
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+Preview the production build locally:
 
 ```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+You can then deploy the `./.output` directory to your preferred hosting provider.
+
+## Contributing
+
+Contributions are welcome! By participating you agree that your work will be licensed under the [MIT License](LICENSE).
+
+1. Fork the repository and create your branch.
+2. Install dependencies using `npm install` and run `npm run lint` before committing.
+3. Open a pull request describing your changes.
+
+---
+
+This project is released under the [MIT License](LICENSE).
