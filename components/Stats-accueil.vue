@@ -50,4 +50,3 @@ const stats = [
 
 const visible = ref(stats.map(() => false))
 </script> 
-<CountUp :to="item.value" :suffix="item.suffix" :start="visible[index]" />
