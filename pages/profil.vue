@@ -1,5 +1,6 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import SidebarDashboard from '@/components/Sidebar-dashboard.vue'
 
 // Force le layout personnalisé
 definePageMeta({
@@ -16,8 +17,10 @@ const profile = reactive({
   bio: ''
 })
 
+const successMessage = ref('')
+
 function updateProfile() {
-  console.log('Profil mis à jour:', profile)
+  successMessage.value = 'Profil mis à jour avec succès'
 }
 </script>
 
@@ -26,10 +29,12 @@ function updateProfile() {
 
     <!-- Main content -->
     <div class="flex-1 flex flex-col">
-   
-
       <!-- Page Content -->
       <main class="p-6 space-y-10 overflow-y-auto">
+        <div v-if="successMessage" class="bg-green-500 text-white px-4 py-2 rounded">
+          {{ successMessage }}
+        </div>
+
         <!-- Informations Personnelles -->
         <div class="bg-zinc-900 text-white rounded-2xl shadow-md p-8">
           <h2 class="text-2xl font-bold text-yellow-400 mb-6">Informations personnelles</h2>
