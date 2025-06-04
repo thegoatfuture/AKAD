@@ -1,4 +1,4 @@
-// plugins/v-intersect.js
+// plugins/intersect.client.js
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.directive('intersect', {
       mounted(el, binding) {
