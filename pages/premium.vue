@@ -1,11 +1,21 @@
 <script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
 definePageMeta({
   layout: 'dashboard'
 })
 
+const router = useRouter()
+const showModal = ref(false)
+
 function handleSubscribe() {
-  // Ici tu peux rediriger, ouvrir un modal ou appeler une API
-  alert("Redirection vers le paiement AKAD Premium...");
+  showModal.value = true
+}
+
+function proceedToPayment() {
+  showModal.value = false
+  router.push('/facturation')
 }
 </script>
 
@@ -61,6 +71,17 @@ function handleSubscribe() {
           S'abonner à AKAD Premium
         </button>
         <p class="text-xs text-gray-400 mt-2">Annulable à tout moment depuis votre espace personnel.</p>
+      </div>
+
+      <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-zinc-800 p-6 rounded-xl shadow-xl w-full max-w-md relative">
+          <button @click="showModal = false" class="absolute top-3 right-3 text-white hover:text-red-400">&times;</button>
+          <h3 class="text-xl font-bold text-yellow-400 mb-4">Souscription AKAD Premium</h3>
+          <p class="text-sm text-gray-300 mb-6">Vous allez être redirigé vers la page de paiement pour finaliser votre abonnement.</p>
+          <button @click="proceedToPayment" class="bg-yellow-400 text-black font-bold px-4 py-2 rounded hover:bg-yellow-500 transition w-full">
+            Procéder au paiement
+          </button>
+        </div>
       </div>
     </div>
   </div>

@@ -36,7 +36,7 @@ const certificates = [
         <div class="bg-zinc-900 p-6 rounded-2xl shadow-lg">
           <h2 class="text-3xl font-extrabold text-yellow-400 mb-4">Certificats</h2>
           <p class="text-sm text-gray-400 mb-6">
-            Téléchargez votre certificat respectif et soyez fier de votre réussite. Les certificats grésés se débloqueront automatiquement quand vous franchirez les étapes requises. Seuil minimum pour débloquer : 100 USD ou équivalent.
+            Téléchargez votre certificat respectif et soyez fier de votre réussite. Les certificats grisés se débloqueront automatiquement quand vous franchirez les étapes requises. Seuil minimum pour débloquer : 100 USD ou équivalent.
           </p>
 
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
