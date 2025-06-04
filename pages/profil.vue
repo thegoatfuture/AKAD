@@ -1,6 +1,5 @@
 <script setup>
 import { reactive } from 'vue'
-import SidebarDashboard from '@/components/Sidebar-dashboard.vue'
 
 // Force le layout personnalisé
 definePageMeta({
