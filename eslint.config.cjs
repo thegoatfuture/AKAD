@@ -1,5 +1,4 @@
 module.exports = {
-  root: true,
   env: {
     browser: true,
     node: true,
@@ -18,5 +17,9 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
   ],
+  globals: {
+    defineNuxtPlugin: 'readonly',
+  },
   rules: {},
+  ignores: ['node_modules', '.nuxt', 'dist'],
 }

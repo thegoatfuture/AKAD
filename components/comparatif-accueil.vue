@@ -1,7 +1,9 @@
 <template>
   <section class="bg-black text-white py-20 px-4">
     <!-- Devise & Solde -->
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
+    <div
+      class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 mb-10"
+    >
       <div class="flex gap-2">
         <span class="text-sm font-semibold">DEVISE :</span>
         <button
@@ -10,7 +12,9 @@
           @click="selectedCurrency = currency"
           :class="[
             'px-3 py-1 rounded text-sm font-semibold transition',
-            selectedCurrency === currency ? 'bg-yellow-400 text-black' : 'bg-zinc-800 text-zinc-300'
+            selectedCurrency === currency
+              ? 'bg-yellow-400 text-black'
+              : 'bg-zinc-800 text-zinc-300',
           ]"
         >
           {{ currency }}
@@ -24,7 +28,9 @@
           @click="selectedBalance = amount"
           :class="[
             'px-3 py-1 rounded text-sm font-semibold transition',
-            selectedBalance === amount ? 'bg-yellow-400 text-black' : 'bg-zinc-800 text-zinc-300'
+            selectedBalance === amount
+              ? 'bg-yellow-400 text-black'
+              : 'bg-zinc-800 text-zinc-300',
           ]"
         >
           {{ getFormattedBalance(amount) }}
@@ -44,8 +50,14 @@
           </tr>
         </thead>
         <tbody class="text-center">
-          <tr v-for="row in comparatifData" :key="row.label" class="hover:bg-zinc-800">
-            <td class="p-4 text-left text-yellow-300 font-medium">{{ row.label }}</td>
+          <tr
+            v-for="row in comparatifData"
+            :key="row.label"
+            class="hover:bg-zinc-800"
+          >
+            <td class="p-4 text-left text-yellow-300 font-medium">
+              {{ row.label }}
+            </td>
             <td class="p-4">{{ getValue(row.challenge) }}</td>
             <td class="p-4">{{ getValue(row.verification) }}</td>
             <td class="p-4">{{ getValue(row.trader) }}</td>
@@ -68,7 +80,7 @@ const selectedBalance = ref(10000)
 const conversionRates = {
   USD: 1,
   EUR: 0.8,
-  GBP: 0.7
+  GBP: 0.7,
 }
 
 function convert(value) {
@@ -93,37 +105,38 @@ const comparatifData = [
     label: 'Période de trading',
     challenge: 'Illimitée',
     verification: 'Illimitée',
-    trader: 'Illimitée'
+    trader: 'Illimitée',
   },
   {
     label: 'Objectif de profit',
     challenge: { USD: '$1000', EUR: '800€', GBP: '700£' },
     verification: { USD: '$500', EUR: '400€', GBP: '350£' },
-    trader: 'X'
+    trader: 'X',
   },
   {
     label: 'Perte journalière max',
     challenge: { USD: '$500', EUR: '400€', GBP: '350£' },
     verification: { USD: '$500', EUR: '400€', GBP: '350£' },
-    trader: { USD: '$500', EUR: '400€', GBP: '350£' }
+    trader: { USD: '$500', EUR: '400€', GBP: '350£' },
   },
   {
     label: 'Perte max totale',
     challenge: { USD: '$1000', EUR: '800€', GBP: '700£' },
     verification: { USD: '$1000', EUR: '800€', GBP: '700£' },
-    trader: { USD: '$1000', EUR: '800€', GBP: '700£' }
+    trader: { USD: '$1000', EUR: '800€', GBP: '700£' },
   },
   {
     label: 'Frais remboursables',
     challenge: { USD: '$89', EUR: '79€', GBP: '69£' },
     verification: 'Gratuit',
-    trader: 'Remboursés'
-  }
+    trader: 'Remboursés',
+  },
 ]
 </script>
 
 <style scoped>
-th, td {
+th,
+td {
   white-space: nowrap;
 }
 </style>

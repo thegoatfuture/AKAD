@@ -8,20 +8,20 @@ import { ref, watch, onMounted } from 'vue'
 const props = defineProps({
   to: {
     type: Number,
-    required: true
+    required: true,
   },
   suffix: {
     type: String,
-    default: ''
+    default: '',
   },
   start: {
     type: Boolean,
-    default: true
+    default: true,
   },
   duration: {
     type: Number,
-    default: 2000 // en millisecondes
-  }
+    default: 2000, // en millisecondes
+  },
 })
 
 const displayValue = ref(0)
@@ -35,7 +35,9 @@ const animate = () => {
 
   const step = (timestamp) => {
     const progress = Math.min((timestamp - startTime) / duration, 1)
-    displayValue.value = Math.floor(progress * (endValue - startValue) + startValue)
+    displayValue.value = Math.floor(
+      progress * (endValue - startValue) + startValue
+    )
 
     if (progress < 1) {
       frame = requestAnimationFrame(step)
@@ -46,11 +48,14 @@ const animate = () => {
   frame = requestAnimationFrame(step)
 }
 
-watch(() => props.start, (val) => {
-  if (val) {
-    animate()
+watch(
+  () => props.start,
+  (val) => {
+    if (val) {
+      animate()
+    }
   }
-})
+)
 
 onMounted(() => {
   if (props.start) {

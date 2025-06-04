@@ -11,10 +11,9 @@
 
     <!-- 4. Trading view defile -->
     <DefilementAccueil />
-    
 
     <!-- 5. Objectifs de trading dynamiques -->
-     <ObjectifAccueil />
+    <ObjectifAccueil />
 
     <!-- 6. Étapes du trading -->
     <EtapeTradingAccueil />
@@ -34,7 +33,6 @@
 
     <!-- 11. Blog / Actualités pour SEO + réassurance -->
     <BlogAccueil />
-
   </div>
 </template>
 

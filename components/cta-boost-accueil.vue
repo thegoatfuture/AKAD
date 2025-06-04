@@ -2,8 +2,12 @@
   <section class="relative bg-white text-black py-20 px-6 overflow-hidden">
     <!-- Animation de fond floue -->
     <div class="absolute inset-0 -z-10">
-      <div class="absolute w-72 h-72 bg-yellow-200 rounded-full blur-3xl opacity-30 top-[-50px] left-[-50px]" />
-      <div class="absolute w-72 h-72 bg-yellow-300 rounded-full blur-3xl opacity-20 bottom-[-50px] right-[-50px]" />
+      <div
+        class="absolute w-72 h-72 bg-yellow-200 rounded-full blur-3xl opacity-30 top-[-50px] left-[-50px]"
+      />
+      <div
+        class="absolute w-72 h-72 bg-yellow-300 rounded-full blur-3xl opacity-20 bottom-[-50px] right-[-50px]"
+      />
     </div>
 
     <!-- Contenu principal -->
@@ -12,7 +16,8 @@
         Rejoignez le programme AKAD maintenant
       </h2>
       <p class="text-lg max-w-2xl mx-auto">
-        Jusqu’à 200 000 $ simulés • 90 % des profits simulés reversés • Contrat réel chez Quantlane
+        Jusqu’à 200 000 $ simulés • 90 % des profits simulés reversés • Contrat
+        réel chez Quantlane
       </p>
 
       <!-- Compte à rebours -->
@@ -30,7 +35,9 @@
     </div>
 
     <!-- Logos partenaires -->
-    <div class="mt-12 flex flex-wrap justify-center items-center gap-6 opacity-60">
+    <div
+      class="mt-12 flex flex-wrap justify-center items-center gap-6 opacity-60"
+    >
       <img src="/images/visa.svg" class="h-6" alt="Visa" />
       <img src="/images/mastercard.svg" class="h-6" alt="Mastercard" />
       <img src="/images/paypal.svg" class="h-6" alt="PayPal" />

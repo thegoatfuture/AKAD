@@ -1,8 +1,12 @@
 <template>
-  <section class="relative bg-gradient-to-b from-white to-zinc-100 py-20 overflow-hidden">
+  <section
+    class="relative bg-gradient-to-b from-white to-zinc-100 py-20 overflow-hidden"
+  >
     <!-- Dégradé de fond et texture SVG subtile -->
     <div class="absolute inset-0 pointer-events-none z-0">
-      <div class="w-full h-full bg-[url('/images/pattern-light.svg')] bg-repeat opacity-10"></div>
+      <div
+        class="w-full h-full bg-[url('/images/pattern-light.svg')] bg-repeat opacity-10"
+      ></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-6">
@@ -10,7 +14,9 @@
       <div class="relative overflow-hidden mb-14 group">
         <div class="fade-left" />
         <div class="fade-right" />
-        <div class="flex gap-10 whitespace-nowrap animate-premium-scroll-top px-2">
+        <div
+          class="flex gap-10 whitespace-nowrap animate-premium-scroll-top px-2"
+        >
           <TestimonialCardPremium
             v-for="(testimonial, index) in firstRow"
             :key="'top-' + index"
@@ -24,7 +30,9 @@
       <div class="relative overflow-hidden group">
         <div class="fade-left" />
         <div class="fade-right" />
-        <div class="flex gap-10 whitespace-nowrap animate-premium-scroll-bottom px-2">
+        <div
+          class="flex gap-10 whitespace-nowrap animate-premium-scroll-bottom px-2"
+        >
           <TestimonialCardPremium
             v-for="(testimonial, index) in secondRow"
             :key="'bottom-' + index"
@@ -42,14 +50,54 @@ import { computed } from 'vue'
 import TestimonialCardPremium from './TestimonialCardPremium.vue'
 
 const testimonials = [
-  { name: 'Sophie R.', date: '14/12/2024', title: 'Payout fluide', content: "Premier payout atteint, tout s'est déroulé sans accroc." },
-  { name: 'Karim T.', date: '05/09/2024', title: 'Dashboard intuitif', content: "Suivi parfait de mes performances." },
-  { name: 'Marine L.', date: '17/07/2024', title: 'Support réactif', content: "Réponses rapides et précises du support." },
-  { name: 'Nathan G.', date: '28/09/2024', title: 'Règles réalistes', content: "Conditions proches du réel, parfait pour apprendre." },
-  { name: 'Inès V.', date: '15/12/2024', title: 'Compétition équitable', content: "Des objectifs clairs et atteignables." },
-  { name: 'Thom H.', date: '06/01/2025', title: 'Expérience honnête', content: "Transparence sur les règles et les risques." },
-  { name: 'Clara P.', date: '05/08/2024', title: 'Stratégie compatible', content: "J'ai pu appliquer ma méthode sans contrainte." },
-  { name: 'Romain E.', date: '22/10/2024', title: 'Conditions réelles', content: "Le mode démo reflète parfaitement les marchés." }
+  {
+    name: 'Sophie R.',
+    date: '14/12/2024',
+    title: 'Payout fluide',
+    content: "Premier payout atteint, tout s'est déroulé sans accroc.",
+  },
+  {
+    name: 'Karim T.',
+    date: '05/09/2024',
+    title: 'Dashboard intuitif',
+    content: 'Suivi parfait de mes performances.',
+  },
+  {
+    name: 'Marine L.',
+    date: '17/07/2024',
+    title: 'Support réactif',
+    content: 'Réponses rapides et précises du support.',
+  },
+  {
+    name: 'Nathan G.',
+    date: '28/09/2024',
+    title: 'Règles réalistes',
+    content: 'Conditions proches du réel, parfait pour apprendre.',
+  },
+  {
+    name: 'Inès V.',
+    date: '15/12/2024',
+    title: 'Compétition équitable',
+    content: 'Des objectifs clairs et atteignables.',
+  },
+  {
+    name: 'Thom H.',
+    date: '06/01/2025',
+    title: 'Expérience honnête',
+    content: 'Transparence sur les règles et les risques.',
+  },
+  {
+    name: 'Clara P.',
+    date: '05/08/2024',
+    title: 'Stratégie compatible',
+    content: "J'ai pu appliquer ma méthode sans contrainte.",
+  },
+  {
+    name: 'Romain E.',
+    date: '22/10/2024',
+    title: 'Conditions réelles',
+    content: 'Le mode démo reflète parfaitement les marchés.',
+  },
 ]
 
 const half = Math.ceil(testimonials.length / 2)
@@ -59,13 +107,21 @@ const secondRow = computed(() => testimonials.slice(half))
 
 <style scoped>
 @keyframes premium-scroll-top {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-70%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-70%);
+  }
 }
 
 @keyframes premium-scroll-bottom {
-  0% { transform: translateX(-10%); }
-  100% { transform: translateX(-80%); }
+  0% {
+    transform: translateX(-10%);
+  }
+  100% {
+    transform: translateX(-80%);
+  }
 }
 
 .animate-premium-scroll-top {

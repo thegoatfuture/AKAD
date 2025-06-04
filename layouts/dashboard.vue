@@ -8,7 +8,7 @@ const user = ref({
   name: 'TEST123',
   email: 'mathis@example.com',
   avatar: 'F',
-  points: 0
+  points: 0,
 })
 
 const showProfilePanel = ref(false)
@@ -38,24 +38,43 @@ const menuItems = [
   <div class="min-h-screen bg-zinc-950 text-white flex">
     <div class="flex-1 flex flex-col">
       <!-- HEADER -->
-      <header class="flex justify-between items-center px-6 py-4 bg-zinc-900 border-b border-zinc-800 relative">
+      <header
+        class="flex justify-between items-center px-6 py-4 bg-zinc-900 border-b border-zinc-800 relative"
+      >
         <div class="flex items-center gap-3">
           <img src="/images/logo-pf.png" alt="Logo AKAD" class="h-12 w-auto" />
         </div>
 
-        <div class="flex items-center gap-4 cursor-pointer" @click="toggleProfilePanel">
+        <div
+          class="flex items-center gap-4 cursor-pointer"
+          @click="toggleProfilePanel"
+        >
           <span class="font-semibold hover:underline">
             {{ user?.name || 'Utilisateur' }}
           </span>
-          <div class="bg-blue-200 text-blue-700 rounded-full h-10 w-10 flex items-center justify-center font-bold">
+          <div
+            class="bg-blue-200 text-blue-700 rounded-full h-10 w-10 flex items-center justify-center font-bold"
+          >
             {{ user?.avatar || 'U' }}
           </div>
           <div class="relative">
-            <svg class="w-6 h-6" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              />
             </svg>
-            <span class="absolute -top-2 -right-2 bg-red-500 text-xs font-bold text-white px-1.5 py-0.5 rounded-full">24</span>
+            <span
+              class="absolute -top-2 -right-2 bg-red-500 text-xs font-bold text-white px-1.5 py-0.5 rounded-full"
+              >24</span
+            >
           </div>
         </div>
 
@@ -65,26 +84,43 @@ const menuItems = [
           class="absolute right-6 top-16 bg-white text-black rounded-xl shadow-xl w-80 z-50 p-5"
         >
           <div class="flex items-center gap-4 mb-4">
-            <div class="bg-blue-100 text-blue-700 rounded-full h-14 w-14 flex items-center justify-center font-bold text-xl">
+            <div
+              class="bg-blue-100 text-blue-700 rounded-full h-14 w-14 flex items-center justify-center font-bold text-xl"
+            >
               {{ user?.avatar || 'U' }}
             </div>
             <div>
-              <h3 class="font-bold text-zinc-800">{{ user?.name || 'Utilisateur' }}</h3>
+              <h3 class="font-bold text-zinc-800">
+                {{ user?.name || 'Utilisateur' }}
+              </h3>
               <p class="text-sm text-gray-500">{{ user?.email || '' }}</p>
-              <p class="text-sm text-blue-600 font-semibold">{{ user?.points || 0 }} Points AKAD</p>
+              <p class="text-sm text-blue-600 font-semibold">
+                {{ user?.points || 0 }} Points AKAD
+              </p>
             </div>
           </div>
 
           <div class="space-y-4 text-zinc-700">
-            <div @click="goTo('/profil')" class="cursor-pointer hover:text-yellow-500">
+            <div
+              @click="goTo('/profil')"
+              class="cursor-pointer hover:text-yellow-500"
+            >
               <p class="font-semibold">Mon Profil</p>
-              <p class="text-sm text-gray-500">Informations du Compte et plus</p>
+              <p class="text-sm text-gray-500">
+                Informations du Compte et plus
+              </p>
             </div>
-            <div @click="goTo('/facturation')" class="cursor-pointer hover:text-yellow-500">
+            <div
+              @click="goTo('/facturation')"
+              class="cursor-pointer hover:text-yellow-500"
+            >
               <p class="font-semibold">Facturation</p>
               <p class="text-sm text-gray-500">Facturation et relevés</p>
             </div>
-            <div @click="goTo('/settings')" class="cursor-pointer hover:text-yellow-500">
+            <div
+              @click="goTo('/settings')"
+              class="cursor-pointer hover:text-yellow-500"
+            >
               <p class="font-semibold">Personnaliser</p>
               <p class="text-sm text-gray-500">Options de personnalisation</p>
             </div>
@@ -101,8 +137,12 @@ const menuItems = [
       <!-- BODY -->
       <div class="flex flex-1">
         <!-- SIDEBAR -->
-        <aside class="bg-white rounded-2xl shadow-2xl ml-8 mr-3 mt-6 p-5 w-64 flex-shrink-0 sticky top-6 self-start">
-          <button class="bg-yellow-400 w-full font-bold py-2 rounded mb-6 shadow hover:bg-yellow-500 transition">
+        <aside
+          class="bg-white rounded-2xl shadow-2xl ml-8 mr-3 mt-6 p-5 w-64 flex-shrink-0 sticky top-6 self-start"
+        >
+          <button
+            class="bg-yellow-400 w-full font-bold py-2 rounded mb-6 shadow hover:bg-yellow-500 transition"
+          >
             Nouveau AKAD Challenge
           </button>
 
@@ -114,8 +154,9 @@ const menuItems = [
                 :to="item.to"
                 class="block px-4 py-2 rounded font-medium"
                 :class="{
-                  'bg-yellow-100 text-yellow-700 font-bold': $route.path === item.to,
-                  'text-black hover:bg-yellow-50': $route.path !== item.to
+                  'bg-yellow-100 text-yellow-700 font-bold':
+                    $route.path === item.to,
+                  'text-black hover:bg-yellow-50': $route.path !== item.to,
                 }"
               >
                 {{ item.name }}

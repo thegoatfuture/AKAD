@@ -9,7 +9,7 @@ describe('CountUp', () => {
     const originalRAF = global.requestAnimationFrame
     Object.defineProperty(performance, 'now', {
       value: () => Date.now(),
-      configurable: true
+      configurable: true,
     })
     global.requestAnimationFrame = (cb: FrameRequestCallback) =>
       setTimeout(() => cb(Date.now()), 16) as unknown as number
@@ -18,8 +18,8 @@ describe('CountUp', () => {
       props: {
         to: 50,
         duration: 1000,
-        start: true
-      }
+        start: true,
+      },
     })
 
     await vi.advanceTimersByTimeAsync(1000)
@@ -32,4 +32,3 @@ describe('CountUp', () => {
     global.requestAnimationFrame = originalRAF
   })
 })
-

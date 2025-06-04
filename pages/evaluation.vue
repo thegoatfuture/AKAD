@@ -3,7 +3,9 @@
     <Header />
 
     <section class="max-w-5xl mx-auto px-4 py-20">
-      <h1 class="text-4xl font-bold text-yellow-400 mb-8">Règles du Challenge AKAD</h1>
+      <h1 class="text-4xl font-bold text-yellow-400 mb-8">
+        Règles du Challenge AKAD
+      </h1>
 
       <div class="space-y-12">
         <!-- Phase 1 -->
@@ -41,7 +43,9 @@
 
       <div class="mt-12 text-center">
         <NuxtLink to="/tarifs">
-          <button class="bg-yellow-400 text-black px-6 py-3 font-semibold rounded hover:bg-yellow-500 transition">
+          <button
+            class="bg-yellow-400 text-black px-6 py-3 font-semibold rounded hover:bg-yellow-500 transition"
+          >
             Commencer le Challenge
           </button>
         </NuxtLink>
