@@ -8,6 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "lint": "eslint . --ext .js,.ts,.vue",
     "test": "vitest run"
   },
   "dependencies": {
@@ -24,12 +25,19 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.11.0",
+    "@typescript-eslint/parser": "^7.11.0",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.2",
+    "eslint-plugin-vue": "^9.24.0",
+    "postcss": "^8.5.4",
+    "prettier": "^3.2.5",
     "@vitejs/plugin-vue": "^5.2.4",
     "@vue/test-utils": "^2.4.4",
-    "autoprefixer": "^10.4.21",
     "jsdom": "^26.1.0",
     "picocolors": "^1.1.1",
-    "postcss": "^8.5.4",
     "vitest": "^1.4.0"
   }
 }
