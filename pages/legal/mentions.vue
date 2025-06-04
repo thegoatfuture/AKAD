@@ -32,14 +32,23 @@
             Hébergeur : <br />
             Vercel Inc.<br />
             440 N Barranca Ave #4133, Covina, CA 91723, USA<br />
-            Site web : <a href="https://vercel.com" class="text-yellow-400 underline" target="_blank">vercel.com</a>
+            Site web :
+            <a
+              href="https://vercel.com"
+              class="text-yellow-400 underline"
+              target="_blank"
+              >vercel.com</a
+            >
           </p>
         </div>
 
         <div>
-          <h2 class="text-xl font-semibold text-white mb-2">Conditions d’utilisation</h2>
+          <h2 class="text-xl font-semibold text-white mb-2">
+            Conditions d’utilisation
+          </h2>
           <p>
-            L’utilisateur reconnaît avoir pris connaissance des présentes mentions légales et s’engage à les respecter.
+            L’utilisateur reconnaît avoir pris connaissance des présentes
+            mentions légales et s’engage à les respecter.
           </p>
         </div>
       </div>

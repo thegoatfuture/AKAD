@@ -5,12 +5,15 @@
     <section class="max-w-3xl mx-auto px-4 py-20">
       <h1 class="text-4xl font-bold text-yellow-400 mb-6">Contact</h1>
       <p class="text-gray-300 mb-12">
-        Une question ? Une remarque ? N'hésite pas à nous écrire via ce formulaire.
+        Une question ? Une remarque ? N'hésite pas à nous écrire via ce
+        formulaire.
       </p>
 
       <form class="grid gap-6">
         <div>
-          <label for="name" class="block text-sm font-medium mb-1">Prénom</label>
+          <label for="name" class="block text-sm font-medium mb-1"
+            >Prénom</label
+          >
           <input
             type="text"
             id="name"
@@ -20,7 +23,9 @@
         </div>
 
         <div>
-          <label for="email" class="block text-sm font-medium mb-1">Email</label>
+          <label for="email" class="block text-sm font-medium mb-1"
+            >Email</label
+          >
           <input
             type="email"
             id="email"
@@ -30,7 +35,9 @@
         </div>
 
         <div>
-          <label for="message" class="block text-sm font-medium mb-1">Message</label>
+          <label for="message" class="block text-sm font-medium mb-1"
+            >Message</label
+          >
           <textarea
             id="message"
             rows="5"

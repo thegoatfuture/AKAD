@@ -1,8 +1,12 @@
 <template>
-  <div class="bg-zinc-900 rounded-xl p-6 shadow-md border border-zinc-700 min-w-[320px] max-w-sm">
+  <div
+    class="bg-zinc-900 rounded-xl p-6 shadow-md border border-zinc-700 min-w-[320px] max-w-sm"
+  >
     <!-- Nom + date -->
     <div class="flex items-center gap-4 mb-4">
-      <div class="bg-zinc-800 text-white font-semibold w-10 h-10 rounded-full flex items-center justify-center">
+      <div
+        class="bg-zinc-800 text-white font-semibold w-10 h-10 rounded-full flex items-center justify-center"
+      >
         {{ initials }}
       </div>
       <div>
@@ -21,7 +25,9 @@
         viewBox="0 0 24 24"
         :fill="n <= testimonial.stars ? '#00B67A' : '#d1d5db'"
       >
-        <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.857 1.528 8.307L12 18.896l-7.464 4.574 1.528-8.307L0 9.306l8.332-1.151z" />
+        <path
+          d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.857 1.528 8.307L12 18.896l-7.464 4.574 1.528-8.307L0 9.306l8.332-1.151z"
+        />
       </svg>
     </div>
 
@@ -46,8 +52,8 @@ import { computed } from 'vue'
 const props = defineProps({
   testimonial: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const initials = computed(() =>

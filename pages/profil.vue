@@ -4,7 +4,7 @@ import SidebarDashboard from '@/components/Sidebar-dashboard.vue'
 
 // Force le layout personnalisé
 definePageMeta({
-  layout: 'dashboard'
+  layout: 'dashboard',
 })
 
 const profile = reactive({
@@ -14,7 +14,7 @@ const profile = reactive({
   country: '',
   address: '',
   zip: '',
-  bio: ''
+  bio: '',
 })
 
 const successMessage = ref('')
@@ -26,34 +26,53 @@ function updateProfile() {
 
 <template>
   <div class="min-h-screen bg-zinc-950 text-white flex">
-
     <!-- Main content -->
     <div class="flex-1 flex flex-col">
       <!-- Page Content -->
       <main class="p-6 space-y-10 overflow-y-auto">
-        <div v-if="successMessage" class="bg-green-500 text-white px-4 py-2 rounded">
+        <div
+          v-if="successMessage"
+          class="bg-green-500 text-white px-4 py-2 rounded"
+        >
           {{ successMessage }}
         </div>
 
         <!-- Informations Personnelles -->
         <div class="bg-zinc-900 text-white rounded-2xl shadow-md p-8">
-          <h2 class="text-2xl font-bold text-yellow-400 mb-6">Informations personnelles</h2>
+          <h2 class="text-2xl font-bold text-yellow-400 mb-6">
+            Informations personnelles
+          </h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label class="block mb-1 text-sm font-medium">Nom complet</label>
-              <input v-model="profile.name" type="text" class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white" />
+              <input
+                v-model="profile.name"
+                type="text"
+                class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white"
+              />
             </div>
             <div>
               <label class="block mb-1 text-sm font-medium">Email</label>
-              <input v-model="profile.email" type="email" class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white" />
+              <input
+                v-model="profile.email"
+                type="email"
+                class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white"
+              />
             </div>
             <div>
               <label class="block mb-1 text-sm font-medium">Téléphone</label>
-              <input v-model="profile.phone" type="tel" class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white" />
+              <input
+                v-model="profile.phone"
+                type="tel"
+                class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white"
+              />
             </div>
             <div>
               <label class="block mb-1 text-sm font-medium">Pays</label>
-              <select v-model="profile.country" class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white">
+              <select
+                v-model="profile.country"
+                class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white"
+              >
                 <option value="">Sélectionner</option>
                 <option value="France">France</option>
                 <option value="Belgique">Belgique</option>
@@ -69,24 +88,41 @@ function updateProfile() {
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label class="block mb-1 text-sm font-medium">Adresse</label>
-              <input v-model="profile.address" type="text" class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white" />
+              <input
+                v-model="profile.address"
+                type="text"
+                class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white"
+              />
             </div>
             <div>
               <label class="block mb-1 text-sm font-medium">Code postal</label>
-              <input v-model="profile.zip" type="text" class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white" />
+              <input
+                v-model="profile.zip"
+                type="text"
+                class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white"
+              />
             </div>
           </div>
         </div>
 
         <!-- Bio -->
         <div class="bg-zinc-900 text-white rounded-2xl shadow-md p-8">
-          <h2 class="text-2xl font-bold text-yellow-400 mb-6">À propos de vous</h2>
+          <h2 class="text-2xl font-bold text-yellow-400 mb-6">
+            À propos de vous
+          </h2>
           <div>
             <label class="block mb-1 text-sm font-medium">Biographie</label>
-            <textarea v-model="profile.bio" rows="4" class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white"></textarea>
+            <textarea
+              v-model="profile.bio"
+              rows="4"
+              class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white"
+            ></textarea>
           </div>
           <div class="mt-6">
-            <button @click.prevent="updateProfile" class="bg-yellow-400 text-black font-bold py-2 px-6 rounded hover:bg-yellow-500 transition">
+            <button
+              @click.prevent="updateProfile"
+              class="bg-yellow-400 text-black font-bold py-2 px-6 rounded hover:bg-yellow-500 transition"
+            >
               Mettre à jour le profil
             </button>
           </div>

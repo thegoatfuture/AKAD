@@ -5,7 +5,7 @@
     :class="[
       isActive
         ? 'bg-yellow-100 border-l-4 border-yellow-400 text-yellow-700 font-semibold'
-        : 'text-black hover:bg-gray-100'
+        : 'text-black hover:bg-gray-100',
     ]"
   >
     <div class="flex items-center gap-3">
@@ -29,7 +29,7 @@ import { computed } from 'vue'
 const props = defineProps({
   to: String,
   label: String,
-  badge: [String, Number]
+  badge: [String, Number],
 })
 
 const route = useRoute()

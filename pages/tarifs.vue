@@ -3,9 +3,12 @@
     <Header />
 
     <section class="max-w-6xl mx-auto px-4 py-20">
-      <h1 class="text-4xl font-bold text-yellow-400 mb-6 text-center">Tarifs & Paliers de financement</h1>
+      <h1 class="text-4xl font-bold text-yellow-400 mb-6 text-center">
+        Tarifs & Paliers de financement
+      </h1>
       <p class="text-gray-300 text-center mb-12">
-        Choisissez un capital de départ et commencez votre évaluation sans limite de temps.
+        Choisissez un capital de départ et commencez votre évaluation sans
+        limite de temps.
       </p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -14,7 +17,9 @@
           :key="index"
           class="bg-zinc-900 border border-zinc-700 rounded-xl p-6 text-center shadow"
         >
-          <h2 class="text-xl font-bold text-yellow-400 mb-2">{{ plan.capital }}</h2>
+          <h2 class="text-xl font-bold text-yellow-400 mb-2">
+            {{ plan.capital }}
+          </h2>
           <p class="text-3xl font-bold mb-4">{{ plan.price }}</p>
           <ul class="text-sm text-gray-400 space-y-1 mb-6">
             <li>Objectif Phase 1 : +10%</li>
@@ -24,7 +29,9 @@
             <li>Durée : illimitée</li>
           </ul>
           <NuxtLink to="/evaluation">
-            <button class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded hover:bg-yellow-500 transition">
+            <button
+              class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded hover:bg-yellow-500 transition"
+            >
               Commencer ce plan
             </button>
           </NuxtLink>

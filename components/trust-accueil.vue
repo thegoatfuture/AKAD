@@ -1,16 +1,28 @@
 <template>
-  <section class="relative bg-gradient-to-br from-black via-zinc-900 to-black py-20 px-4 overflow-hidden">
+  <section
+    class="relative bg-gradient-to-br from-black via-zinc-900 to-black py-20 px-4 overflow-hidden"
+  >
     <!-- Texture overlay -->
     <div class="absolute inset-0 pointer-events-none">
-      <div class="bg-[url('/images/texture-yellow.png')] opacity-5 w-full h-full bg-repeat mix-blend-overlay" />
+      <div
+        class="bg-[url('/images/texture-yellow.png')] opacity-5 w-full h-full bg-repeat mix-blend-overlay"
+      />
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto text-center">
-      <h2 class="text-3xl md:text-4xl font-bold text-yellow-400 mb-12">Ils nous font confiance</h2>
+      <h2 class="text-3xl md:text-4xl font-bold text-yellow-400 mb-12">
+        Ils nous font confiance
+      </h2>
 
       <!-- Logos en carrousel ou grille responsive -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center justify-center">
-        <div v-for="(logo, index) in logos" :key="index" class="flex justify-center">
+      <div
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center justify-center"
+      >
+        <div
+          v-for="(logo, index) in logos"
+          :key="index"
+          class="flex justify-center"
+        >
           <img
             :src="logo.src"
             :alt="logo.alt"
@@ -21,7 +33,11 @@
 
       <!-- Optionnel : bouton ou label sous les logos -->
       <div class="mt-10 text-sm text-zinc-400">
-        Plus de <span class="text-yellow-400 font-semibold">10 partenaires reconnus</span> dans l'industrie financière.
+        Plus de
+        <span class="text-yellow-400 font-semibold"
+          >10 partenaires reconnus</span
+        >
+        dans l'industrie financière.
       </div>
     </div>
   </section>
@@ -36,7 +52,7 @@ const logos = [
   { src: '/images/fxblue.svg', alt: 'FXBlue' },
   { src: '/images/quantlane.svg', alt: 'Quantlane' },
   { src: '/images/brokers.svg', alt: 'Brokers Verified' },
-  { src: '/images/fxaudit.svg', alt: 'FXAudit' }
+  { src: '/images/fxaudit.svg', alt: 'FXAudit' },
 ]
 </script>
 

@@ -1,5 +1,10 @@
 <template>
-  <div :class="['rounded-xl shadow-lg p-6 md:p-8 transition-transform hover:-translate-y-1', bgColor]">
+  <div
+    :class="[
+      'rounded-xl shadow-lg p-6 md:p-8 transition-transform hover:-translate-y-1',
+      bgColor,
+    ]"
+  >
     <!-- Badge et titre principal -->
     <div class="flex items-center gap-4 mb-4">
       <div class="text-white text-3xl">
@@ -18,7 +23,11 @@
 
     <!-- Liste des avantages -->
     <ul class="text-white space-y-2">
-      <li v-for="(item, index) in features" :key="index" class="flex items-start gap-2">
+      <li
+        v-for="(item, index) in features"
+        :key="index"
+        class="flex items-start gap-2"
+      >
         <CheckIcon class="w-5 h-5 text-white flex-shrink-0 mt-1" />
         <span>{{ item }}</span>
       </li>
@@ -49,7 +58,7 @@ const props = defineProps({
   buttonText: String,
   bgColor: {
     type: String,
-    default: 'bg-blue-600'
-  }
+    default: 'bg-blue-600',
+  },
 })
 </script>

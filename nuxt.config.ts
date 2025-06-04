@@ -3,11 +3,11 @@ export default defineNuxtConfig({
   postcss: {
     plugins: {
       tailwindcss: {},
-      autoprefixer: {}
-    }
+      autoprefixer: {},
+    },
   },
   nitro: {
-    compatibilityDate: '2025-06-01'
+    compatibilityDate: '2025-06-01',
   },
-  plugins: ['@/plugins/intersect.client.js']  // 👈 Ajout du plugin d'intersection
+  plugins: ['@/plugins/intersect.client.js'], // 👈 Ajout du plugin d'intersection
 })
