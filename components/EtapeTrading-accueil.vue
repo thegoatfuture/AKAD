@@ -1,124 +1,128 @@
 <template>
-  <section class="bg-white py-20 px-4">
-    <h2 class="text-4xl font-bold text-center text-black mb-16">
-      MONTREZ-NOUS VOTRE TALENT ET SOYEZ RÉCOMPENSÉS
-    </h2>
-    <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto"
-    >
-      <!-- Bloc 1 -->
-      <div
-        class="bg-blue-800 text-white rounded-xl overflow-hidden shadow-lg flex flex-col h-full"
-      >
-        <img
-          src="/images/evaluation.png"
-          alt="Evaluation"
-          class="w-full object-cover"
-        />
-        <div class="p-6 flex flex-col flex-grow">
-          <div class="space-y-3 flex-grow">
-            <p class="text-blue-300 text-sm font-bold pt-2">ÉTAPE 01</p>
-            <h3 class="text-xl font-bold">AKAD CHALLENGE</h3>
-            <p class="text-sm">
-              Le AKAD Challenge éduque les traders et les amène à maîtriser
-              leurs habitudes de trading. Les traders démontrent leur expérience
-              en suivant nos Objectifs de Trading inspirés des règles clés de la
-              gestion du risque. Une fois le AKAD Challenge réussi, les traders
-              passent à l'étape de la Verification.
-            </p>
+  <section class="bg-gradient-to-b from-zinc-900 to-black py-20 px-4 relative overflow-hidden">
+    <!-- Animated background pattern -->
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute inset-0 bg-[url('/images/pattern-light.svg')] bg-repeat animate-slide"></div>
+    </div>
 
-            <p class="text-blue-300 text-sm font-bold pt-2">ÉTAPE 02</p>
-            <h4 class="font-bold">VERIFICATION</h4>
-            <p class="text-sm">
-              L'étape de la Verification permet de confirmer les compétences
-              démontrées lors du AKAD Challenge. Objectifs simplifiés, règles
-              identiques. Une fois réussie, accès à un AKAD Account.
-            </p>
+    <div class="max-w-7xl mx-auto relative z-10">
+      <h2 class="text-4xl font-bold text-center text-white mb-16">
+        MONTREZ-NOUS VOTRE TALENT ET SOYEZ
+        <span class="text-yellow-400">RÉCOMPENSÉS</span>
+      </h2>
 
-            <p class="text-blue-200 text-xs font-semibold uppercase pt-2">
-              OUTILS ET SERVICES DE TRADING
-            </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Challenge Card -->
+        <div class="group bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+          <div class="relative">
+            <img src="/images/evaluation.png" alt="Evaluation" class="w-full h-48 object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-blue-900/90 to-transparent"></div>
+            <div class="absolute top-4 left-4">
+              <span class="bg-blue-500/30 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full">ÉTAPE 01</span>
+            </div>
           </div>
-          <div class="pt-4 text-center">
-            <NuxtLink
-              to="/challenge"
-              class="inline-block bg-blue-100 text-blue-900 font-semibold text-sm px-5 py-2 rounded hover:bg-blue-200 transition"
-            >
+
+          <div class="p-6 space-y-4">
+            <h3 class="text-2xl font-bold text-white">AKAD CHALLENGE</h3>
+            <p class="text-blue-100 text-sm leading-relaxed">
+              Le AKAD Challenge évalue votre discipline et votre maîtrise du trading. Démontrez votre expertise en suivant nos règles de gestion des risques.
+            </p>
+
+            <div class="pt-4 space-y-2">
+              <h4 class="text-blue-200 text-sm font-semibold">ÉTAPE 02 - VERIFICATION</h4>
+              <p class="text-blue-100/80 text-sm">
+                Confirmez vos compétences avec des objectifs simplifiés et des règles identiques.
+              </p>
+            </div>
+
+            <NuxtLink to="/challenge" class="mt-6 inline-flex items-center justify-center w-full bg-white/10 backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/20 transition-all">
+              DÉCOUVRIR LE CHALLENGE
+            </NuxtLink>
+          </div>
+        </div>
+
+        <!-- AKAD Account Card -->
+        <div class="group bg-gradient-to-br from-emerald-900 to-emerald-800 rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+          <div class="relative">
+            <img src="/images/account.png" alt="Account" class="w-full h-48 object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-emerald-900/90 to-transparent"></div>
+            <div class="absolute top-4 left-4">
+              <span class="bg-emerald-500/30 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full">ÉTAPE 03</span>
+            </div>
+          </div>
+
+          <div class="p-6 space-y-4">
+            <h3 class="text-2xl font-bold text-white">AKAD TRADER</h3>
+            <p class="text-emerald-100 text-sm leading-relaxed">
+              Accédez à un compte avec fonds fictifs jusqu'à 200 000 €, recevez jusqu'à 90% des bénéfices simulés.
+            </p>
+
+            <ul class="space-y-2">
+              <li class="flex items-center text-sm text-emerald-100">
+                <svg class="w-5 h-5 mr-2 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Capital fictif jusqu'à 200 000 €
+              </li>
+              <li class="flex items-center text-sm text-emerald-100">
+                <svg class="w-5 h-5 mr-2 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Coaching performance inclus
+              </li>
+              <li class="flex items-center text-sm text-emerald-100">
+                <svg class="w-5 h-5 mr-2 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Programme Premium AKAD
+              </li>
+            </ul>
+
+            <NuxtLink to="/trader" class="mt-6 inline-flex items-center justify-center w-full bg-white/10 backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/20 transition-all">
               EN SAVOIR PLUS
             </NuxtLink>
           </div>
         </div>
-      </div>
 
-      <!-- Bloc 2 -->
-      <div
-        class="bg-emerald-700 text-white rounded-xl overflow-hidden shadow-lg flex flex-col h-full"
-      >
-        <img
-          src="/images/account.png"
-          alt="Account"
-          class="w-full object-cover"
-        />
-        <div class="p-6 flex flex-col flex-grow">
-          <div class="space-y-3 flex-grow">
-            <p class="text-emerald-200 text-sm font-bold pt-2">ÉTAPE 03</p>
-            <h3 class="text-xl font-bold">AKAD TRADER</h3>
-            <p class="text-sm">
-              Accédez à un compte AKAD avec fonds fictifs jusqu'à 200 000 $,
-              recevez jusqu'à 90 % des bénéfices simulés, sans risque personnel,
-              et rejoignez notre programme premium.
+        <!-- Quantlane Card -->
+        <div class="group bg-gradient-to-br from-orange-900 to-orange-800 rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+          <div class="relative">
+            <img src="/images/pro.png" alt="Pro Trading" class="w-full h-48 object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-orange-900/90 to-transparent"></div>
+            <div class="absolute top-4 left-4">
+              <span class="bg-orange-500/30 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full">ÉTAPE 04</span>
+            </div>
+          </div>
+
+          <div class="p-6 space-y-4">
+            <h3 class="text-2xl font-bold text-white">QUANTLANE TRADER</h3>
+            <p class="text-orange-100 text-sm leading-relaxed">
+              Devenez trader professionnel chez Quantlane avec un contrat réel et une infrastructure institutionnelle.
             </p>
 
-            <ul class="list-disc text-sm pl-5 pt-2 space-y-1 text-white">
-              <li>FTMO Account avec des fonds fictifs jusqu’à 200 000 $</li>
-              <li>Récompense jusqu’à 90 % des bénéfices simulés</li>
-              <li>Coaching performance</li>
-              <li>Programme Premium AKAD</li>
+            <ul class="space-y-2">
+              <li class="flex items-center text-sm text-orange-100">
+                <svg class="w-5 h-5 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Contrat avec salaire fixe
+              </li>
+              <li class="flex items-center text-sm text-orange-100">
+                <svg class="w-5 h-5 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Coach en Performance & Mindset
+              </li>
+              <li class="flex items-center text-sm text-orange-100">
+                <svg class="w-5 h-5 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Outils professionnels dédiés
+              </li>
             </ul>
-          </div>
-          <div class="pt-4 text-center">
-            <NuxtLink
-              to="/trader"
-              class="inline-block bg-emerald-100 text-emerald-900 font-semibold text-sm px-5 py-2 rounded hover:bg-emerald-200 transition"
-            >
-              EN SAVOIR PLUS
-            </NuxtLink>
-          </div>
-        </div>
-      </div>
 
-      <!-- Bloc 3 -->
-      <div
-        class="bg-orange-700 text-white rounded-xl overflow-hidden shadow-lg flex flex-col h-full"
-      >
-        <img
-          src="/images/pro.png"
-          alt="Pro Trading"
-          class="w-full object-cover"
-        />
-        <div class="p-6 flex flex-col flex-grow">
-          <div class="space-y-3 flex-grow">
-            <p class="text-orange-200 text-sm font-bold pt-2">ÉTAPE 04</p>
-            <h3 class="text-xl font-bold">QUATLANE TRADER</h3>
-            <p class="text-sm">
-              Devenez trader professionnel chez Quantlane avec un contrat réel,
-              un coaching mindset et une infrastructure de trading
-              institutionnelle.
-            </p>
-
-            <ul class="list-disc text-sm pl-5 pt-2 space-y-1 text-white">
-              <li>Contrat avec salaire fixe</li>
-              <li>Coach en Performance & Mindset</li>
-              <li>Environnement de trading pro</li>
-              <li>Plateforme & outils personnalisés</li>
-            </ul>
-          </div>
-          <div class="pt-4 text-center">
-            <NuxtLink
-              to="/quantlane"
-              class="inline-block bg-orange-100 text-orange-900 font-semibold text-sm px-5 py-2 rounded hover:bg-orange-200 transition"
-            >
-              EN SAVOIR PLUS
+            <NuxtLink to="/quantlane" class="mt-6 inline-flex items-center justify-center w-full bg-white/10 backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/20 transition-all">
+              DEVENIR PRO TRADER
             </NuxtLink>
           </div>
         </div>
@@ -126,3 +130,18 @@
     </div>
   </section>
 </template>
+
+<style scoped>
+@keyframes slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-slide {
+  animation: slide 20s linear infinite;
+}
+
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+</style>

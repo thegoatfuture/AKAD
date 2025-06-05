@@ -1,9 +1,19 @@
 <template>
   <section class="bg-black text-white py-20 relative overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-5">
-      <div class="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-transparent"></div>
-      <div class="absolute inset-0 bg-[url('/images/pattern-light.svg')] bg-repeat opacity-10"></div>
+    <!-- Enhanced Background Pattern -->
+    <div class="absolute inset-0">
+      <!-- Gradient overlay -->
+      <div class="absolute inset-0 bg-gradient-to-br from-yellow-400/10 via-black to-black"></div>
+      
+      <!-- Animated patterns -->
+      <div class="absolute inset-0 opacity-[0.03]">
+        <div class="absolute top-0 left-0 w-full h-full bg-[url('/images/pattern-light.svg')] bg-repeat animate-slide"></div>
+        <div class="absolute top-0 left-[-100%] w-full h-full bg-[url('/images/pattern-light.svg')] bg-repeat animate-slide"></div>
+      </div>
+
+      <!-- Glowing orbs -->
+      <div class="absolute top-20 left-20 w-64 h-64 bg-yellow-400/20 rounded-full blur-3xl animate-pulse"></div>
+      <div class="absolute bottom-20 right-20 w-64 h-64 bg-yellow-400/10 rounded-full blur-3xl animate-pulse-slow"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4">
@@ -113,25 +123,35 @@ const visible = ref(stats.map(() => false))
 </script>
 
 <style scoped>
-.fade-up {
-  animation: fadeUp 0.6s ease-out forwards;
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+@keyframes slide {
+  0% {
+    transform: translateX(0);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  100% {
+    transform: translateX(100%);
   }
 }
 
-/* Smooth transition for hover effects */
-.transform {
-  transition-property: transform, box-shadow;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
+.animate-slide {
+  animation: slide 20s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
 }
 </style>
