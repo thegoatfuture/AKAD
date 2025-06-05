@@ -17,9 +17,7 @@
         </div>
 
         <div>
-          <h2 class="text-xl text-white font-semibold mb-2">
-            2. Acceptation des CGU
-          </h2>
+          <h2 class="text-xl text-white font-semibold mb-2">2. Acceptation des CGU</h2>
           <p>
             L’utilisation du site implique l’acceptation pleine et entière des
             présentes CGU.
@@ -27,9 +25,7 @@
         </div>
 
         <div>
-          <h2 class="text-xl text-white font-semibold mb-2">
-            3. Accès au service
-          </h2>
+          <h2 class="text-xl text-white font-semibold mb-2">3. Accès au service</h2>
           <p>
             Le site est accessible gratuitement 24h/24, 7j/7, sauf interruption
             programmée ou non pour maintenance.
@@ -37,9 +33,7 @@
         </div>
 
         <div>
-          <h2 class="text-xl text-white font-semibold mb-2">
-            4. Responsabilité
-          </h2>
+          <h2 class="text-xl text-white font-semibold mb-2">4. Responsabilité</h2>
           <p>
             AKAD ne saurait être tenu responsable en cas de dommages directs ou
             indirects causés par l’utilisation du site.
@@ -47,9 +41,7 @@
         </div>
 
         <div>
-          <h2 class="text-xl text-white font-semibold mb-2">
-            5. Propriété intellectuelle
-          </h2>
+          <h2 class="text-xl text-white font-semibold mb-2">5. Propriété intellectuelle</h2>
           <p>
             Tous les éléments du site (textes, images, logos, etc.) sont la
             propriété exclusive d’AKAD ou de ses partenaires.
@@ -57,9 +49,7 @@
         </div>
 
         <div>
-          <h2 class="text-xl text-white font-semibold mb-2">
-            6. Modification des CGU
-          </h2>
+          <h2 class="text-xl text-white font-semibold mb-2">6. Modification des CGU</h2>
           <p>
             AKAD se réserve le droit de modifier à tout moment les présentes
             conditions. Les utilisateurs sont invités à les consulter
@@ -78,7 +68,7 @@ import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
 
 useSeoMeta({
-  title: `Conditions d'utilisation - AKAD`,
-  description: `Modalités d'accès et d'utilisation du site AKAD.`,
+  title: "Conditions d'utilisation - AKAD",
+  description: "Modalités d'accès et d'utilisation du site AKAD."
 })
 </script>
