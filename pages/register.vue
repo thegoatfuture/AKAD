@@ -179,15 +179,22 @@ async function handleRegister() {
   loading.value = true
 
   try {
-    const { data, error } = await signUp(email.value, password.value)
+    const { error } = await signUp(email.value, password.value)
     
-    if (error) throw error
+    if (error) {
+      if (error.message === 'User already registered') {
+        emailError.value = 'Un compte avec cet email existe déjà'
+      } else {
+        emailError.value = "Une erreur s'est produite lors de l'inscription"
+      }
+      return
+    }
     
     // Redirect to email verification page
     navigateTo('/email-sent-for-verification')
   } catch (error) {
-    if (error.message.includes('email')) {
-      emailError.value = 'Cet email est déjà utilisé'
+    if (error.message?.includes('already registered') || error.message?.includes('already exists')) {
+      emailError.value = 'Un compte avec cet email existe déjà'
     } else {
       emailError.value = "Une erreur s'est produite lors de l'inscription"
     }
