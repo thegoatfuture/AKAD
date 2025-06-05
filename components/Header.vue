@@ -113,7 +113,7 @@ const mobileOpen = ref(false)
 const navigationItems = [
   { name: 'Accueil', to: '/' },
   { name: 'Challenge', to: '/evaluation' },
-  { name: 'Trader', to: '/traders' },
+  { name: 'Trader', to: '/traders-public' },
   { name: 'Témoignages', to: '/avis' },
   { name: 'FAQ', to: '/faq' },
 ]
