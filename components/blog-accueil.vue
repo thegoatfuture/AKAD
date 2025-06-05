@@ -15,7 +15,7 @@
         >
           <img
             :src="article.image"
-            alt="Article"
+            :alt="article.title"
             class="w-full h-40 object-cover"
           />
           <div class="p-5">
