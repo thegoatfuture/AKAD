@@ -1,11 +1,16 @@
+```vue
 <template>
   <div class="min-h-screen bg-black text-white">
     <!-- Hero Section -->
     <section class="relative py-20 px-4 overflow-hidden">
       <!-- Background Effects -->
       <div class="absolute inset-0 pointer-events-none">
+        <!-- Gradient orbs -->
         <div class="absolute top-0 left-0 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
         <div class="absolute bottom-0 right-0 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2 animate-pulse delay-1000"></div>
+        
+        <!-- Pattern overlay -->
+        <div class="absolute inset-0 bg-[url('/images/pattern-light.svg')] bg-repeat opacity-5"></div>
       </div>
 
       <div class="max-w-6xl mx-auto relative z-10">
@@ -20,10 +25,10 @@
           </p>
         </div>
 
-        <!-- Challenge Details -->
         <div class="grid md:grid-cols-2 gap-8 mb-16">
           <!-- Left Column: Challenge Info -->
           <div class="space-y-8">
+            <!-- Challenge Objectives -->
             <div class="bg-zinc-900/50 backdrop-blur rounded-2xl p-6 border border-zinc-800">
               <h3 class="text-xl font-bold text-yellow-400 mb-4">Objectifs du Challenge</h3>
               <ul class="space-y-4">
@@ -63,32 +68,15 @@
               </ul>
             </div>
 
+            <!-- Included Features -->
             <div class="bg-zinc-900/50 backdrop-blur rounded-2xl p-6 border border-zinc-800">
               <h3 class="text-xl font-bold text-yellow-400 mb-4">Inclus dans votre Challenge</h3>
               <ul class="space-y-3">
-                <li class="flex items-center gap-2">
-                  <svg class="w-5 h-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <li v-for="(feature, index) in features" :key="index" class="flex items-center gap-2">
+                  <svg class="w-5 h-5 text-yellow-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                   </svg>
-                  <span>Accès à la plateforme MT4/MT5</span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <svg class="w-5 h-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                  </svg>
-                  <span>Support technique 24/7</span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <svg class="w-5 h-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                  </svg>
-                  <span>Analyse de trading détaillée</span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <svg class="w-5 h-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                  </svg>
-                  <span>Webinaires hebdomadaires</span>
+                  <span class="text-gray-300">{{ feature }}</span>
                 </li>
               </ul>
             </div>
@@ -117,10 +105,10 @@
 
             <button 
               @click="startChallenge"
-              class="w-full bg-yellow-400 text-black font-bold py-4 px-6 rounded-xl hover:bg-yellow-500 transition-colors flex items-center justify-center gap-2"
+              class="w-full bg-yellow-400 text-black font-bold py-4 px-6 rounded-xl hover:bg-yellow-500 transition-colors flex items-center justify-center gap-2 group"
             >
               <span>Commencer le Challenge</span>
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-5 h-5 transform transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
               </svg>
             </button>
@@ -143,12 +131,101 @@
         </div>
       </div>
     </section>
+
+    <!-- Trading Rules Section -->
+    <section class="bg-zinc-900 py-20 px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-center text-yellow-400 mb-12">Règles de Trading</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-zinc-800/50 backdrop-blur p-6 rounded-xl border border-zinc-700">
+            <h3 class="text-xl font-bold mb-4">Gestion du Risque</h3>
+            <ul class="space-y-2 text-gray-300">
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-yellow-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>Maximum 5% de perte journalière</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-yellow-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>Maximum 10% de drawdown total</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-yellow-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>Levier maximum de 1:100</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-zinc-800/50 backdrop-blur p-6 rounded-xl border border-zinc-700">
+            <h3 class="text-xl font-bold mb-4">Durée & Trading</h3>
+            <ul class="space-y-2 text-gray-300">
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-yellow-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>Minimum 4 jours de trading</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-yellow-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>Trading pendant les heures de marché</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-yellow-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>Pas de trading le week-end</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-zinc-800/50 backdrop-blur p-6 rounded-xl border border-zinc-700">
+            <h3 class="text-xl font-bold mb-4">Instruments</h3>
+            <ul class="space-y-2 text-gray-300">
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-yellow-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>Forex majeurs et mineurs</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-yellow-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>Indices principaux</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-yellow-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>Matières premières</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup>
 const route = useRoute()
 const amount = ref(Number(route.query.amount) || 10000)
+
+const features = [
+  'Accès à la plateforme MT4/MT5',
+  'Support technique 24/7',
+  'Analyse de trading détaillée',
+  'Webinaires hebdomadaires',
+  'Dashboard de performance',
+  'Coaching personnalisé'
+]
 
 const fees = computed(() => {
   const feeStructure = {
@@ -222,3 +299,4 @@ useSeoMeta({
   animation-delay: 1000ms;
 }
 </style>
+```
