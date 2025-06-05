@@ -1,5 +1,25 @@
 <template>
   <div class="flex gap-6">
+    <!-- Recent Trades Sidebar -->
+    <div class="w-80 bg-zinc-900/80 backdrop-blur rounded-2xl p-4 border border-zinc-800/50 h-fit">
+      <h4 class="text-sm font-medium text-zinc-400 mb-3">Trades Récents</h4>
+      <div class="space-y-3">
+        <div v-for="trade in recentTrades" :key="trade.id" 
+             class="bg-zinc-800/50 rounded-lg p-3">
+          <div class="flex justify-between items-center mb-1">
+            <span class="font-medium">{{ trade.pair }}</span>
+            <span :class="trade.profit >= 0 ? 'text-green-400' : 'text-red-400'">
+              {{ formatProfit(trade.profit) }}
+            </span>
+          </div>
+          <div class="flex justify-between text-sm text-zinc-500">
+            <span>{{ trade.type }} • {{ trade.size }}</span>
+            <span>{{ formatTime(trade.time) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Main Trading Journal -->
     <div class="flex-1 bg-zinc-900/80 backdrop-blur rounded-2xl p-6 border border-zinc-800/50">
       <!-- Header with month navigation -->
@@ -28,13 +48,11 @@
           <thead>
             <tr>
               <th class="p-3 text-left w-40 text-zinc-400">Semaine</th>
-              <th v-for="(date, index) in weekDays" :key="index" 
-                  :class="[
-                    'p-3 text-center',
-                    [0, 6].includes(date.getDay()) ? 'text-zinc-600' : 'text-zinc-400'
-                  ]">
+              <th class="p-3 text-zinc-400 text-center text-zinc-600">Sam</th>
+              <th v-for="(date, index) in weekDays" :key="index" class="p-3 text-zinc-400 text-center">
                 {{ formatWeekDay(date) }}
               </th>
+              <th class="p-3 text-zinc-400 text-center text-zinc-600">Dim</th>
             </tr>
           </thead>
           <tbody>
@@ -48,14 +66,15 @@
                   </span>
                 </div>
               </td>
-              <td v-for="(day, dayIndex) in week" :key="dayIndex" class="p-3">
-                <div v-if="day.isWeekend" 
-                     class="bg-zinc-800/20 rounded-xl p-4 opacity-50">
-                  <div class="text-zinc-600 text-center">
-                    {{ formatDayNumber(day.date) }}
-                  </div>
+              <!-- Saturday -->
+              <td class="p-3">
+                <div class="bg-zinc-800/20 rounded-xl p-4 opacity-50">
+                  <div class="text-zinc-600">Sam</div>
                 </div>
-                <div v-else-if="day" 
+              </td>
+              <!-- Weekdays -->
+              <td v-for="(day, dayIndex) in week" :key="dayIndex" class="p-3">
+                <div v-if="day" 
                      @click="selectDay(day)"
                      :class="[
                        'bg-zinc-800/50 rounded-xl p-4 cursor-pointer hover:bg-zinc-700/50 transition-all duration-300 transform hover:-translate-y-1',
@@ -75,29 +94,15 @@
                   </div>
                 </div>
               </td>
+              <!-- Sunday -->
+              <td class="p-3">
+                <div class="bg-zinc-800/20 rounded-xl p-4 opacity-50">
+                  <div class="text-zinc-600">Dim</div>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
-
-    <!-- Recent Trades Sidebar -->
-    <div class="w-80 bg-zinc-900/80 backdrop-blur rounded-2xl p-4 border border-zinc-800/50 h-fit">
-      <h4 class="text-sm font-medium text-zinc-400 mb-3">Trades Récents</h4>
-      <div class="space-y-3">
-        <div v-for="trade in recentTrades" :key="trade.id" 
-             class="bg-zinc-800/50 rounded-lg p-3">
-          <div class="flex justify-between items-center mb-1">
-            <span class="font-medium">{{ trade.pair }}</span>
-            <span :class="trade.profit >= 0 ? 'text-green-400' : 'text-red-400'">
-              {{ formatProfit(trade.profit) }}
-            </span>
-          </div>
-          <div class="flex justify-between text-sm text-zinc-500">
-            <span>{{ trade.type }} • {{ trade.size }}</span>
-            <span>{{ formatTime(trade.time) }}</span>
-          </div>
-        </div>
       </div>
     </div>
 
