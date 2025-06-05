@@ -60,6 +60,10 @@
 </template>
 
 <script setup>
+useSeoMeta({
+  title: 'Politique de confidentialité - AKAD',
+  description: 'Comment AKAD protège et utilise vos données.'
+})
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
 </script>

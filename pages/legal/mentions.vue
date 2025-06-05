@@ -59,6 +59,10 @@
 </template>
 
 <script setup>
+useSeoMeta({
+  title: 'Mentions légales - AKAD',
+  description: 'Informations légales concernant AKAD.'
+})
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
 </script>
