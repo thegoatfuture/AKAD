@@ -73,7 +73,7 @@
                 </div>
               </td>
               <!-- Weekdays -->
-              <td v-for="(day, dayIndex) in week" :key="dayIndex" class="p-3">
+              <td v-for="(day, dayIndex) in week.slice(0, 5)" :key="dayIndex" class="p-3">
                 <div v-if="day" 
                      @click="selectDay(day)"
                      :class="[
