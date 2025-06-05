@@ -13,7 +13,7 @@
           <div class="mb-4">
             <img
               :src="testimonial.image"
-              alt=""
+              :alt="`Photo de ${testimonial.name}`"
               class="w-full rounded-md object-cover"
             />
           </div>

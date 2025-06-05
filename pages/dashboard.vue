@@ -34,6 +34,7 @@ function closeModal() {
       <div class="relative rounded-xl overflow-hidden shadow">
         <img
           src="/images/yellow-texture.png"
+          alt="Texture jaune décorative"
           class="absolute inset-0 w-full h-full object-cover opacity-10 pointer-events-none"
         />
         <div
@@ -239,6 +240,7 @@ function closeModal() {
         >
           <img
             src="/images/yellow-texture.png"
+            alt="Texture jaune décorative"
             class="absolute inset-0 w-full h-full object-cover opacity-5 pointer-events-none"
           />
           <div
@@ -272,6 +274,7 @@ function closeModal() {
         >
           <img
             src="/images/yellow-texture.png"
+            alt="Texture jaune décorative"
             class="absolute inset-0 w-full h-full object-cover opacity-5 pointer-events-none"
           />
           <div
