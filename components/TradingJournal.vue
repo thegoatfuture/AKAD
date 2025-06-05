@@ -28,7 +28,11 @@
           <thead>
             <tr>
               <th class="p-3 text-left w-40 text-zinc-400">Semaine</th>
-              <th v-for="(date, index) in weekDays" :key="index" class="p-3 text-zinc-400 text-center">
+              <th v-for="(date, index) in weekDays" :key="index" 
+                  :class="[
+                    'p-3 text-center',
+                    [0, 6].includes(date.getDay()) ? 'text-zinc-600' : 'text-zinc-400'
+                  ]">
                 {{ formatWeekDay(date) }}
               </th>
             </tr>
@@ -45,7 +49,13 @@
                 </div>
               </td>
               <td v-for="(day, dayIndex) in week" :key="dayIndex" class="p-3">
-                <div v-if="day" 
+                <div v-if="day.isWeekend" 
+                     class="bg-zinc-800/20 rounded-xl p-4 opacity-50">
+                  <div class="text-zinc-600 text-center">
+                    {{ formatDayNumber(day.date) }}
+                  </div>
+                </div>
+                <div v-else-if="day" 
                      @click="selectDay(day)"
                      :class="[
                        'bg-zinc-800/50 rounded-xl p-4 cursor-pointer hover:bg-zinc-700/50 transition-all duration-300 transform hover:-translate-y-1',
@@ -205,7 +215,6 @@ const currentMonth = ref(new Date(2025, 0, 1)) // Start with January 2025
 const selectedDay = ref(null)
 const showMonthStats = ref(false)
 
-// Get array of weekdays for current month
 const weekDays = computed(() => {
   const days = []
   const date = new Date(currentMonth.value)
@@ -216,8 +225,8 @@ const weekDays = computed(() => {
     date.setDate(date.getDate() - 1)
   }
   
-  // Get 5 weekdays
-  for (let i = 0; i < 5; i++) {
+  // Get all 7 days of the week
+  for (let i = 0; i < 7; i++) {
     days.push(new Date(date))
     date.setDate(date.getDate() + 1)
   }
@@ -225,7 +234,6 @@ const weekDays = computed(() => {
   return days
 })
 
-// Generate calendar days with real dates
 const calendarDays = computed(() => {
   const weeks = []
   const firstDay = new Date(currentMonth.value.getFullYear(), currentMonth.value.getMonth(), 1)
@@ -241,9 +249,18 @@ const calendarDays = computed(() => {
   while (startDate <= lastDay) {
     const week = []
     
-    // Add 5 weekdays
-    for (let i = 0; i < 5; i++) {
-      if (startDate.getDay() !== 0 && startDate.getDay() !== 6) {
+    // Add all 7 days of the week
+    for (let i = 0; i < 7; i++) {
+      if (startDate.getDay() === 0 || startDate.getDay() === 6) {
+        // Weekend days - add empty placeholder with date
+        week.push({
+          date: new Date(startDate),
+          isWeekend: true,
+          profit: 0,
+          trades: 0,
+          tradeList: []
+        })
+      } else {
         week.push(generateDayData(new Date(startDate)))
       }
       startDate.setDate(startDate.getDate() + 1)
@@ -289,7 +306,6 @@ function generateDayData(date) {
   }
 }
 
-// Get 5 most recent trades across all days
 const recentTrades = computed(() => {
   const allTrades = []
   calendarDays.value.forEach(week => {
