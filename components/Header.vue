@@ -11,10 +11,10 @@
         <NuxtLink to="/" class="hover:text-yellow-400 transition"
           >Accueil</NuxtLink
         >
-        <NuxtLink to="/challenge" class="hover:text-yellow-400 transition"
+        <NuxtLink to="/evaluation" class="hover:text-yellow-400 transition"
           >Challenge</NuxtLink
         >
-        <NuxtLink to="/trader" class="hover:text-yellow-400 transition"
+        <NuxtLink to="/traders" class="hover:text-yellow-400 transition"
           >Trader</NuxtLink
         >
         <NuxtLink to="/avis" class="hover:text-yellow-400 transition"
@@ -69,10 +69,10 @@
         <NuxtLink to="/" class="hover:text-yellow-400 transition"
           >Accueil</NuxtLink
         >
-        <NuxtLink to="/challenge" class="hover:text-yellow-400 transition"
+        <NuxtLink to="/evaluation" class="hover:text-yellow-400 transition"
           >Challenge</NuxtLink
         >
-        <NuxtLink to="/trader" class="hover:text-yellow-400 transition"
+        <NuxtLink to="/traders" class="hover:text-yellow-400 transition"
           >Trader</NuxtLink
         >
         <NuxtLink to="/avis" class="hover:text-yellow-400 transition"
