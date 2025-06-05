@@ -1,11 +1,16 @@
 <template>
-  <div
-    class="min-h-[60vh] flex flex-col items-center justify-center text-center py-10"
-  >
-    <h1 class="text-6xl font-bold mb-4">404</h1>
-    <p class="text-xl mb-6">Oups ! La page demandée n'existe pas.</p>
-    <NuxtLink to="/" class="text-blue-500 hover:underline"
-      >Retour à l'accueil</NuxtLink
-    >
+  <div class="min-h-screen bg-black text-white flex flex-col items-center justify-center p-8 text-center">
+    <h1 class="text-7xl font-extrabold text-yellow-400 mb-4">404</h1>
+    <p class="text-lg text-gray-300 mb-8">
+      Désolé, la page que vous recherchez n'existe plus ou a été déplacée.
+    </p>
+    <div class="space-x-4">
+      <NuxtLink to="/" class="bg-yellow-400 text-black font-semibold px-6 py-3 rounded hover:bg-yellow-500 transition">
+        Retourner à l'accueil
+      </NuxtLink>
+      <NuxtLink to="/contact" class="border border-yellow-400 text-yellow-400 font-semibold px-6 py-3 rounded hover:bg-yellow-400 hover:text-black transition">
+        Contacter le support
+      </NuxtLink>
+    </div>
   </div>
 </template>
