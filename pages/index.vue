@@ -35,6 +35,9 @@
 
     <!-- 11. Blog / Actualités pour SEO + réassurance -->
     <BlogAccueil />
+
+    <!-- 12. Bande flottante -->
+    <BandeFlottanteAccueil />
   </div>
 </template>
 
@@ -51,6 +54,7 @@ import AvisHorizontalAccueil from '@/components/AvisHorizontal-accueil.vue'
 import TrustAccueil from '@/components/trust-accueil.vue'
 import FaqAccueil from '@/components/faq-accueil.vue'
 import BlogAccueil from '@/components/blog-accueil.vue'
+import BandeFlottanteAccueil from '@/components/bande-flottante-accueil.vue'
 
 useSeoMeta({
   title: 'AKAD - Challenge de trading professionnel',
