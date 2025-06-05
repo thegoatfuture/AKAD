@@ -1,4 +1,3 @@
-```vue
 <template>
   <div class="bg-black text-white min-h-screen">
     <!-- Hero Section -->
@@ -42,20 +41,25 @@
           <h2 class="text-2xl font-bold text-center mb-8">Nos Coachs Experts</h2>
           <div class="grid md:grid-cols-3 gap-8">
             <div v-for="coach in coaches" :key="coach.name" 
-                 class="bg-zinc-900/50 backdrop-blur rounded-2xl p-6 border border-zinc-800 text-center group hover:border-yellow-400/20 transition-all duration-300 transform hover:-translate-y-1">
-              <div class="relative mb-6">
+                 class="bg-zinc-900/50 backdrop-blur rounded-2xl border border-zinc-800 text-center group hover:border-yellow-400/20 transition-all duration-300 transform hover:scale-105 hover:shadow-xl overflow-hidden cursor-pointer">
+              <div class="relative p-4">
                 <img :src="coach.image" :alt="coach.name" 
-                     class="w-32 h-32 rounded-full mx-auto object-cover border-4 border-yellow-400/20 group-hover:border-yellow-400 transition-all duration-300" />
+                     class="w-24 h-24 rounded-full mx-auto object-cover border-4 border-yellow-400/20 group-hover:border-yellow-400 transition-all duration-300 group-hover:w-32 group-hover:h-32" />
                 <div class="absolute -bottom-3 right-1/2 transform translate-x-1/2 bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">
                   {{ coach.specialty }}
                 </div>
               </div>
-              <h3 class="text-xl font-bold mb-2">{{ coach.name }}</h3>
-              <p class="text-gray-400 text-sm mb-4">{{ coach.description }}</p>
-              <div class="flex flex-wrap justify-center gap-2">
-                <div v-for="badge in coach.badges" :key="badge" 
-                     class="bg-zinc-800 text-xs text-gray-300 px-2 py-1 rounded">
-                  {{ badge }}
+              
+              <div class="p-4">
+                <h3 class="text-xl font-bold mb-2">{{ coach.name }}</h3>
+                <p class="text-gray-400 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-0 group-hover:h-auto overflow-hidden">
+                  {{ coach.description }}
+                </p>
+                <div class="flex flex-wrap justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div v-for="badge in coach.badges" :key="badge" 
+                       class="bg-zinc-800 text-xs text-gray-300 px-2 py-1 rounded">
+                    {{ badge }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -273,4 +277,3 @@ useSeoMeta({
   animation-delay: 1000ms;
 }
 </style>
-```
