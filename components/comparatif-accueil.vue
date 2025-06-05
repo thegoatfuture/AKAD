@@ -1,142 +1,128 @@
 <template>
   <section class="bg-black text-white py-20 px-4">
-    <!-- Devise & Solde -->
-    <div
-      class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 mb-10"
-    >
-      <div class="flex gap-2">
-        <span class="text-sm font-semibold">DEVISE :</span>
-        <button
-          v-for="currency in currencies"
-          :key="currency"
-          @click="selectedCurrency = currency"
-          :class="[
-            'px-3 py-1 rounded text-sm font-semibold transition',
-            selectedCurrency === currency
-              ? 'bg-yellow-400 text-black'
-              : 'bg-zinc-800 text-zinc-300',
-          ]"
-        >
-          {{ currency }}
-        </button>
-      </div>
-      <div class="flex gap-2">
-        <span class="text-sm font-semibold">SOLDE :</span>
-        <button
-          v-for="amount in balances"
-          :key="amount"
-          @click="selectedBalance = amount"
-          :class="[
-            'px-3 py-1 rounded text-sm font-semibold transition',
-            selectedBalance === amount
-              ? 'bg-yellow-400 text-black'
-              : 'bg-zinc-800 text-zinc-300',
-          ]"
-        >
-          {{ getFormattedBalance(amount) }}
-        </button>
-      </div>
-    </div>
+    <div class="max-w-6xl mx-auto">
+      <!-- Header -->
+      <h2 class="text-3xl font-bold text-center text-yellow-400 mb-12">
+        Comparez nos comptes de trading
+      </h2>
 
-    <!-- Comparatif -->
-    <div class="overflow-x-auto">
-      <table class="min-w-full bg-zinc-900 border border-zinc-700 text-sm">
-        <thead>
-          <tr class="text-yellow-400 text-center">
-            <th class="border-b p-4 text-left">Critères</th>
-            <th class="border-b p-4">Challenge</th>
-            <th class="border-b p-4">Vérification</th>
-            <th class="border-b p-4">AKAD Trader</th>
-          </tr>
-        </thead>
-        <tbody class="text-center">
-          <tr
-            v-for="row in comparatifData"
-            :key="row.label"
-            class="hover:bg-zinc-800"
-          >
-            <td class="p-4 text-left text-yellow-300 font-medium">
-              {{ row.label }}
-            </td>
-            <td class="p-4">{{ getValue(row.challenge) }}</td>
-            <td class="p-4">{{ getValue(row.verification) }}</td>
-            <td class="p-4">{{ getValue(row.trader) }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- Account Selection -->
+      <div class="flex flex-wrap justify-center gap-4 mb-10">
+        <div class="flex items-center gap-4 bg-zinc-900/50 p-2 rounded-xl backdrop-blur">
+          <span class="text-sm font-medium px-2">Capital :</span>
+          <div class="flex gap-2">
+            <button
+              v-for="amount in [10000, 25000, 50000, 100000, 200000]"
+              :key="amount"
+              @click="selectedAmount = amount"
+              :class="[
+                'px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300',
+                selectedAmount === amount
+                  ? 'bg-yellow-400 text-black'
+                  : 'bg-zinc-800 text-gray-300 hover:bg-zinc-700'
+              ]"
+            >
+              {{ formatCurrency(amount) }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparison Table -->
+      <div class="bg-zinc-900/50 rounded-2xl overflow-hidden backdrop-blur border border-zinc-800/50">
+        <div class="grid grid-cols-4 text-center">
+          <div class="p-6 font-bold text-yellow-400 bg-zinc-800/50">Caractéristiques</div>
+          <div class="p-6 font-bold text-yellow-400 bg-zinc-800/50">Challenge</div>
+          <div class="p-6 font-bold text-yellow-400 bg-zinc-800/50">Vérification</div>
+          <div class="p-6 font-bold text-yellow-400 bg-zinc-800/50">AKAD Trader</div>
+        </div>
+
+        <div v-for="(row, index) in comparisonData" :key="index"
+             class="grid grid-cols-4 border-t border-zinc-800/50 hover:bg-zinc-800/30 transition-colors">
+          <div class="p-6 font-medium text-yellow-300">{{ row.feature }}</div>
+          <div class="p-6 text-center">{{ formatValue(row.challenge) }}</div>
+          <div class="p-6 text-center">{{ formatValue(row.verification) }}</div>
+          <div class="p-6 text-center">{{ formatValue(row.trader) }}</div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center mt-10">
+        <NuxtLink
+          to="/challenge"
+          class="inline-flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-8 py-4 rounded-xl text-lg transition-all transform hover:scale-105"
+        >
+          Commencer le Challenge
+        </NuxtLink>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
-const currencies = ['USD', 'EUR', 'GBP']
-const selectedCurrency = ref('USD')
+const selectedAmount = ref(10000)
 
-const balances = [10000, 25000, 50000, 100000, 200000]
-const selectedBalance = ref(10000)
-
-const conversionRates = {
-  USD: 1,
-  EUR: 0.8,
-  GBP: 0.7,
+function formatCurrency(amount) {
+  return new Intl.NumberFormat('fr-FR', {
+    style: 'currency',
+    currency: 'EUR',
+    maximumFractionDigits: 0
+  }).format(amount)
 }
 
-function convert(value) {
-  const rate = conversionRates[selectedCurrency.value] || 1
-  return Math.round(value * rate).toLocaleString()
-}
-
-function getFormattedBalance(balance) {
-  const converted = convert(balance)
-  return `${converted} ${selectedCurrency.value}`
-}
-
-function getValue(entry) {
-  if (typeof entry === 'object') {
-    return entry[selectedCurrency.value] || '-'
-  }
-  return entry
-}
-
-const comparatifData = [
+const comparisonData = computed(() => [
   {
-    label: 'Période de trading',
+    feature: 'Période de trading',
     challenge: 'Illimitée',
     verification: 'Illimitée',
-    trader: 'Illimitée',
+    trader: 'Illimitée'
   },
   {
-    label: 'Objectif de profit',
-    challenge: { USD: '$1000', EUR: '800€', GBP: '700£' },
-    verification: { USD: '$500', EUR: '400€', GBP: '350£' },
-    trader: 'X',
+    feature: 'Objectif de profit',
+    challenge: formatCurrency(selectedAmount.value * 0.10),
+    verification: formatCurrency(selectedAmount.value * 0.05),
+    trader: 'X'
   },
   {
-    label: 'Perte journalière max',
-    challenge: { USD: '$500', EUR: '400€', GBP: '350£' },
-    verification: { USD: '$500', EUR: '400€', GBP: '350£' },
-    trader: { USD: '$500', EUR: '400€', GBP: '350£' },
+    feature: 'Perte journalière max',
+    challenge: formatCurrency(selectedAmount.value * 0.05),
+    verification: formatCurrency(selectedAmount.value * 0.05),
+    trader: formatCurrency(selectedAmount.value * 0.05)
   },
   {
-    label: 'Perte max totale',
-    challenge: { USD: '$1000', EUR: '800€', GBP: '700£' },
-    verification: { USD: '$1000', EUR: '800€', GBP: '700£' },
-    trader: { USD: '$1000', EUR: '800€', GBP: '700£' },
+    feature: 'Perte max totale',
+    challenge: formatCurrency(selectedAmount.value * 0.10),
+    verification: formatCurrency(selectedAmount.value * 0.10),
+    trader: formatCurrency(selectedAmount.value * 0.10)
   },
   {
-    label: 'Frais remboursables',
-    challenge: { USD: '$89', EUR: '79€', GBP: '69£' },
+    feature: 'Frais',
+    challenge: getFees(selectedAmount.value),
     verification: 'Gratuit',
-    trader: 'Remboursés',
-  },
-]
+    trader: 'Remboursés'
+  }
+])
+
+function getFees(amount) {
+  const fees = {
+    10000: 79,
+    25000: 199,
+    50000: 299,
+    100000: 399,
+    200000: 799
+  }
+  return formatCurrency(fees[amount])
+}
+
+function formatValue(value) {
+  return value === 'X' ? value : value
+}
 </script>
 
 <style scoped>
-th,
-td {
-  white-space: nowrap;
+.backdrop-blur {
+  backdrop-filter: blur(8px);
 }
 </style>
