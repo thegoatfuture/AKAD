@@ -75,8 +75,8 @@
 
 <script setup>
 useSeoMeta({
-  title: 'Conditions d'utilisation - AKAD',
-  description: 'Modalités d'accès et d'utilisation du site AKAD.'
+  title: "Conditions d'utilisation - AKAD",
+  description: "Modalités d'accès et d'utilisation du site AKAD."
 })
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
