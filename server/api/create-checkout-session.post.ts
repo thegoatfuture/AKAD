@@ -1,4 +1,5 @@
 import Stripe from 'stripe'
+import { readBody } from 'h3'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: '2024-04-10',
