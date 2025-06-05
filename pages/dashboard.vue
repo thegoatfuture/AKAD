@@ -97,17 +97,7 @@
         </div>
 
         <!-- Trading Journal -->
-        <div class="bg-zinc-900/80 backdrop-blur rounded-2xl p-6 border border-zinc-800/50">
-          <h3 class="text-xl font-bold text-yellow-400 mb-4">Journal de Trading</h3>
-          <textarea
-            v-model="journalEntry"
-            placeholder="Notez vos observations du jour..."
-            class="w-full h-32 bg-zinc-800/50 border border-zinc-700/30 rounded-xl p-4 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-yellow-400/50 transition-colors"
-          ></textarea>
-          <button class="mt-4 w-full bg-zinc-800 hover:bg-zinc-700 text-white py-2 rounded-lg transition-colors">
-            Sauvegarder
-          </button>
-        </div>
+        <TradingJournal />
       </div>
     </main>
 
@@ -134,6 +124,7 @@
 import { ref } from 'vue'
 import EquityChart from '../components/EquityChart.vue'
 import ChallengeProgress from '../components/ChallengeProgress.vue'
+import TradingJournal from '../components/TradingJournal.vue'
 
 definePageMeta({
   layout: 'dashboard',
