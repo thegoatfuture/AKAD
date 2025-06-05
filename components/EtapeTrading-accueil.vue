@@ -13,7 +13,7 @@
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Challenge Card -->
-        <div class="group bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl flex flex-col">
+        <div class="group bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl flex flex-col h-full">
           <div class="relative">
             <img src="/images/evaluation.png" alt="Evaluation" class="w-full h-48 object-cover" />
             <div class="absolute inset-0 bg-gradient-to-t from-blue-900/90 to-transparent"></div>
@@ -44,7 +44,7 @@
         </div>
 
         <!-- AKAD Account Card -->
-        <div class="group bg-gradient-to-br from-emerald-900 to-emerald-800 rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl flex flex-col">
+        <div class="group bg-gradient-to-br from-emerald-900 to-emerald-800 rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl flex flex-col h-full">
           <div class="relative">
             <img src="/images/account.png" alt="Account" class="w-full h-48 object-cover" />
             <div class="absolute inset-0 bg-gradient-to-t from-emerald-900/90 to-transparent"></div>
@@ -89,7 +89,7 @@
         </div>
 
         <!-- Quantlane Card -->
-        <div class="group bg-gradient-to-br from-orange-900 to-orange-800 rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl flex flex-col">
+        <div class="group bg-gradient-to-br from-orange-900 to-orange-800 rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl flex flex-col h-full">
           <div class="relative">
             <img src="/images/pro.png" alt="Pro Trading" class="w-full h-48 object-cover" />
             <div class="absolute inset-0 bg-gradient-to-t from-orange-900/90 to-transparent"></div>
