@@ -82,25 +82,25 @@ const toggle = (index) => {
 
 const faqs = [
   {
-    question: 'Comment fonctionne le AKAD Challenge ?',
-    answer: 'Le AKAD Challenge évalue votre discipline de trading à travers des règles strictes de gestion des risques. Une fois les objectifs atteints, vous accédez à la Vérification.',
+    question: "Comment fonctionne le AKAD Challenge ?",
+    answer: "Le AKAD Challenge évalue votre discipline de trading à travers des règles strictes de gestion des risques. Une fois les objectifs atteints, vous accédez à la Vérification."
   },
   {
-    question: 'Quels sont les frais à payer ?',
-    answer: "Le coût varie selon le compte sélectionné. Pour un compte 10k€, c'est 79€, remboursable si vous réussissez la phase de challenge.",
+    question: "Quels sont les frais à payer ?",
+    answer: "Le coût varie selon le compte sélectionné. Pour un compte 10k€, c'est 79€, remboursable si vous réussissez la phase de challenge."
   },
   {
-    question: 'Puis-je trader les week-ends ?',
-    answer: 'Non, le trading est uniquement autorisé pendant les jours ouvrés, conformément aux heures d'ouverture des marchés.',
+    question: "Puis-je trader les week-ends ?",
+    answer: "Non, le trading est uniquement autorisé pendant les jours ouvrés, conformément aux heures d'ouverture des marchés."
   },
   {
-    question: 'Quand suis-je payé ?',
-    answer: 'Une fois AKAD Trader, vous recevez vos profits simulés chaque mois selon le programme de distribution.',
+    question: "Quand suis-je payé ?",
+    answer: "Une fois AKAD Trader, vous recevez vos profits simulés chaque mois selon le programme de distribution."
   },
   {
-    question: 'Puis-je échouer si je ne trade pas ?',
-    answer: 'Oui. Il faut un minimum de jours actifs pour valider la régularité de vos performances. Une inactivité prolongée peut entraîner une disqualification.',
-  },
+    question: "Puis-je échouer si je ne trade pas ?",
+    answer: "Oui. Il faut un minimum de jours actifs pour valider la régularité de vos performances. Une inactivité prolongée peut entraîner une disqualification."
+  }
 ]
 </script>
 
