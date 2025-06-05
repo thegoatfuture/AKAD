@@ -50,12 +50,14 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useAuth } from '@/composables/useAuth'
 
 const email = ref('')
 const password = ref('')
+const { login } = useAuth()
 
 function handleLogin() {
-  // Logique d\'authentification à implémenter ultérieurement
-  console.log('Tentative de connexion avec', email.value)
+  login({ email: email.value })
+  navigateTo('/dashboard')
 }
 </script>

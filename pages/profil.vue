@@ -5,6 +5,7 @@ import SidebarDashboard from '@/components/Sidebar-dashboard.vue'
 // Force le layout personnalisé
 definePageMeta({
   layout: 'dashboard',
+  middleware: 'auth',
 })
 
 const profile = reactive({
