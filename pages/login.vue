@@ -37,6 +37,7 @@
         >
           Se connecter
         </button>
+        <p v-if="errorMsg" class="text-red-500 text-sm text-center">{{ errorMsg }}</p>
       </form>
       <p class="text-center text-sm text-gray-400 mt-4">
         Pas encore de compte ?
@@ -54,10 +55,16 @@ import { useAuth } from '@/composables/useAuth'
 
 const email = ref('')
 const password = ref('')
+const errorMsg = ref('')
 const { login } = useAuth()
 
-function handleLogin() {
-  login({ email: email.value })
-  navigateTo('/dashboard')
+async function handleLogin() {
+  errorMsg.value = ''
+  try {
+    await login({ email: email.value, password: password.value })
+    navigateTo('/dashboard')
+  } catch (e) {
+    errorMsg.value = e?.data?.message || 'Erreur de connexion'
+  }
 }
 </script>
