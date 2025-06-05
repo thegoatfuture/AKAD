@@ -1,6 +1,6 @@
 <template>
   <div class="bg-zinc-900/80 backdrop-blur rounded-2xl p-6 border border-zinc-800/50">
-    <!-- Header with month navigation -->
+    <!-- Header with month navigation and stats toggle -->
     <div class="flex justify-between items-center mb-6">
       <h3 class="text-xl font-bold text-yellow-400">Journal de Trading</h3>
       <div class="flex items-center gap-4">
@@ -9,7 +9,9 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
           </svg>
         </button>
-        <span class="text-white font-medium">{{ currentMonthDisplay }}</span>
+        <button @click="toggleMonthStats" class="text-white font-medium hover:text-yellow-400">
+          {{ currentMonthDisplay }}
+        </button>
         <button @click="nextMonth" class="text-zinc-400 hover:text-yellow-400">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -18,34 +20,70 @@
       </div>
     </div>
 
-    <!-- Trading calendar -->
-    <div class="overflow-x-auto">
+    <!-- Monthly Stats Modal -->
+    <div v-if="showMonthStats" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      <div class="bg-zinc-900 rounded-2xl p-6 w-full max-w-3xl">
+        <div class="flex justify-between items-center mb-6">
+          <h4 class="text-xl font-bold text-yellow-400">Statistiques {{ currentMonthDisplay }}</h4>
+          <button @click="showMonthStats = false" class="text-zinc-400 hover:text-white">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-zinc-800 p-4 rounded-xl">
+            <div class="text-sm text-zinc-400">Profit Total</div>
+            <div class="text-xl font-bold" :class="monthlyStats.totalProfit >= 0 ? 'text-green-400' : 'text-red-400'">
+              {{ formatProfit(monthlyStats.totalProfit) }}
+            </div>
+          </div>
+          <div class="bg-zinc-800 p-4 rounded-xl">
+            <div class="text-sm text-zinc-400">Nombre de Trades</div>
+            <div class="text-xl font-bold text-white">{{ monthlyStats.totalTrades }}</div>
+          </div>
+          <div class="bg-zinc-800 p-4 rounded-xl">
+            <div class="text-sm text-zinc-400">Win Rate</div>
+            <div class="text-xl font-bold text-yellow-400">{{ monthlyStats.winRate }}%</div>
+          </div>
+          <div class="bg-zinc-800 p-4 rounded-xl">
+            <div class="text-sm text-zinc-400">Meilleur Trade</div>
+            <div class="text-xl font-bold text-green-400">{{ formatProfit(monthlyStats.bestTrade) }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main trading calendar - Full width -->
+    <div class="overflow-x-auto mb-8">
       <table class="w-full">
-        <!-- Days header -->
         <thead>
           <tr class="text-sm text-zinc-400">
-            <th class="p-2 text-left">Semaine</th>
+            <th class="p-2 text-left w-32">Semaine</th>
             <th v-for="day in ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi']" 
                 :key="day" 
-                class="p-2 text-center min-w-[150px]">
+                class="p-2 text-center">
               {{ day }}
             </th>
           </tr>
         </thead>
-
-        <!-- Weeks and trading days -->
         <tbody>
           <tr v-for="(week, weekIndex) in currentMonthData" :key="weekIndex" 
               class="border-t border-zinc-800">
-            <td class="p-2 text-zinc-400 font-medium">Semaine {{ week.weekNumber }}</td>
-            <td v-for="day in week.days" :key="day.date" 
-                class="p-2">
+            <!-- Week number and total -->
+            <td class="p-2">
+              <div class="text-zinc-400 font-medium">Semaine {{ week.weekNumber }}</div>
+              <div class="text-sm mt-1" :class="getWeekTotal(week) >= 0 ? 'text-green-400' : 'text-red-400'">
+                {{ formatProfit(getWeekTotal(week)) }}
+              </div>
+            </td>
+            <!-- Trading days -->
+            <td v-for="day in week.days" :key="day.date" class="p-2">
               <div @click="selectDay(day)"
                    class="bg-zinc-800/50 rounded-lg p-3 cursor-pointer hover:bg-zinc-700/50 transition-colors">
                 <div class="flex justify-between items-center">
                   <span class="text-sm">{{ formatDayNumber(day.date) }}</span>
-                  <span :class="day.profit >= 0 ? 'text-green-400' : 'text-red-400'" 
-                        class="text-sm font-medium">
+                  <span :class="day.profit >= 0 ? 'text-green-400' : 'text-red-400'" class="text-sm font-medium">
                     {{ formatProfit(day.profit) }}
                   </span>
                 </div>
@@ -53,42 +91,58 @@
               </div>
             </td>
           </tr>
-          <!-- Weekly totals -->
-          <tr class="border-t border-zinc-800">
-            <td class="p-2 text-zinc-400 font-medium">Total</td>
-            <td v-for="(total, index) in weeklyTotals" :key="index" 
-                class="p-2">
-              <div class="text-sm font-medium" 
-                   :class="total >= 0 ? 'text-green-400' : 'text-red-400'">
-                {{ formatProfit(total) }}
-              </div>
-            </td>
-          </tr>
         </tbody>
       </table>
     </div>
 
+    <!-- Recent Trades - Smaller size -->
+    <div class="bg-zinc-800/50 rounded-xl p-4">
+      <h4 class="text-sm font-medium text-zinc-400 mb-3">Trades Récents</h4>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs">
+          <thead class="text-zinc-500">
+            <tr>
+              <th class="text-left py-2">Paire</th>
+              <th class="text-left py-2">Type</th>
+              <th class="text-left py-2">Taille</th>
+              <th class="text-left py-2">P/L</th>
+              <th class="text-left py-2">R:R</th>
+              <th class="text-left py-2">Heure</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="trade in selectedDay?.tradeList?.slice(0, 5)" :key="trade.id" 
+                class="border-t border-zinc-700/30">
+              <td class="py-2">{{ trade.pair }}</td>
+              <td class="py-2" :class="trade.type === 'BUY' ? 'text-green-400' : 'text-red-400'">
+                {{ trade.type }}
+              </td>
+              <td class="py-2">{{ trade.size }}</td>
+              <td class="py-2" :class="trade.profit >= 0 ? 'text-green-400' : 'text-red-400'">
+                {{ formatProfit(trade.profit) }}
+              </td>
+              <td class="py-2 text-zinc-400">{{ trade.rr }}</td>
+              <td class="py-2 text-zinc-400">{{ formatTime(trade.time) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- Day Detail Modal -->
-    <div v-if="selectedDay" 
-         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div v-if="selectedDay" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div class="bg-zinc-900 rounded-2xl p-6 w-full max-w-3xl">
         <div class="flex justify-between items-center mb-6">
-          <h4 class="text-xl font-bold text-yellow-400">
-            {{ formatDetailDate(selectedDay.date) }}
-          </h4>
+          <h4 class="text-xl font-bold text-yellow-400">{{ formatDetailDate(selectedDay.date) }}</h4>
           <button @click="selectedDay = null" class="text-zinc-400 hover:text-white">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
           </button>
         </div>
-
-        <!-- Drawdown Chart -->
         <div class="h-64 mb-6">
           <Line :data="dayChartData" :options="chartOptions" />
         </div>
-
-        <!-- Trades List -->
         <div class="space-y-3">
           <div v-for="trade in selectedDay.tradeList" :key="trade.id" 
                class="bg-zinc-800 rounded-lg p-4 flex justify-between items-center">
@@ -97,8 +151,7 @@
               <div class="text-sm text-zinc-400">{{ trade.type }} • {{ trade.size }} lots</div>
             </div>
             <div class="text-right">
-              <div :class="trade.profit >= 0 ? 'text-green-400' : 'text-red-400'" 
-                   class="font-medium">
+              <div :class="trade.profit >= 0 ? 'text-green-400' : 'text-red-400'" class="font-medium">
                 {{ formatProfit(trade.profit) }}
               </div>
               <div class="text-sm text-zinc-400">R:R {{ trade.rr }}</div>
@@ -119,6 +172,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 const currentMonth = ref(new Date())
 const selectedDay = ref(null)
+const showMonthStats = ref(false)
 
 // Generate sample trade data for the current month
 const generateMonthData = () => {
@@ -140,7 +194,8 @@ const generateMonthData = () => {
         type: Math.random() > 0.5 ? 'BUY' : 'SELL',
         size: (Math.random() * 2).toFixed(2),
         profit: Math.floor((Math.random() * 1000) - 500),
-        rr: (1 + Math.random() * 2).toFixed(1)
+        rr: (1 + Math.random() * 2).toFixed(1),
+        time: new Date(date.setHours(9 + Math.random() * 8)).toISOString()
       }))
 
       const drawdown = [0]
@@ -170,15 +225,34 @@ const generateMonthData = () => {
 
 const currentMonthData = computed(() => generateMonthData())
 
-const weeklyTotals = computed(() => {
-  const totals = Array(5).fill(0) // 5 days per week
+const monthlyStats = computed(() => {
+  let totalProfit = 0
+  let totalTrades = 0
+  let winningTrades = 0
+  let bestTrade = 0
+
   currentMonthData.value.forEach(week => {
-    week.days.forEach((day, index) => {
-      totals[index] += day.profit
+    week.days.forEach(day => {
+      totalProfit += day.profit
+      totalTrades += day.trades
+      day.tradeList.forEach(trade => {
+        if (trade.profit > 0) winningTrades++
+        bestTrade = Math.max(bestTrade, trade.profit)
+      })
     })
   })
-  return totals
+
+  return {
+    totalProfit,
+    totalTrades,
+    winRate: totalTrades ? Math.round((winningTrades / totalTrades) * 100) : 0,
+    bestTrade
+  }
 })
+
+const getWeekTotal = (week) => {
+  return week.days.reduce((total, day) => total + day.profit, 0)
+}
 
 const currentMonthDisplay = computed(() => {
   return new Intl.DateTimeFormat('fr-FR', { 
@@ -231,6 +305,10 @@ function selectDay(day) {
   }
 }
 
+function toggleMonthStats() {
+  showMonthStats.value = !showMonthStats.value
+}
+
 function formatDayNumber(date) {
   return date.getDate()
 }
@@ -243,6 +321,13 @@ function formatDetailDate(date) {
   }).format(date)
 }
 
+function formatTime(isoString) {
+  return new Date(isoString).toLocaleTimeString('fr-FR', {
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+}
+
 function formatProfit(value) {
   return new Intl.NumberFormat('fr-FR', {
     style: 'currency',
@@ -251,3 +336,9 @@ function formatProfit(value) {
   }).format(value)
 }
 </script>
+
+<style scoped>
+.backdrop-blur {
+  backdrop-filter: blur(8px);
+}
+</style>
