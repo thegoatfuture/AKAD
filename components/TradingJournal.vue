@@ -49,10 +49,10 @@
             <tr>
               <th class="p-3 text-left w-40 text-zinc-400">Semaine</th>
               <th class="p-3 text-zinc-400 text-center text-zinc-600">Sam</th>
+              <th class="p-3 text-zinc-400 text-center text-zinc-600">Dim</th>
               <th v-for="(date, index) in weekDays" :key="index" class="p-3 text-zinc-400 text-center">
                 {{ formatWeekDay(date) }}
               </th>
-              <th class="p-3 text-zinc-400 text-center text-zinc-600">Dim</th>
             </tr>
           </thead>
           <tbody>
@@ -66,10 +66,10 @@
                   </span>
                 </div>
               </td>
-              <!-- Saturday -->
-              <td class="p-3">
+              <!-- Weekend days -->
+              <td v-for="i in 2" :key="`weekend-${i}`" class="p-3">
                 <div class="bg-zinc-800/20 rounded-xl p-4 opacity-50">
-                  <div class="text-zinc-600">Sam</div>
+                  <div class="text-zinc-600">{{ i === 1 ? 'Sam' : 'Dim' }}</div>
                 </div>
               </td>
               <!-- Weekdays -->
@@ -92,12 +92,6 @@
                       (Win: {{ getWinRate(day.tradeList) }}%)
                     </span>
                   </div>
-                </div>
-              </td>
-              <!-- Sunday -->
-              <td class="p-3">
-                <div class="bg-zinc-800/20 rounded-xl p-4 opacity-50">
-                  <div class="text-zinc-600">Dim</div>
                 </div>
               </td>
             </tr>
