@@ -1,7 +1,9 @@
 <template>
   <div class="bg-black text-white overflow-x-hidden">
     <!-- 1. Hero principal avec animation -->
-    <HeroAccueil />
+    <ClientOnly>
+      <HeroAccueil />
+    </ClientOnly>
 
     <!-- 2. Défilement des cours en temps réel -->
     <ClientOnly>
