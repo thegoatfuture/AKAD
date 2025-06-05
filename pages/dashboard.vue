@@ -52,51 +52,8 @@
         </div>
       </div>
 
-      <!-- Trading Activity & Calendar -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Recent Trades -->
-        <div class="lg:col-span-2 bg-zinc-900/80 backdrop-blur rounded-2xl p-6 border border-zinc-800/50">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-bold text-yellow-400">Trades Récents</h3>
-            <button @click="openModal('trades')" 
-                    class="text-sm text-zinc-400 hover:text-yellow-400 transition-colors">
-              Voir tout
-            </button>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead class="text-sm text-zinc-400">
-                <tr>
-                  <th class="text-left py-2">Paire</th>
-                  <th class="text-left py-2">Type</th>
-                  <th class="text-left py-2">Taille</th>
-                  <th class="text-left py-2">P/L</th>
-                  <th class="text-left py-2">R:R</th>
-                  <th class="text-left py-2">Heure</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="trade in recentTrades" :key="trade.time" 
-                    class="border-t border-zinc-800/30">
-                  <td class="py-3 font-medium">{{ trade.pair }}</td>
-                  <td class="py-3">
-                    <span :class="trade.type === 'BUY' ? 'text-green-400' : 'text-red-400'">
-                      {{ trade.type }}
-                    </span>
-                  </td>
-                  <td class="py-3">{{ trade.size }}</td>
-                  <td class="py-3" :class="trade.profit.includes('+') ? 'text-green-400' : 'text-red-400'">
-                    {{ trade.profit }}
-                  </td>
-                  <td class="py-3 text-zinc-400">{{ trade.rr }}</td>
-                  <td class="py-3 text-zinc-400">{{ trade.time }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Trading Journal -->
+      <!-- Trading Journal & Calendar -->
+      <div class="flex gap-6">
         <TradingJournal />
       </div>
     </main>
@@ -133,19 +90,12 @@ definePageMeta({
 
 const modalContent = ref(null)
 const showModal = ref(false)
-const journalEntry = ref('')
 
 const accountStats = [
   { label: 'Balance', value: '€160,000.00', change: '-2.5%', color: 'text-red-400' },
   { label: 'Equity', value: '€157,500.00', change: '-1.8%', color: 'text-red-400' },
   { label: 'Profit/Loss', value: '-€2,500.00', change: null, color: 'text-red-400' },
   { label: 'Drawdown', value: '4.8%', change: '+0.5%', color: 'text-yellow-400' }
-]
-
-const recentTrades = [
-  { pair: 'EUR/USD', type: 'BUY', size: '1.00', profit: '+€450.00', rr: '1:2.5', time: '14:30' },
-  { pair: 'BTC/USD', type: 'SELL', size: '0.50', profit: '-€280.00', rr: '1:1.5', time: '13:15' },
-  { pair: 'GBP/JPY', type: 'BUY', size: '2.00', profit: '+€670.00', rr: '1:3.2', time: '11:45' }
 ]
 
 const badges = [
