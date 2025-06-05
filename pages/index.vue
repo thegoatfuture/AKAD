@@ -1,42 +1,44 @@
 <template>
   <div class="bg-black text-white overflow-x-hidden">
-    <!-- 1. Hero principal -->
+    <!-- 1. Hero principal avec animation -->
     <HeroAccueil />
 
-    <!-- 2. CTA BOOST impactant -->
-    <CtaBoostAccueil />
+    <!-- 2. Défilement des cours en temps réel -->
+    <DefilementAccueil />
 
-    <!-- 3. Stats visibles rapidement -->
+    <!-- 3. Stats avec animation au scroll -->
     <ClientOnly>
       <StatsAccueil />
     </ClientOnly>
 
-    <!-- 4. Trading view defile -->
-    <DefilementAccueil />
+    <!-- 4. Étapes du trading avec design amélioré -->
+    <EtapeTradingAccueil />
 
     <!-- 5. Objectifs de trading dynamiques -->
     <ObjectifAccueil />
 
-    <!-- 6. Étapes du trading -->
-    <EtapeTradingAccueil />
-
-    <!-- 7. Comparatif rapide des comptes -->
+    <!-- 6. Comparatif des comptes -->
     <ComparatifAccueil />
 
-    <!-- 8. Avis clients défilants (horizontal & classique) -->
+    <!-- 7. Avis clients avec carrousel -->
     <AvisClientAccueil />
+
+    <!-- 8. Avis horizontaux avec animation -->
     <AvisHorizontalAccueil />
 
-    <!-- 9. Marques de confiance / partenaires -->
+    <!-- 9. Marques de confiance -->
     <TrustAccueil />
 
-    <!-- 10. Foire Aux Questions -->
+    <!-- 10. FAQ interactive -->
     <FaqAccueil />
 
-    <!-- 11. Blog / Actualités pour SEO + réassurance -->
+    <!-- 11. Blog avec images optimisées -->
     <BlogAccueil />
 
-    <!-- 12. Bande flottante -->
+    <!-- 12. CTA Boost avec compte à rebours -->
+    <CtaBoostAccueil />
+
+    <!-- 13. Bande flottante avec notifications -->
     <BandeFlottanteAccueil />
   </div>
 </template>
@@ -57,8 +59,52 @@ import BlogAccueil from '@/components/blog-accueil.vue'
 import BandeFlottanteAccueil from '@/components/bande-flottante-accueil.vue'
 
 useSeoMeta({
-  title: 'AKAD - Challenge de trading professionnel',
-  description:
-    'Rejoignez le challenge AKAD et accédez à des outils pour améliorer vos performances de trading.',
+  title: 'AKAD - Prop Firm de Trading Professionnelle',
+  description: 'Rejoignez AKAD, votre partenaire pour devenir un trader professionnel. Accédez à des comptes financés jusqu\'à 200 000€ et bénéficiez d\'un accompagnement personnalisé.',
+  ogTitle: 'AKAD - Prop Firm de Trading Professionnelle',
+  ogDescription: 'Devenez un trader professionnel avec AKAD. Comptes financés jusqu\'à 200 000€.',
+  ogImage: 'https://akad-trading.com/images/og-image.jpg',
+  twitterCard: 'summary_large_image',
+})
+
+// Optimisations de performance
+onMounted(() => {
+  // Préchargement des images importantes
+  const imagesToPreload = [
+    '/images/hero-bg.jpg',
+    '/images/evaluation.png',
+    '/images/account.png',
+    '/images/pro.png'
+  ]
+  
+  imagesToPreload.forEach(src => {
+    const img = new Image()
+    img.src = src
+  })
 })
 </script>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.5s ease;
+}
+
+.slide-enter-from {
+  transform: translateX(100%);
+}
+
+.slide-leave-to {
+  transform: translateX(-100%);
+}
+</style>
