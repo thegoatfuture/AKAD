@@ -1,3 +1,4 @@
+```vue
 <template>
   <section class="relative bg-gradient-to-b from-black via-zinc-950 to-black py-20 px-4 overflow-hidden">
     <!-- Background elements -->
@@ -52,6 +53,17 @@
             </NuxtLink>
           </div>
         </div>
+      </div>
+
+      <!-- View all button -->
+      <div class="text-center mt-12">
+        <NuxtLink to="/blog" 
+                  class="inline-flex items-center gap-2 bg-yellow-400 text-black px-6 py-3 rounded-xl font-semibold hover:bg-yellow-500 transition-colors">
+          <span>Voir tous les articles</span>
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </NuxtLink>
       </div>
     </div>
   </section>
@@ -122,3 +134,4 @@ const articles = [
   overflow: hidden;
 }
 </style>
+```
