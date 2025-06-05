@@ -1,3 +1,4 @@
+```vue
 <template>
   <div class="bg-black text-white min-h-screen">
     <!-- Hero Section -->
@@ -36,6 +37,31 @@
           </div>
         </div>
 
+        <!-- Top Coaches Section -->
+        <div class="mb-16">
+          <h2 class="text-2xl font-bold text-center mb-8">Nos Coachs Experts</h2>
+          <div class="grid md:grid-cols-3 gap-8">
+            <div v-for="coach in coaches" :key="coach.name" 
+                 class="bg-zinc-900/50 backdrop-blur rounded-2xl p-6 border border-zinc-800 text-center group hover:border-yellow-400/20 transition-all duration-300 transform hover:-translate-y-1">
+              <div class="relative mb-6">
+                <img :src="coach.image" :alt="coach.name" 
+                     class="w-32 h-32 rounded-full mx-auto object-cover border-4 border-yellow-400/20 group-hover:border-yellow-400 transition-all duration-300" />
+                <div class="absolute -bottom-3 right-1/2 transform translate-x-1/2 bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">
+                  {{ coach.specialty }}
+                </div>
+              </div>
+              <h3 class="text-xl font-bold mb-2">{{ coach.name }}</h3>
+              <p class="text-gray-400 text-sm mb-4">{{ coach.description }}</p>
+              <div class="flex flex-wrap justify-center gap-2">
+                <div v-for="badge in coach.badges" :key="badge" 
+                     class="bg-zinc-800 text-xs text-gray-300 px-2 py-1 rounded">
+                  {{ badge }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Top Traders Table -->
         <div class="bg-zinc-900/50 backdrop-blur rounded-2xl border border-zinc-800 overflow-hidden">
           <div class="p-6 border-b border-zinc-800">
@@ -53,7 +79,8 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-zinc-800">
-                <tr v-for="(trader, index) in topTraders" :key="index" class="hover:bg-zinc-800/50">
+                <tr v-for="(trader, index) in topTraders" :key="index" 
+                    class="hover:bg-zinc-800/50 transition-colors">
                   <td class="px-6 py-4">
                     <div class="flex items-center gap-2">
                       <div v-if="index < 3" :class="[
@@ -69,9 +96,7 @@
                   </td>
                   <td class="px-6 py-4">
                     <div class="flex items-center gap-3">
-                      <div class="w-10 h-10 rounded-full bg-zinc-700 flex items-center justify-center font-bold">
-                        {{ trader.name[0] }}
-                      </div>
+                      <img :src="trader.image" :alt="trader.name" class="w-10 h-10 rounded-full object-cover" />
                       <div>
                         <div class="font-semibold">{{ trader.name }}</div>
                         <div class="text-sm text-gray-400">{{ trader.type }}</div>
@@ -111,10 +136,35 @@
 </template>
 
 <script setup>
+const coaches = [
+  {
+    name: 'Alexandre Martin',
+    specialty: 'Day Trading',
+    image: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg',
+    description: '15 ans d\'expérience en trading institutionnel. Expert en analyse technique et gestion du risque.',
+    badges: ['Forex', 'Indices', 'Commodities']
+  },
+  {
+    name: 'Sarah Chen',
+    specialty: 'Swing Trading',
+    image: 'https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg',
+    description: 'Spécialiste du swing trading et de la psychologie du trading. Coach certifiée en performance.',
+    badges: ['Cryptos', 'Actions', 'Risk Management']
+  },
+  {
+    name: 'Marc Durant',
+    specialty: 'Scalping',
+    image: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg',
+    description: 'Expert en scalping et en trading algorithmique. Développeur de stratégies quantitatives.',
+    badges: ['Algo Trading', 'High Frequency', 'Technical Analysis']
+  }
+]
+
 const topTraders = [
   {
     name: 'Thomas R.',
     type: 'Swing Trader',
+    image: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
     capital: '200,000€',
     performance: 18.5,
     profit: '37,000€'
@@ -122,6 +172,7 @@ const topTraders = [
   {
     name: 'Sophie M.',
     type: 'Day Trader',
+    image: 'https://images.pexels.com/photos/3796218/pexels-photo-3796218.jpeg',
     capital: '100,000€',
     performance: 15.3,
     profit: '15,300€'
@@ -129,6 +180,7 @@ const topTraders = [
   {
     name: 'Marc L.',
     type: 'Scalper',
+    image: 'https://images.pexels.com/photos/2379006/pexels-photo-2379006.jpeg',
     capital: '50,000€',
     performance: 14.7,
     profit: '7,350€'
@@ -136,6 +188,7 @@ const topTraders = [
   {
     name: 'Julie D.',
     type: 'Position Trader',
+    image: 'https://images.pexels.com/photos/3796219/pexels-photo-3796219.jpeg',
     capital: '100,000€',
     performance: 12.8,
     profit: '12,800€'
@@ -143,9 +196,50 @@ const topTraders = [
   {
     name: 'Nicolas F.',
     type: 'Day Trader',
+    image: 'https://images.pexels.com/photos/2379007/pexels-photo-2379007.jpeg',
     capital: '200,000€',
     performance: 11.2,
     profit: '22,400€'
+  },
+  {
+    name: 'Emma S.',
+    type: 'Swing Trader',
+    image: 'https://images.pexels.com/photos/3796220/pexels-photo-3796220.jpeg',
+    capital: '100,000€',
+    performance: 10.5,
+    profit: '10,500€'
+  },
+  {
+    name: 'Lucas P.',
+    type: 'Scalper',
+    image: 'https://images.pexels.com/photos/2379008/pexels-photo-2379008.jpeg',
+    capital: '50,000€',
+    performance: 9.8,
+    profit: '4,900€'
+  },
+  {
+    name: 'Marie C.',
+    type: 'Position Trader',
+    image: 'https://images.pexels.com/photos/3796221/pexels-photo-3796221.jpeg',
+    capital: '100,000€',
+    performance: 9.2,
+    profit: '9,200€'
+  },
+  {
+    name: 'Antoine D.',
+    type: 'Day Trader',
+    image: 'https://images.pexels.com/photos/2379009/pexels-photo-2379009.jpeg',
+    capital: '200,000€',
+    performance: 8.7,
+    profit: '17,400€'
+  },
+  {
+    name: 'Laura B.',
+    type: 'Swing Trader',
+    image: 'https://images.pexels.com/photos/3796222/pexels-photo-3796222.jpeg',
+    capital: '100,000€',
+    performance: 8.1,
+    profit: '8,100€'
   }
 ]
 
@@ -179,3 +273,4 @@ useSeoMeta({
   animation-delay: 1000ms;
 }
 </style>
+```
