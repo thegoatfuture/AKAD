@@ -15,9 +15,15 @@ export const useSupabase = () => {
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/login`
+        }
       })
       
       if (signUpError) throw signUpError
+      
+      // Store email temporarily for verification page
+      localStorage.setItem('pendingEmail', email)
       
       return { data, error: null }
     } catch (err) {
@@ -66,6 +72,11 @@ export const useSupabase = () => {
       return { session: null, error: err }
     }
   }
+
+  // Listen for auth state changes
+  supabase.auth.onAuthStateChange((event, session) => {
+    user.value = session?.user || null
+  })
 
   return {
     user,

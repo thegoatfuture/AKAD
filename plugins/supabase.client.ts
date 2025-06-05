@@ -3,11 +3,17 @@ import { defineNuxtPlugin } from '#app'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
-  
-  const supabase = createClient(
-    config.public.nuxtSupabaseUrl,
-    config.public.nuxtSupabaseAnonKey
-  )
+
+  const supabaseUrl = config.public.nuxtSupabaseUrl
+  const supabaseKey = config.public.nuxtSupabaseAnonKey
+
+  const supabase = createClient(supabaseUrl, supabaseKey, {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true
+    }
+  })
 
   // Get initial session
   const { getSession } = useSupabase()
