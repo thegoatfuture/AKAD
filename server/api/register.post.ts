@@ -1,10 +1,21 @@
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const { email, password } = body as { email?: string; password?: string }
+
+  const { email, password } = body || {}
+
+  if (!email || !password) {
+    return {
+      success: false,
+      error: 'Champs manquants',
+    }
+  }
 
   console.log('Received register data:', email)
 
-  // TODO: insert user into database if configured
+  // TODO: Ajouter l'utilisateur à la base de données ici (MongoDB, Supabase, etc.)
 
-  return { success: true }
+  return {
+    success: true,
+    message: "Inscription réussie",
+  }
 })
