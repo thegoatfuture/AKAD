@@ -37,7 +37,7 @@
               </div>
             </div>
 
-            <NuxtLink to="/challenge" class="mt-6 inline-flex items-center justify-center w-full bg-white/10 backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/20 transition-all">
+            <NuxtLink to="/challenge" class="mt-6 inline-flex items-center justify-center w-full bg-white/10 backdrop-blur-sm text-white font-semibold text-sm px-4 py-3 rounded-xl hover:bg-white/20 transition-all">
               DÉCOUVRIR LE CHALLENGE
             </NuxtLink>
           </div>
@@ -82,7 +82,7 @@
               </ul>
             </div>
 
-            <NuxtLink to="/trader" class="mt-6 inline-flex items-center justify-center w-full bg-white/10 backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/20 transition-all">
+            <NuxtLink to="/trader" class="mt-6 inline-flex items-center justify-center w-full bg-white/10 backdrop-blur-sm text-white font-semibold text-sm px-6 py-3 rounded-xl hover:bg-white/20 transition-all">
               EN SAVOIR PLUS
             </NuxtLink>
           </div>
@@ -127,7 +127,7 @@
               </ul>
             </div>
 
-            <NuxtLink to="/quantlane" class="mt-6 inline-flex items-center justify-center w-full bg-white/10 backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/20 transition-all">
+            <NuxtLink to="/quantlane" class="mt-6 inline-flex items-center justify-center w-full bg-white/10 backdrop-blur-sm text-white font-semibold text-sm px-6 py-3 rounded-xl hover:bg-white/20 transition-all">
               DEVENIR PRO TRADER
             </NuxtLink>
           </div>
