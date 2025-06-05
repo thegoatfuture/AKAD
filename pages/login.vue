@@ -18,6 +18,7 @@
             class="w-full px-4 py-2 rounded bg-zinc-800 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
             placeholder="votremail@example.com"
           />
+          <p v-if="emailError" class="text-red-400 text-sm mt-1">{{ emailError }}</p>
         </div>
         <div>
           <label for="password" class="block text-sm font-medium mb-1"
@@ -30,6 +31,9 @@
             class="w-full px-4 py-2 rounded bg-zinc-800 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
             placeholder="Votre mot de passe"
           />
+          <p v-if="passwordError" class="text-red-400 text-sm mt-1">
+            {{ passwordError }}
+          </p>
         </div>
         <button
           type="submit"
@@ -54,9 +58,33 @@ import { useAuth } from '@/composables/useAuth'
 
 const email = ref('')
 const password = ref('')
+const emailError = ref('')
+const passwordError = ref('')
 const { login } = useAuth()
 
+function validateEmail(value) {
+  const pattern = /.+@.+\..+/
+  return pattern.test(value)
+}
+
 function handleLogin() {
+  emailError.value = ''
+  passwordError.value = ''
+
+  if (!email.value) {
+    emailError.value = 'Email requis'
+  } else if (!validateEmail(email.value)) {
+    emailError.value = "Format d'email invalide"
+  }
+
+  if (!password.value) {
+    passwordError.value = 'Mot de passe requis'
+  }
+
+  if (emailError.value || passwordError.value) {
+    return
+  }
+
   login({ email: email.value })
   navigateTo('/dashboard')
 }
