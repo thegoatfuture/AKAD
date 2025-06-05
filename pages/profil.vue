@@ -1,26 +1,36 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import SidebarDashboard from '@/components/Sidebar-dashboard.vue'
+import { useProfileState } from '@/composables/useProfile'
 
 // Force le layout personnalisé
 definePageMeta({
   layout: 'dashboard',
 })
 
-const profile = reactive({
-  name: '',
-  email: '',
-  phone: '',
-  country: '',
-  address: '',
-  zip: '',
-  bio: '',
-})
+const profile = useProfileState()
 
 const successMessage = ref('')
+const errorMessage = ref('')
 
-function updateProfile() {
-  successMessage.value = 'Profil mis à jour avec succès'
+async function updateProfile() {
+  successMessage.value = ''
+  errorMessage.value = ''
+  const { data, error } = await useFetch('/api/profile', {
+    method: 'POST',
+    body: profile,
+  })
+
+  if (error.value) {
+    errorMessage.value = error.value.message || 'Erreur lors de la mise à jour du profil'
+    return
+  }
+
+  if (data.value?.success) {
+    successMessage.value = 'Profil mis à jour avec succès'
+  } else {
+    errorMessage.value = 'Erreur lors de la mise à jour du profil'
+  }
 }
 </script>
 
@@ -35,6 +45,12 @@ function updateProfile() {
           class="bg-green-500 text-white px-4 py-2 rounded"
         >
           {{ successMessage }}
+        </div>
+        <div
+          v-if="errorMessage"
+          class="bg-red-500 text-white px-4 py-2 rounded"
+        >
+          {{ errorMessage }}
         </div>
 
         <!-- Informations Personnelles -->
