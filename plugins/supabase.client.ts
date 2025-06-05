@@ -1,8 +1,18 @@
+import { createClient } from '@supabase/supabase-js'
 import { defineNuxtPlugin } from '#app'
 
-export default defineNuxtPlugin(async () => {
-  const { getSession } = useSupabase()
+export default defineNuxtPlugin((nuxtApp) => {
+  const config = useRuntimeConfig()
   
-  // Get initial session on client-side load
-  await getSession()
+  const supabase = createClient(
+    config.public.nuxtSupabaseUrl,
+    config.public.nuxtSupabaseAnonKey
+  )
+
+  // Get initial session
+  const { getSession } = useSupabase()
+  getSession()
+
+  // Provide supabase client to the app
+  nuxtApp.provide('supabase', supabase)
 })

@@ -1,15 +1,9 @@
-import { createClient } from '@supabase/supabase-js'
 import { ref, computed } from 'vue'
 
-const supabaseUrl = useRuntimeConfig().public.nuxtSupabaseUrl
-const supabaseAnonKey = useRuntimeConfig().public.nuxtSupabaseAnonKey
-
-const supabase = createClient(
-  supabaseUrl,
-  supabaseAnonKey
-)
-
 export const useSupabase = () => {
+  const nuxtApp = useNuxtApp()
+  const supabase = nuxtApp.$supabase
+  
   const user = ref(null)
   const loading = ref(true)
   const error = ref(null)
