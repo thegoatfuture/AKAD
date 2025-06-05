@@ -41,19 +41,19 @@
           <h2 class="text-2xl font-bold text-center mb-8">Nos Coachs Experts</h2>
           <div class="grid md:grid-cols-3 gap-8">
             <div v-for="coach in coaches" :key="coach.name" 
-                 class="group bg-zinc-900/50 backdrop-blur rounded-2xl border border-zinc-800 text-center transition-all duration-500 ease-in-out h-[200px] hover:h-[380px] overflow-hidden hover:border-yellow-400/30 hover:shadow-[0_0_30px_rgba(250,204,21,0.1)]">
-              <div class="relative p-6">
-                <div class="relative inline-block">
+                 class="group bg-zinc-900/50 backdrop-blur rounded-2xl border border-zinc-800 text-center transition-all duration-500 ease-in-out h-[280px] hover:h-[400px] overflow-hidden hover:border-yellow-400/30 hover:shadow-[0_0_30px_rgba(250,204,21,0.1)]">
+              <div class="relative pt-8 px-6">
+                <div class="relative inline-block mb-12">
                   <div class="absolute inset-0 bg-gradient-to-b from-yellow-400/20 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   <img :src="coach.image" :alt="coach.name" 
                        class="w-28 h-28 rounded-full mx-auto object-cover border-4 border-zinc-800 group-hover:border-yellow-400/50 transition-all duration-500 transform group-hover:scale-105" />
                 </div>
-                <div class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-black text-xs font-bold px-4 py-1 rounded-full shadow-lg">
+                <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-black text-xs font-bold px-4 py-1 rounded-full shadow-lg">
                   {{ coach.specialty }}
                 </div>
               </div>
               
-              <div class="px-6 pb-6">
+              <div class="px-6 pb-6 mt-4">
                 <h3 class="text-xl font-bold mb-1 group-hover:text-yellow-400 transition-colors">{{ coach.name }}</h3>
                 <div class="transform transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0">
                   <p class="text-gray-400 text-sm my-4 leading-relaxed">{{ coach.description }}</p>
