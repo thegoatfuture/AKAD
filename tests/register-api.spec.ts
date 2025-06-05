@@ -22,12 +22,12 @@ describe('POST /api/register', () => {
       password: 'pass',
     })
     const res = await handler({} as any)
-    expect(res).toEqual({ success: true })
+    expect(res).toEqual({ success: true, message: 'Inscription réussie' })
   })
 
   it('returns error for missing fields', async () => {
     (readBody as vi.Mock).mockResolvedValue({})
     const res = await handler({} as any)
-    expect(res).toEqual({ error: 'Missing fields' })
+    expect(res).toEqual({ success: false, error: 'Champs manquants' })
   })
 })
