@@ -13,9 +13,19 @@ function handleSubscribe() {
   showModal.value = true
 }
 
-function proceedToPayment() {
+async function proceedToPayment() {
   showModal.value = false
-  router.push('/facturation')
+  const { data, error } = await useFetch('/api/create-checkout-session', {
+    method: 'POST',
+    body: { plan: 'premium' },
+  })
+  if (error.value) {
+    console.error(error.value)
+    return
+  }
+  if (data.value?.url) {
+    window.location.href = data.value.url as string
+  }
 }
 </script>
 
