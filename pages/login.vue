@@ -1,4 +1,3 @@
-```vue
 <template>
   <div class="min-h-screen bg-black flex">
     <!-- Left side - Login form -->
@@ -29,6 +28,7 @@
               />
               <p v-if="emailError" class="mt-1 text-sm text-red-400">{{ emailError }}</p>
             </div>
+
             <div>
               <label for="password" class="sr-only">Mot de passe</label>
               <input
@@ -58,18 +58,20 @@
             </div>
 
             <div class="text-sm">
-              <a href="#" class="font-medium text-yellow-400 hover:text-yellow-300">
+              <NuxtLink to="/forgot-password" class="font-medium text-yellow-400 hover:text-yellow-300">
                 Mot de passe oublié ?
-              </a>
+              </NuxtLink>
             </div>
           </div>
 
           <div>
             <button
               type="submit"
-              class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-black bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400"
+              :disabled="loading"
+              class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-black bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Se connecter
+              <span v-if="loading">Connexion en cours...</span>
+              <span v-else>Se connecter</span>
             </button>
           </div>
         </form>
@@ -97,46 +99,57 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useAuth } from '@/composables/useAuth'
+import { useSupabase } from '@/composables/useSupabase'
 
 const email = ref('')
 const password = ref('')
+const loading = ref(false)
+
 const emailError = ref('')
 const passwordError = ref('')
-const errorMsg = ref('')
 
-const { login } = useAuth()
-
-function validateEmail(value) {
-  const pattern = /.+@.+\..+/
-  return pattern.test(value)
-}
+const { signIn } = useSupabase()
 
 async function handleLogin() {
+  // Reset errors
   emailError.value = ''
   passwordError.value = ''
-  errorMsg.value = ''
 
+  // Validate inputs
   if (!email.value) {
     emailError.value = 'Email requis'
-  } else if (!validateEmail(email.value)) {
+    return
+  }
+
+  if (!/.+@.+\..+/.test(email.value)) {
     emailError.value = "Format d'email invalide"
+    return
   }
 
   if (!password.value) {
     passwordError.value = 'Mot de passe requis'
-  }
-
-  if (emailError.value || passwordError.value) {
     return
   }
 
+  loading.value = true
+
   try {
-    await login({ email: email.value, password: password.value })
+    const { data, error } = await signIn(email.value, password.value)
+    
+    if (error) throw error
+
+    // Redirect to dashboard on successful login
     navigateTo('/dashboard')
-  } catch (e) {
-    errorMsg.value = e?.data?.message || 'Erreur de connexion'
+  } catch (error) {
+    if (error.message.includes('email')) {
+      emailError.value = 'Email ou mot de passe incorrect'
+    } else if (error.message.includes('confirmed')) {
+      emailError.value = "Veuillez confirmer votre email avant de vous connecter"
+    } else {
+      emailError.value = "Une erreur s'est produite lors de la connexion"
+    }
+  } finally {
+    loading.value = false
   }
 }
 </script>
-```

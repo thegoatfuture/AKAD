@@ -1,4 +1,3 @@
-```vue
 <template>
   <div class="min-h-screen bg-black flex">
     <!-- Left side - Registration form -->
@@ -92,9 +91,11 @@
           <div>
             <button
               type="submit"
-              class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-black bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400"
+              :disabled="loading"
+              class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-black bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Créer mon compte
+              <span v-if="loading">Création du compte...</span>
+              <span v-else>Créer mon compte</span>
             </button>
           </div>
         </form>
@@ -122,18 +123,20 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useSupabase } from '@/composables/useSupabase'
 
 const name = ref('')
 const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
+const loading = ref(false)
 
 const nameError = ref('')
 const emailError = ref('')
 const passwordError = ref('')
 const confirmPasswordError = ref('')
-const successMessage = ref('')
-const errorMessage = ref('')
+
+const { signUp } = useSupabase()
 
 async function handleRegister() {
   // Reset errors
@@ -141,61 +144,55 @@ async function handleRegister() {
   emailError.value = ''
   passwordError.value = ''
   confirmPasswordError.value = ''
-  successMessage.value = ''
-  errorMessage.value = ''
 
   // Validate inputs
   if (!name.value) {
     nameError.value = 'Nom requis'
+    return
   }
 
   if (!email.value) {
     emailError.value = 'Email requis'
-  } else if (!/.+@.+\..+/.test(email.value)) {
+    return
+  }
+
+  if (!/.+@.+\..+/.test(email.value)) {
     emailError.value = "Format d'email invalide"
+    return
   }
 
   if (!password.value) {
     passwordError.value = 'Mot de passe requis'
-  } else if (password.value.length < 6) {
+    return
+  }
+
+  if (password.value.length < 6) {
     passwordError.value = 'Le mot de passe doit contenir au moins 6 caractères'
+    return
   }
 
   if (password.value !== confirmPassword.value) {
     confirmPasswordError.value = 'Les mots de passe ne correspondent pas'
-  }
-
-  if (nameError.value || emailError.value || passwordError.value || confirmPasswordError.value) {
     return
   }
 
+  loading.value = true
+
   try {
-    const { data, error } = await useFetch('/api/register', {
-      method: 'POST',
-      body: {
-        name: name.value,
-        email: email.value,
-        password: password.value
-      }
-    })
-
-    if (error.value) {
-      errorMessage.value = error.value.message || "Erreur lors de l'inscription"
-      return
-    }
-
-    if (data.value?.success) {
-      successMessage.value = "Inscription réussie"
-      // Redirect to login page after successful registration
-      setTimeout(() => {
-        navigateTo('/login')
-      }, 1500)
+    const { data, error } = await signUp(email.value, password.value)
+    
+    if (error) throw error
+    
+    // Redirect to email verification page
+    navigateTo('/email-sent-for-verification')
+  } catch (error) {
+    if (error.message.includes('email')) {
+      emailError.value = 'Cet email est déjà utilisé'
     } else {
-      errorMessage.value = "Erreur lors de l'inscription"
+      emailError.value = "Une erreur s'est produite lors de l'inscription"
     }
-  } catch (e) {
-    errorMessage.value = "Une erreur est survenue"
+  } finally {
+    loading.value = false
   }
 }
 </script>
-```
