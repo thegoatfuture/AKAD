@@ -147,6 +147,9 @@
       </div>
     </section>
 
+    <!-- Add Success Stories section -->
+    <SuccessStories />
+
     <!-- CTA Section -->
     <section class="py-20 px-4">
       <div class="max-w-4xl mx-auto text-center">
@@ -169,6 +172,8 @@
 </template>
 
 <script setup>
+import SuccessStories from '~/components/SuccessStories.vue'
+
 const coaches = [
   {
     name: 'Alexandre Martin',
