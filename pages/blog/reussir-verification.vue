@@ -35,19 +35,21 @@
       </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="max-w-4xl mx-auto px-4 py-16">
-      <!-- Table of Contents -->
-      <div class="bg-zinc-900/50 backdrop-blur rounded-xl p-6 mb-12 sticky top-8">
-        <h2 class="text-lg font-semibold mb-4">Table des matières</h2>
-        <nav class="space-y-2">
-          <a href="#differences" class="block text-gray-400 hover:text-yellow-400 transition-colors">Différences avec le Challenge</a>
-          <a href="#strategy" class="block text-gray-400 hover:text-yellow-400 transition-colors">Stratégie recommandée</a>
-          <a href="#risk" class="block text-gray-400 hover:text-yellow-400 transition-colors">Gestion du risque</a>
-          <a href="#psychology" class="block text-gray-400 hover:text-yellow-400 transition-colors">Aspects psychologiques</a>
-          <a href="#planning" class="block text-gray-400 hover:text-yellow-400 transition-colors">Organisation et planning</a>
-          <a href="#tools" class="block text-gray-400 hover:text-yellow-400 transition-colors">Outils AKAD</a>
-        </nav>
+    <!-- Main Content with Fixed TOC -->
+    <div class="max-w-4xl mx-auto px-4 py-16 relative">
+      <!-- Fixed Table of Contents -->
+      <div class="lg:absolute lg:left-full lg:ml-8 lg:w-64 space-y-2 top-8 lg:sticky">
+        <div class="bg-zinc-900/50 backdrop-blur rounded-xl p-6">
+          <h2 class="text-lg font-semibold mb-4">Table des matières</h2>
+          <nav class="space-y-2">
+            <a href="#differences" class="block text-gray-400 hover:text-yellow-400 transition-colors">Différences avec le Challenge</a>
+            <a href="#strategy" class="block text-gray-400 hover:text-yellow-400 transition-colors">Stratégie recommandée</a>
+            <a href="#risk" class="block text-gray-400 hover:text-yellow-400 transition-colors">Gestion du risque</a>
+            <a href="#psychology" class="block text-gray-400 hover:text-yellow-400 transition-colors">Aspects psychologiques</a>
+            <a href="#planning" class="block text-gray-400 hover:text-yellow-400 transition-colors">Organisation et planning</a>
+            <a href="#tools" class="block text-gray-400 hover:text-yellow-400 transition-colors">Outils AKAD</a>
+          </nav>
+        </div>
       </div>
 
       <!-- Article Content -->
@@ -56,47 +58,65 @@
           La phase de vérification est une étape cruciale pour devenir un trader AKAD. Voici nos conseils pour la réussir du premier coup.
         </p>
 
-        <div id="differences" class="mb-16">
-          <div class="flex items-center gap-4 mb-6">
-            <div class="w-12 h-12 bg-yellow-400/10 rounded-xl flex items-center justify-center">
-              <svg class="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-              </svg>
-            </div>
-            <h2 class="text-2xl font-bold">Différences avec le Challenge</h2>
-          </div>
-
-          <div class="bg-zinc-900/50 backdrop-blur rounded-xl p-6 mb-6">
-            <div class="flex items-center gap-3 mb-4">
-              <svg class="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-              <p class="font-medium">Points clés à retenir</p>
-            </div>
-            <ul class="space-y-2">
-              <li class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-yellow-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                <span>Objectif de profit réduit (5% au lieu de 10%)</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-yellow-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                <span>Mêmes règles de drawdown</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-yellow-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                <span>Durée illimitée maintenue</span>
-              </li>
-            </ul>
-          </div>
+        <div id="differences" class="scroll-mt-8">
+          <h2 class="text-2xl font-bold mb-6">Comprendre les différences avec le Challenge</h2>
+          <p>La vérification présente quelques différences importantes avec le Challenge initial :</p>
+          <ul>
+            <li>Objectif de profit réduit (5% au lieu de 10%)</li>
+            <li>Même règles de drawdown</li>
+            <li>Même durée illimitée</li>
+          </ul>
         </div>
 
-        <!-- Continue with similar structured sections for Strategy, Risk Management, etc. -->
+        <div id="strategy" class="scroll-mt-8">
+          <h2 class="text-2xl font-bold mb-6">Stratégie recommandée</h2>
+          <p>Pour réussir la vérification, nous recommandons de :</p>
+          <ul>
+            <li>Conserver la même stratégie qui a fonctionné pendant le Challenge</li>
+            <li>Réduire légèrement la taille des positions</li>
+            <li>Se concentrer sur la consistance plutôt que sur les grands gains</li>
+          </ul>
+        </div>
+
+        <div id="risk" class="scroll-mt-8">
+          <h2 class="text-2xl font-bold mb-6">Gestion du risque optimale</h2>
+          <p>La gestion du risque reste primordiale :</p>
+          <ul>
+            <li>Maintenir un risque par trade de 1% maximum</li>
+            <li>Utiliser des stop-loss systématiquement</li>
+            <li>Surveiller le drawdown quotidien</li>
+          </ul>
+        </div>
+
+        <div id="psychology" class="scroll-mt-8">
+          <h2 class="text-2xl font-bold mb-6">Aspects psychologiques</h2>
+          <p>La psychologie est souvent plus challengeante pendant la vérification :</p>
+          <ul>
+            <li>Gérer la pression de la "dernière étape"</li>
+            <li>Rester patient malgré l'objectif plus faible</li>
+            <li>Maintenir sa discipline</li>
+          </ul>
+        </div>
+
+        <div id="planning" class="scroll-mt-8">
+          <h2 class="text-2xl font-bold mb-6">Organisation et planning</h2>
+          <p>Une bonne organisation est essentielle :</p>
+          <ul>
+            <li>Établir un planning de trading précis</li>
+            <li>Prévoir des moments d'analyse</li>
+            <li>Garder du temps pour le repos</li>
+          </ul>
+        </div>
+
+        <div id="tools" class="scroll-mt-8">
+          <h2 class="text-2xl font-bold mb-6">Utilisation des outils AKAD</h2>
+          <p>AKAD met à votre disposition plusieurs outils :</p>
+          <ul>
+            <li>Dashboard de performance</li>
+            <li>Calculateur de risque</li>
+            <li>Journal de trading automatisé</li>
+          </ul>
+        </div>
 
         <!-- Call to Action -->
         <div class="bg-gradient-to-r from-yellow-400/20 to-yellow-500/20 rounded-xl p-8 mt-12">
@@ -206,5 +226,15 @@ useSeoMeta({
 
 .prose strong {
   color: #fff;
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Add padding to sections for anchor links */
+.scroll-mt-8 {
+  scroll-margin-top: 2rem;
 }
 </style>
