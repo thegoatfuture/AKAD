@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import SidebarDashboard from '@/components/Sidebar-dashboard.vue'
 import { useProfileState } from '@/composables/useProfile'
 
@@ -13,10 +13,29 @@ const profile = useProfileState()
 
 const successMessage = ref('')
 const errorMessage = ref('')
+const errors = reactive({
+  name: '',
+  email: '',
+})
 
 async function updateProfile() {
   successMessage.value = ''
   errorMessage.value = ''
+  errors.name = ''
+  errors.email = ''
+
+  if (!profile.name) {
+    errors.name = 'Nom requis'
+  }
+  if (!profile.email) {
+    errors.email = 'Email requis'
+  } else if (!/.+@.+\..+/.test(profile.email)) {
+    errors.email = "Format d'email invalide"
+  }
+
+  if (errors.name || errors.email) {
+    return
+  }
   const { data, error } = await useFetch('/api/profile', {
     method: 'POST',
     body: profile,
@@ -67,6 +86,7 @@ async function updateProfile() {
                 type="text"
                 class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white"
               />
+              <p v-if="errors.name" class="text-red-400 text-sm mt-1">{{ errors.name }}</p>
             </div>
             <div>
               <label class="block mb-1 text-sm font-medium">Email</label>
@@ -75,6 +95,7 @@ async function updateProfile() {
                 type="email"
                 class="w-full border border-gray-300 rounded-md px-4 py-2 bg-zinc-800 text-white"
               />
+              <p v-if="errors.email" class="text-red-400 text-sm mt-1">{{ errors.email }}</p>
             </div>
             <div>
               <label class="block mb-1 text-sm font-medium">Téléphone</label>
