@@ -104,7 +104,7 @@ export const useSupabase = () => {
     }
   }
 
-  // Only set up auth state listener on client side
+  // Set up auth state listener on client side
   if (supabase?.auth) {
     supabase.auth.onAuthStateChange((event, session) => {
       user.value = session?.user || null
