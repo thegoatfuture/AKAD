@@ -1,25 +1,5 @@
 <template>
   <div class="flex gap-6">
-    <!-- Recent Trades Sidebar -->
-    <div class="w-80 bg-zinc-900/80 backdrop-blur rounded-2xl p-4 border border-zinc-800/50 h-fit">
-      <h4 class="text-sm font-medium text-zinc-400 mb-3">Trades Récents</h4>
-      <div class="space-y-3">
-        <div v-for="trade in recentTrades" :key="trade.id" 
-             class="bg-zinc-800/50 rounded-lg p-3">
-          <div class="flex justify-between items-center mb-1">
-            <span class="font-medium">{{ trade.pair }}</span>
-            <span :class="trade.profit >= 0 ? 'text-green-400' : 'text-red-400'">
-              {{ formatProfit(trade.profit) }}
-            </span>
-          </div>
-          <div class="flex justify-between text-sm text-zinc-500">
-            <span>{{ trade.type }} • {{ trade.size }}</span>
-            <span>{{ formatTime(trade.time) }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Main Trading Journal -->
     <div class="flex-1 bg-zinc-900/80 backdrop-blur rounded-2xl p-6 border border-zinc-800/50">
       <!-- Header with month navigation -->
@@ -48,38 +28,27 @@
           <thead>
             <tr>
               <th class="p-3 text-left w-40 text-zinc-400">Semaine</th>
-              <th class="p-3 text-zinc-400 text-center text-zinc-600">Sam</th>
-              <th class="p-3 text-zinc-400 text-center text-zinc-600">Dim</th>
-              <th v-for="(date, index) in weekDays" :key="index" class="p-3 text-zinc-400 text-center">
-                {{ formatWeekDay(date) }}
+              <th v-for="day in ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi']" 
+                  :key="day" 
+                  class="p-3 text-zinc-400 text-center">
+                {{ day }}
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(week, weekIndex) in calendarDays" :key="weekIndex" 
+            <tr v-for="(week, weekIndex) in currentMonthData" :key="weekIndex" 
                 class="border-t border-zinc-800">
               <td class="p-3">
                 <div class="flex flex-col">
-                  <span class="text-zinc-400">Semaine {{ weekIndex + 1 }}</span>
+                  <span class="text-zinc-400">Semaine {{ week.weekNumber }}</span>
                   <span :class="getWeekTotal(week) >= 0 ? 'text-green-400' : 'text-red-400'" class="font-medium">
                     {{ formatProfit(getWeekTotal(week)) }}
                   </span>
                 </div>
               </td>
-              <!-- Weekend days -->
-              <td v-for="i in 2" :key="`weekend-${i}`" class="p-3">
-                <div class="bg-zinc-800/20 rounded-xl p-4 opacity-50">
-                  <div class="text-zinc-600">{{ i === 1 ? 'Sam' : 'Dim' }}</div>
-                </div>
-              </td>
-              <!-- Weekdays -->
-              <td v-for="(day, dayIndex) in week.slice(0, 5)" :key="dayIndex" class="p-3">
-                <div v-if="day" 
-                     @click="selectDay(day)"
-                     :class="[
-                       'bg-zinc-800/50 rounded-xl p-4 cursor-pointer hover:bg-zinc-700/50 transition-all duration-300 transform hover:-translate-y-1',
-                       {'opacity-50': !isCurrentMonth(day.date)}
-                     ]">
+              <td v-for="day in week.days" :key="day.date" class="p-3">
+                <div @click="selectDay(day)"
+                     class="bg-zinc-800/50 rounded-xl p-4 cursor-pointer hover:bg-zinc-700/50 transition-all duration-300 transform hover:-translate-y-1">
                   <div class="flex justify-between items-center mb-2">
                     <span class="text-zinc-400">{{ formatDayNumber(day.date) }}</span>
                     <span :class="day.profit >= 0 ? 'text-green-400' : 'text-red-400'" class="font-medium">
@@ -97,6 +66,26 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- Recent Trades Sidebar -->
+    <div class="w-80 bg-zinc-900/80 backdrop-blur rounded-2xl p-4 border border-zinc-800/50 h-fit">
+      <h4 class="text-sm font-medium text-zinc-400 mb-3">Trades Récents</h4>
+      <div class="space-y-3">
+        <div v-for="trade in recentTrades" :key="trade.id" 
+             class="bg-zinc-800/50 rounded-lg p-3">
+          <div class="flex justify-between items-center mb-1">
+            <span class="font-medium">{{ trade.pair }}</span>
+            <span :class="trade.profit >= 0 ? 'text-green-400' : 'text-red-400'">
+              {{ formatProfit(trade.profit) }}
+            </span>
+          </div>
+          <div class="flex justify-between text-sm text-zinc-500">
+            <span>{{ trade.type }} • {{ trade.size }}</span>
+            <span>{{ formatTime(trade.time) }}</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -210,106 +199,68 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
-const currentMonth = ref(new Date(2025, 0, 1)) // Start with January 2025
+const currentMonth = ref(new Date())
 const selectedDay = ref(null)
 const showMonthStats = ref(false)
 
-const weekDays = computed(() => {
-  const days = []
-  const date = new Date(currentMonth.value)
-  date.setDate(1)
-  
-  // Find first Monday
-  while (date.getDay() !== 1) {
-    date.setDate(date.getDate() - 1)
-  }
-  
-  // Get all 7 days of the week
-  for (let i = 0; i < 7; i++) {
-    days.push(new Date(date))
-    date.setDate(date.getDate() + 1)
-  }
-  
-  return days
-})
-
-const calendarDays = computed(() => {
+// Generate sample trade data for the current month
+const generateMonthData = () => {
   const weeks = []
-  const firstDay = new Date(currentMonth.value.getFullYear(), currentMonth.value.getMonth(), 1)
-  const lastDay = new Date(currentMonth.value.getFullYear(), currentMonth.value.getMonth() + 1, 0)
-  
-  // Find first Monday
-  let startDate = new Date(firstDay)
-  while (startDate.getDay() !== 1) {
-    startDate.setDate(startDate.getDate() - 1)
-  }
-  
-  // Generate weeks until we pass the last day of the month
-  while (startDate <= lastDay) {
-    const week = []
+  const daysInWeek = 5 // Monday to Friday
+  const numWeeks = 4
+
+  for (let week = 1; week <= numWeeks; week++) {
+    const days = []
     
-    // Add all 7 days of the week
-    for (let i = 0; i < 7; i++) {
-      if (startDate.getDay() === 0 || startDate.getDay() === 6) {
-        // Weekend days - add empty placeholder with date
-        week.push({
-          date: new Date(startDate),
-          isWeekend: true,
-          profit: 0,
-          trades: 0,
-          tradeList: []
-        })
-      } else {
-        week.push(generateDayData(new Date(startDate)))
-      }
-      startDate.setDate(startDate.getDate() + 1)
+    for (let day = 1; day <= daysInWeek; day++) {
+      const date = new Date(currentMonth.value.getFullYear(), currentMonth.value.getMonth(), (week - 1) * 7 + day)
+      const trades = Math.floor(Math.random() * 6) // 0-5 trades per day
+      const profit = trades === 0 ? 0 : Math.floor((Math.random() * 2000) - 1000) // -1000 to +1000
+      
+      const tradeList = Array.from({ length: trades }, (_, i) => ({
+        id: `${date.getTime()}-${i}`,
+        pair: ['EUR/USD', 'GBP/JPY', 'BTC/USD', 'ETH/USD'][Math.floor(Math.random() * 4)],
+        type: Math.random() > 0.5 ? 'BUY' : 'SELL',
+        size: (Math.random() * 2).toFixed(2),
+        profit: Math.floor((Math.random() * 1000) - 500),
+        rr: (1 + Math.random() * 2).toFixed(1),
+        time: new Date(date.setHours(9 + Math.random() * 8)).toISOString()
+      }))
+
+      const drawdown = [0]
+      let currentDD = 0
+      tradeList.forEach(trade => {
+        currentDD += trade.profit
+        drawdown.push(currentDD)
+      })
+
+      days.push({
+        date,
+        profit,
+        trades,
+        tradeList,
+        drawdown,
+        notes: ''
+      })
     }
-    
-    weeks.push(week)
-    
-    // Stop if we've gone past the end of the month and have a complete week
-    if (startDate > lastDay && startDate.getDay() === 1) break
+
+    weeks.push({
+      weekNumber: week,
+      days
+    })
   }
-  
+
   return weeks
-})
-
-function generateDayData(date) {
-  const trades = Math.floor(Math.random() * 6)
-  const profit = trades === 0 ? 0 : Math.floor((Math.random() * 2000) - 1000)
-  
-  const tradeList = Array.from({ length: trades }, (_, i) => ({
-    id: `${date.getTime()}-${i}`,
-    pair: ['EUR/USD', 'GBP/JPY', 'BTC/USD', 'ETH/USD'][Math.floor(Math.random() * 4)],
-    type: Math.random() > 0.5 ? 'BUY' : 'SELL',
-    size: (Math.random() * 2).toFixed(2),
-    profit: Math.floor((Math.random() * 1000) - 500),
-    rr: (1 + Math.random() * 2).toFixed(1),
-    time: new Date(date.setHours(9 + Math.random() * 8)).toISOString()
-  }))
-
-  const drawdown = [0]
-  let currentDD = 0
-  tradeList.forEach(trade => {
-    currentDD += trade.profit
-    drawdown.push(currentDD)
-  })
-
-  return {
-    date,
-    profit,
-    trades,
-    tradeList,
-    drawdown,
-    notes: ''
-  }
 }
 
+const currentMonthData = computed(() => generateMonthData())
+
+// Get 5 most recent trades across all days
 const recentTrades = computed(() => {
   const allTrades = []
-  calendarDays.value.forEach(week => {
-    week.forEach(day => {
-      if (day) allTrades.push(...day.tradeList)
+  currentMonthData.value.forEach(week => {
+    week.days.forEach(day => {
+      allTrades.push(...day.tradeList)
     })
   })
   return allTrades
@@ -324,17 +275,15 @@ const monthlyStats = computed(() => {
   let bestTrade = 0
   const dailyProfits = []
 
-  calendarDays.value.forEach(week => {
-    week.forEach(day => {
-      if (day && isCurrentMonth(day.date)) {
-        totalProfit += day.profit
-        totalTrades += day.trades
-        dailyProfits.push(day.profit)
-        day.tradeList.forEach(trade => {
-          if (trade.profit > 0) winningTrades++
-          bestTrade = Math.max(bestTrade, trade.profit)
-        })
-      }
+  currentMonthData.value.forEach(week => {
+    week.days.forEach(day => {
+      totalProfit += day.profit
+      totalTrades += day.trades
+      dailyProfits.push(day.profit)
+      day.tradeList.forEach(trade => {
+        if (trade.profit > 0) winningTrades++
+        bestTrade = Math.max(bestTrade, trade.profit)
+      })
     })
   })
 
@@ -358,6 +307,23 @@ const monthlyChartData = computed(() => ({
     tension: 0.4
   }]
 }))
+
+const getWinRate = (trades) => {
+  if (!trades?.length) return 0
+  const winningTrades = trades.filter(t => t.profit > 0).length
+  return Math.round((winningTrades / trades.length) * 100)
+}
+
+const getWeekTotal = (week) => {
+  return week.days.reduce((total, day) => total + day.profit, 0)
+}
+
+const currentMonthDisplay = computed(() => {
+  return new Intl.DateTimeFormat('fr-FR', { 
+    month: 'long',
+    year: 'numeric'
+  }).format(currentMonth.value)
+})
 
 const dayChartData = computed(() => ({
   labels: selectedDay.value ? Array.from({ length: selectedDay.value.drawdown.length }, (_, i) => `Trade ${i}`) : [],
@@ -389,32 +355,26 @@ const chartOptions = {
   }
 }
 
-function isCurrentMonth(date) {
-  return date.getMonth() === currentMonth.value.getMonth() &&
-         date.getFullYear() === currentMonth.value.getFullYear()
+function previousMonth() {
+  currentMonth.value = new Date(currentMonth.value.setMonth(currentMonth.value.getMonth() - 1))
 }
 
-function getWeekTotal(week) {
-  return week.reduce((total, day) => total + (day ? day.profit : 0), 0)
+function nextMonth() {
+  currentMonth.value = new Date(currentMonth.value.setMonth(currentMonth.value.getMonth() + 1))
 }
 
-function getWinRate(trades) {
-  if (!trades?.length) return 0
-  const winningTrades = trades.filter(t => t.profit > 0).length
-  return Math.round((winningTrades / trades.length) * 100)
+function selectDay(day) {
+  if (day.trades > 0) {
+    selectedDay.value = day
+  }
 }
 
-function formatWeekDay(date) {
-  return new Intl.DateTimeFormat('fr-FR', {
-    weekday: 'short',
-    day: 'numeric'
-  }).format(date)
+function toggleMonthStats() {
+  showMonthStats.value = !showMonthStats.value
 }
 
 function formatDayNumber(date) {
-  return new Intl.DateTimeFormat('fr-FR', {
-    day: 'numeric'
-  }).format(date)
+  return date.getDate()
 }
 
 function formatDetailDate(date) {
@@ -439,31 +399,6 @@ function formatProfit(value) {
     signDisplay: 'always'
   }).format(value)
 }
-
-function previousMonth() {
-  currentMonth.value = new Date(currentMonth.value.setMonth(currentMonth.value.getMonth() - 1))
-}
-
-function nextMonth() {
-  currentMonth.value = new Date(currentMonth.value.setMonth(currentMonth.value.getMonth() + 1))
-}
-
-function selectDay(day) {
-  if (day.trades > 0) {
-    selectedDay.value = day
-  }
-}
-
-function toggleMonthStats() {
-  showMonthStats.value = !showMonthStats.value
-}
-
-const currentMonthDisplay = computed(() => {
-  return new Intl.DateTimeFormat('fr-FR', { 
-    month: 'long',
-    year: 'numeric'
-  }).format(currentMonth.value)
-})
 </script>
 
 <style scoped>
