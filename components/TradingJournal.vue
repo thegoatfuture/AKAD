@@ -11,7 +11,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
             </svg>
           </button>
-          <button @click="toggleMonthStats" class="text-white font-medium hover:text-yellow-400">
+          <button @click="showMonthStats = true" class="text-white font-medium hover:text-yellow-400">
             {{ currentMonthDisplay }}
           </button>
           <button @click="nextMonth" class="text-zinc-400 hover:text-yellow-400">
@@ -42,12 +42,13 @@
             <tr v-for="(week, weekIndex) in monthData" :key="weekIndex" 
                 class="border-t border-zinc-800">
               <td class="p-3">
-                <div class="flex flex-col">
+                <button @click="showWeekStats(week)" 
+                        class="flex flex-col hover:bg-zinc-800/30 p-2 rounded-lg transition-colors w-full">
                   <span class="text-zinc-400">Semaine {{ week.weekNumber }}</span>
                   <span :class="week.totalPnL >= 0 ? 'text-green-400' : 'text-red-400'" class="font-medium">
                     {{ formatProfit(week.totalPnL) }}
                   </span>
-                </div>
+                </button>
               </td>
               <!-- Saturday placeholder -->
               <td class="p-2">
@@ -124,6 +125,123 @@
       </div>
     </div>
 
+    <!-- Monthly Stats Modal -->
+    <div v-if="showMonthStats" 
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+         @click.self="showMonthStats = false">
+      <div class="bg-zinc-900 rounded-2xl p-8 w-full max-w-5xl">
+        <div class="flex justify-between items-center mb-8">
+          <h3 class="text-2xl font-bold text-yellow-400">
+            Performance {{ currentMonthDisplay }}
+          </h3>
+          <button @click="showMonthStats = false" class="text-zinc-400 hover:text-white">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Monthly Stats Grid -->
+        <div class="grid grid-cols-4 gap-6 mb-8">
+          <div v-for="stat in monthlyStats" :key="stat.label" 
+               class="bg-zinc-800 rounded-xl p-4">
+            <div class="text-sm text-zinc-400 mb-1">{{ stat.label }}</div>
+            <div :class="stat.color" class="text-xl font-bold">{{ stat.value }}</div>
+          </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="grid grid-cols-2 gap-6 mb-8">
+          <div class="bg-zinc-800 rounded-xl p-4">
+            <h4 class="text-sm font-medium text-zinc-400 mb-4">Equity Curve</h4>
+            <div class="h-64">
+              <Line :data="monthlyEquityData" :options="chartOptions" />
+            </div>
+          </div>
+          <div class="bg-zinc-800 rounded-xl p-4">
+            <h4 class="text-sm font-medium text-zinc-400 mb-4">Performance par Semaine</h4>
+            <div class="h-64">
+              <Bar :data="weeklyPerformanceData" :options="chartOptions" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Stats -->
+        <div class="grid grid-cols-2 gap-6">
+          <div class="bg-zinc-800 rounded-xl p-4">
+            <h4 class="text-sm font-medium text-zinc-400 mb-4">Distribution des Trades</h4>
+            <div class="h-48">
+              <Doughnut :data="tradeDistributionData" :options="donutOptions" />
+            </div>
+          </div>
+          <div class="bg-zinc-800 rounded-xl p-4">
+            <h4 class="text-sm font-medium text-zinc-400 mb-4">Meilleurs/Pires Trades</h4>
+            <div class="space-y-2">
+              <div v-for="trade in bestWorstTrades" :key="trade.id"
+                   class="flex justify-between items-center p-2 rounded bg-zinc-700/30">
+                <span class="text-sm">{{ trade.pair }}</span>
+                <span :class="trade.profit >= 0 ? 'text-green-400' : 'text-red-400'" class="font-medium">
+                  {{ formatProfit(trade.profit) }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly Stats Modal -->
+    <div v-if="selectedWeek" 
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+         @click.self="selectedWeek = null">
+      <div class="bg-zinc-900 rounded-2xl p-8 w-full max-w-4xl">
+        <div class="flex justify-between items-center mb-8">
+          <h3 class="text-2xl font-bold text-yellow-400">
+            Semaine {{ selectedWeek.weekNumber }} - {{ currentMonthDisplay }}
+          </h3>
+          <button @click="selectedWeek = null" class="text-zinc-400 hover:text-white">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Weekly Stats Grid -->
+        <div class="grid grid-cols-4 gap-6 mb-8">
+          <div v-for="stat in weeklyStats" :key="stat.label" 
+               class="bg-zinc-800 rounded-xl p-4">
+            <div class="text-sm text-zinc-400 mb-1">{{ stat.label }}</div>
+            <div :class="stat.color" class="text-xl font-bold">{{ stat.value }}</div>
+          </div>
+        </div>
+
+        <!-- Weekly Chart -->
+        <div class="bg-zinc-800 rounded-xl p-4 mb-8">
+          <h4 class="text-sm font-medium text-zinc-400 mb-4">Performance de la Semaine</h4>
+          <div class="h-64">
+            <Line :data="weeklyChartData" :options="chartOptions" />
+          </div>
+        </div>
+
+        <!-- Daily Breakdown -->
+        <div class="bg-zinc-800 rounded-xl p-4">
+          <h4 class="text-sm font-medium text-zinc-400 mb-4">Détail par Jour</h4>
+          <div class="space-y-2">
+            <div v-for="day in selectedWeek.tradingDays" :key="day.date"
+                 class="flex justify-between items-center p-3 rounded bg-zinc-700/30">
+              <div>
+                <div class="font-medium">{{ formatDetailDate(day.date) }}</div>
+                <div class="text-sm text-zinc-400">{{ day.trades }} trades ({{ day.winRate }}% win)</div>
+              </div>
+              <div :class="day.profit >= 0 ? 'text-green-400' : 'text-red-400'" class="font-bold">
+                {{ formatProfit(day.profit) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Day Detail Modal -->
     <div v-if="selectedDay" 
          class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
@@ -173,13 +291,15 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { Line } from 'vue-chartjs'
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
+import { Line, Bar, Doughnut } from 'vue-chartjs'
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend } from 'chart.js'
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend)
 
 const currentMonth = ref(new Date())
 const selectedDay = ref(null)
+const selectedWeek = ref(null)
+const showMonthStats = ref(false)
 
 // Get the first and last day of the month
 const getMonthBounds = (date) => {
@@ -260,23 +380,248 @@ const monthData = computed(() => {
   return weeks
 })
 
+// Monthly Stats
+const monthlyStats = computed(() => {
+  let totalPnL = 0
+  let totalTrades = 0
+  let winningTrades = 0
+  let bestDay = { profit: -Infinity }
+  let worstDay = { profit: Infinity }
+
+  monthData.value.forEach(week => {
+    week.tradingDays.forEach(day => {
+      if (day.isCurrentMonth) {
+        totalPnL += day.profit
+        totalTrades += day.trades
+        if (day.profit > 0) winningTrades += day.trades
+        if (day.profit > bestDay.profit) bestDay = day
+        if (day.profit < worstDay.profit) worstDay = day
+      }
+    })
+  })
+
+  return [
+    {
+      label: 'Profit/Perte',
+      value: formatProfit(totalPnL),
+      color: totalPnL >= 0 ? 'text-green-400' : 'text-red-400'
+    },
+    {
+      label: 'Win Rate',
+      value: totalTrades ? `${Math.round((winningTrades / totalTrades) * 100)}%` : '0%',
+      color: 'text-yellow-400'
+    },
+    {
+      label: 'Meilleur Jour',
+      value: formatProfit(bestDay.profit),
+      color: 'text-green-400'
+    },
+    {
+      label: 'Pire Jour',
+      value: formatProfit(worstDay.profit),
+      color: 'text-red-400'
+    }
+  ]
+})
+
+// Monthly Equity Chart Data
+const monthlyEquityData = computed(() => {
+  const data = []
+  let equity = 100000 // Starting equity
+  
+  monthData.value.forEach(week => {
+    week.tradingDays.forEach(day => {
+      if (day.isCurrentMonth) {
+        equity += day.profit
+        data.push(equity)
+      }
+    })
+  })
+
+  return {
+    labels: data.map((_, i) => `Jour ${i + 1}`),
+    datasets: [{
+      label: 'Equity',
+      data,
+      borderColor: '#facc15',
+      backgroundColor: 'rgba(250, 204, 21, 0.1)',
+      fill: true,
+      tension: 0.4
+    }]
+  }
+})
+
+// Weekly Performance Chart Data
+const weeklyPerformanceData = computed(() => ({
+  labels: monthData.value.map(week => `Semaine ${week.weekNumber}`),
+  datasets: [{
+    label: 'Performance',
+    data: monthData.value.map(week => week.totalPnL),
+    backgroundColor: monthData.value.map(week => 
+      week.totalPnL >= 0 ? 'rgba(74, 222, 128, 0.5)' : 'rgba(248, 113, 113, 0.5)'
+    ),
+    borderColor: monthData.value.map(week => 
+      week.totalPnL >= 0 ? 'rgb(74, 222, 128)' : 'rgb(248, 113, 113)'
+    ),
+    borderWidth: 1
+  }]
+}))
+
+// Trade Distribution Chart Data
+const tradeDistributionData = computed(() => {
+  let winning = 0
+  let losing = 0
+  let breakeven = 0
+
+  monthData.value.forEach(week => {
+    week.tradingDays.forEach(day => {
+      if (day.isCurrentMonth) {
+        if (day.profit > 0) winning++
+        else if (day.profit < 0) losing++
+        else breakeven++
+      }
+    })
+  })
+
+  return {
+    labels: ['Gagnants', 'Perdants', 'Break Even'],
+    datasets: [{
+      data: [winning, losing, breakeven],
+      backgroundColor: [
+        'rgba(74, 222, 128, 0.5)',
+        'rgba(248, 113, 113, 0.5)',
+        'rgba(250, 204, 21, 0.5)'
+      ],
+      borderColor: [
+        'rgb(74, 222, 128)',
+        'rgb(248, 113, 113)',
+        'rgb(250, 204, 21)'
+      ],
+      borderWidth: 1
+    }]
+  }
+})
+
+// Best/Worst Trades
+const bestWorstTrades = computed(() => {
+  const trades = []
+  monthData.value.forEach(week => {
+    week.tradingDays.forEach(day => {
+      if (day.isCurrentMonth && day.trades > 0) {
+        trades.push(...generateDayTrades(day))
+      }
+    })
+  })
+  
+  return [
+    ...trades.sort((a, b) => b.profit - a.profit).slice(0, 3),
+    ...trades.sort((a, b) => a.profit - b.profit).slice(0, 3)
+  ]
+})
+
+// Weekly Stats
+const weeklyStats = computed(() => {
+  if (!selectedWeek.value) return []
+  
+  const totalPnL = selectedWeek.value.totalPnL
+  const avgTrades = selectedWeek.value.totalTrades / 5
+  const winRate = selectedWeek.value.weeklyWinRate
+  
+  return [
+    {
+      label: 'Profit/Perte',
+      value: formatProfit(totalPnL),
+      color: totalPnL >= 0 ? 'text-green-400' : 'text-red-400'
+    },
+    {
+      label: 'Trades/Jour',
+      value: avgTrades.toFixed(1),
+      color: 'text-white'
+    },
+    {
+      label: 'Win Rate',
+      value: `${winRate}%`,
+      color: 'text-yellow-400'
+    },
+    {
+      label: 'Drawdown',
+      value: '-4.2%',
+      color: 'text-red-400'
+    }
+  ]
+})
+
+// Weekly Chart Data
+const weeklyChartData = computed(() => {
+  if (!selectedWeek.value) return null
+  
+  return {
+    labels: selectedWeek.value.tradingDays.map(day => formatDayNumber(day.date)),
+    datasets: [{
+      label: 'P&L Journalier',
+      data: selectedWeek.value.tradingDays.map(day => day.profit),
+      borderColor: '#facc15',
+      backgroundColor: 'rgba(250, 204, 21, 0.1)',
+      fill: true,
+      tension: 0.4
+    }]
+  }
+})
+
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    y: {
+      grid: { color: 'rgba(255, 255, 255, 0.1)' },
+      ticks: { color: '#9ca3af' }
+    },
+    x: {
+      grid: { color: 'rgba(255, 255, 255, 0.1)' },
+      ticks: { color: '#9ca3af' }
+    }
+  },
+  plugins: {
+    legend: { display: false }
+  }
+}
+
+const donutOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: 'right',
+      labels: {
+        color: '#9ca3af'
+      }
+    }
+  }
+}
+
+function generateDayTrades(day) {
+  const trades = []
+  for (let i = 0; i < day.trades; i++) {
+    trades.push({
+      id: `${day.date.getTime()}-${i}`,
+      pair: ['EUR/USD', 'GBP/JPY', 'BTC/USD', 'ETH/USD'][Math.floor(Math.random() * 4)],
+      type: Math.random() > 0.5 ? 'BUY' : 'SELL',
+      size: (Math.random() * 2).toFixed(2),
+      profit: Math.floor((Math.random() * 1000) - 500),
+      rr: (1 + Math.random() * 2).toFixed(1),
+      time: new Date(day.date.setHours(9 + Math.random() * 8)).toISOString()
+    })
+  }
+  return trades
+}
+
 // Get 5 most recent trades
 const recentTrades = computed(() => {
   const trades = []
   monthData.value.forEach(week => {
     week.tradingDays.forEach(day => {
       if (day.trades > 0) {
-        for (let i = 0; i < day.trades; i++) {
-          trades.push({
-            id: `${day.date.getTime()}-${i}`,
-            pair: ['EUR/USD', 'GBP/JPY', 'BTC/USD', 'ETH/USD'][Math.floor(Math.random() * 4)],
-            type: Math.random() > 0.5 ? 'BUY' : 'SELL',
-            size: (Math.random() * 2).toFixed(2),
-            profit: Math.floor((Math.random() * 1000) - 500),
-            rr: (1 + Math.random() * 2).toFixed(1),
-            time: new Date(day.date.setHours(9 + Math.random() * 8)).toISOString()
-          })
-        }
+        trades.push(...generateDayTrades(day))
       }
     })
   })
@@ -297,24 +642,6 @@ const dayChartData = computed(() => ({
     tension: 0.4
   }]
 }))
-
-const chartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    y: {
-      grid: { color: 'rgba(255, 255, 255, 0.1)' },
-      ticks: { color: '#9ca3af' }
-    },
-    x: {
-      grid: { color: 'rgba(255, 255, 255, 0.1)' },
-      ticks: { color: '#9ca3af' }
-    }
-  },
-  plugins: {
-    legend: { display: false }
-  }
-}
 
 function generateDayChartData(trades) {
   if (!trades) return []
@@ -337,8 +664,15 @@ function nextMonth() {
 
 function selectDay(day) {
   if (day.trades > 0) {
-    selectedDay.value = day
+    selectedDay.value = {
+      ...day,
+      trades: generateDayTrades(day)
+    }
   }
+}
+
+function showWeekStats(week) {
+  selectedWeek.value = week
 }
 
 const currentMonthDisplay = computed(() => {
