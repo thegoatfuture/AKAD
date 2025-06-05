@@ -20,20 +20,30 @@
           </NuxtLink>
         </div>
 
-        <!-- CTA Buttons -->
-        <div class="hidden md:flex items-center gap-4">
-          <NuxtLink
-            to="/login"
-            class="text-sm font-semibold px-4 py-2 rounded-lg border border-zinc-700 hover:border-yellow-400 text-gray-300 hover:text-yellow-400 transition-all duration-300"
-          >
-            Connexion
-          </NuxtLink>
-          <NuxtLink
-            to="/register"
-            class="text-sm font-semibold px-4 py-2 rounded-lg bg-yellow-400 hover:bg-yellow-500 text-black transition-colors duration-300"
-          >
-            Inscription
-          </NuxtLink>
+        <!-- Profile Dropdown -->
+        <div class="relative">
+          <button @click="toggleProfileMenu" class="flex items-center gap-2 text-gray-300 hover:text-yellow-400">
+            <span>Profile</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+
+          <div v-if="showProfileMenu" 
+               class="absolute right-0 mt-2 w-48 bg-zinc-900 rounded-xl shadow-lg py-2 border border-zinc-800">
+            <NuxtLink to="/profile" class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800">
+              Mon Profil
+            </NuxtLink>
+            <NuxtLink to="/badges" class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800">
+              Badges & Réalisations
+            </NuxtLink>
+            <NuxtLink to="/settings" class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800">
+              Paramètres
+            </NuxtLink>
+            <button @click="logout" class="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-zinc-800">
+              Déconnexion
+            </button>
+          </div>
         </div>
 
         <!-- Mobile Menu Button -->
@@ -109,6 +119,7 @@
 import { ref } from 'vue'
 
 const mobileOpen = ref(false)
+const showProfileMenu = ref(false)
 
 const navigationItems = [
   { name: 'Accueil', to: '/' },
@@ -117,6 +128,15 @@ const navigationItems = [
   { name: 'Témoignages', to: '/avis' },
   { name: 'FAQ', to: '/faq' },
 ]
+
+function toggleProfileMenu() {
+  showProfileMenu.value = !showProfileMenu.value
+}
+
+function logout() {
+  // Handle logout logic
+  showProfileMenu.value = false
+}
 </script>
 
 <style scoped>
