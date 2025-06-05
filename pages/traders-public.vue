@@ -6,32 +6,58 @@
       <div class="absolute inset-0 pointer-events-none">
         <div class="absolute top-0 left-0 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
         <div class="absolute bottom-0 right-0 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2 animate-pulse delay-1000"></div>
+        
+        <!-- Animated particles -->
+        <div class="absolute inset-0">
+          <div class="absolute w-2 h-2 bg-yellow-400/20 rounded-full top-1/4 left-1/4 animate-float-slow"></div>
+          <div class="absolute w-3 h-3 bg-yellow-400/30 rounded-full top-3/4 right-1/4 animate-float-medium"></div>
+          <div class="absolute w-2 h-2 bg-yellow-400/20 rounded-full top-1/2 left-3/4 animate-float-fast"></div>
+        </div>
       </div>
 
       <div class="max-w-7xl mx-auto relative z-10">
         <h1 class="text-4xl md:text-5xl font-bold text-center mb-6">
-          Nos Meilleurs <span class="text-yellow-400">Traders</span>
+          Nos Meilleurs <span class="text-yellow-400 relative">
+            Traders
+            <span class="absolute bottom-0 left-0 w-full h-1 bg-yellow-400/30 rounded transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
+          </span>
         </h1>
         <p class="text-xl text-gray-400 text-center max-w-3xl mx-auto mb-12">
           Découvrez les performances exceptionnelles de nos traders qui excellent dans leur domaine
         </p>
 
-        <!-- Stats Grid -->
+        <!-- Stats Grid with Animation -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-          <div class="bg-zinc-900/50 backdrop-blur p-6 rounded-xl border border-zinc-800 text-center">
-            <div class="text-3xl font-bold text-yellow-400 mb-2">200k€+</div>
+          <div class="bg-zinc-900/50 backdrop-blur p-6 rounded-xl border border-zinc-800 text-center transform hover:scale-105 transition-all duration-300 hover:border-yellow-400/20">
+            <ClientOnly>
+              <div class="text-3xl font-bold text-yellow-400 mb-2">
+                <CountUp :to="200" suffix="k€+" :duration="2000" />
+              </div>
+            </ClientOnly>
             <div class="text-gray-400">Capital total géré</div>
           </div>
-          <div class="bg-zinc-900/50 backdrop-blur p-6 rounded-xl border border-zinc-800 text-center">
-            <div class="text-3xl font-bold text-yellow-400 mb-2">90%</div>
+          <div class="bg-zinc-900/50 backdrop-blur p-6 rounded-xl border border-zinc-800 text-center transform hover:scale-105 transition-all duration-300 hover:border-yellow-400/20">
+            <ClientOnly>
+              <div class="text-3xl font-bold text-yellow-400 mb-2">
+                <CountUp :to="90" suffix="%" :duration="2000" />
+              </div>
+            </ClientOnly>
             <div class="text-gray-400">Profit sharing max</div>
           </div>
-          <div class="bg-zinc-900/50 backdrop-blur p-6 rounded-xl border border-zinc-800 text-center">
-            <div class="text-3xl font-bold text-yellow-400 mb-2">500+</div>
+          <div class="bg-zinc-900/50 backdrop-blur p-6 rounded-xl border border-zinc-800 text-center transform hover:scale-105 transition-all duration-300 hover:border-yellow-400/20">
+            <ClientOnly>
+              <div class="text-3xl font-bold text-yellow-400 mb-2">
+                <CountUp :to="500" suffix="+" :duration="2000" />
+              </div>
+            </ClientOnly>
             <div class="text-gray-400">Traders actifs</div>
           </div>
-          <div class="bg-zinc-900/50 backdrop-blur p-6 rounded-xl border border-zinc-800 text-center">
-            <div class="text-3xl font-bold text-yellow-400 mb-2">15M€+</div>
+          <div class="bg-zinc-900/50 backdrop-blur p-6 rounded-xl border border-zinc-800 text-center transform hover:scale-105 transition-all duration-300 hover:border-yellow-400/20">
+            <ClientOnly>
+              <div class="text-3xl font-bold text-yellow-400 mb-2">
+                <CountUp :to="15" suffix="M€+" :duration="2000" />
+              </div>
+            </ClientOnly>
             <div class="text-gray-400">Profits distribués</div>
           </div>
         </div>
@@ -238,5 +264,32 @@ useSeoMeta({
 
 .delay-1000 {
   animation-delay: 1000ms;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, -20px); }
+}
+
+@keyframes float-medium {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-15px, -15px); }
+}
+
+@keyframes float-fast {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(10px, -10px); }
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-float-medium {
+  animation: float-medium 5s ease-in-out infinite;
+}
+
+.animate-float-fast {
+  animation: float-fast 4s ease-in-out infinite;
 }
 </style>
