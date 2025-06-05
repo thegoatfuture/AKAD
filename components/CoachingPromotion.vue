@@ -3,7 +3,17 @@
   <section class="relative py-20 px-4 bg-black">
     <!-- Background Effects -->
     <div class="absolute inset-0 pointer-events-none">
-      <div class="absolute inset-0 bg-[url('/images/pattern-light.svg')] bg-repeat opacity-5"></div>
+      <!-- Trading chart pattern background -->
+      <div class="absolute inset-0 opacity-5">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <pattern id="trading-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+            <path d="M0 50 L25 25 L50 75 L75 35 L100 50" stroke="currentColor" fill="none" class="text-yellow-400" strokeWidth="2"/>
+          </pattern>
+          <rect x="0" y="0" width="100%" height="100%" fill="url(#trading-pattern)"/>
+        </svg>
+      </div>
+      
+      <!-- Gradient overlays -->
       <div class="absolute top-0 left-0 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
       <div class="absolute bottom-0 right-0 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2 animate-pulse delay-1000"></div>
     </div>
@@ -29,11 +39,27 @@
             Découvrir le Programme
           </button>
         </div>
-        <div class="relative">
-          <img src="https://images.pexels.com/photos/7567436/pexels-photo-7567436.jpeg" 
-               alt="Coaching session" 
-               class="rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500" />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-2xl"></div>
+        <!-- Custom trading background -->
+        <div class="relative rounded-2xl overflow-hidden h-[400px] group">
+          <!-- Trading chart background -->
+          <div class="absolute inset-0 bg-gradient-to-br from-yellow-400/5 to-black">
+            <div class="absolute inset-0 opacity-20">
+              <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <pattern id="candlestick-pattern" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+                  <line x1="25" y1="10" x2="25" y2="40" stroke="currentColor" class="text-yellow-400" strokeWidth="2"/>
+                  <rect x="23" y="15" width="4" height="20" class="fill-yellow-400"/>
+                </pattern>
+                <rect x="0" y="0" width="100%" height="100%" fill="url(#candlestick-pattern)"/>
+              </svg>
+            </div>
+          </div>
+          <!-- Animated overlay -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+          <!-- Content -->
+          <div class="absolute bottom-0 left-0 right-0 p-8 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+            <h3 class="text-2xl font-bold text-white mb-4">Trading Professionnel</h3>
+            <p class="text-gray-300 text-sm">Développez vos compétences avec nos experts du marché</p>
+          </div>
         </div>
       </div>
 
@@ -41,11 +67,26 @@
       <div class="bg-zinc-900/50 backdrop-blur rounded-2xl p-8 md:p-12 border border-zinc-800">
         <div class="grid md:grid-cols-2 gap-12 items-center">
           <div class="order-2 md:order-1">
-            <div class="relative aspect-video rounded-xl overflow-hidden">
-              <img src="https://images.pexels.com/photos/7567455/pexels-photo-7567455.jpeg" 
-                   alt="Discord Community" 
-                   class="w-full h-full object-cover" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <!-- Custom trading visualization -->
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-black">
+              <!-- Trading chart animation -->
+              <div class="absolute inset-0">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                  <pattern id="live-chart" x="0" y="0" width="200" height="100" patternUnits="userSpaceOnUse">
+                    <path d="M0 50 Q50 20 100 60 T200 50" stroke="currentColor" fill="none" class="text-yellow-400" strokeWidth="2">
+                      <animate attributeName="d" 
+                               dur="3s" 
+                               repeatCount="indefinite"
+                               values="M0 50 Q50 20 100 60 T200 50;
+                                      M0 50 Q50 80 100 30 T200 50;
+                                      M0 50 Q50 20 100 60 T200 50"/>
+                    </path>
+                  </pattern>
+                  <rect x="0" y="0" width="100%" height="100%" fill="url(#live-chart)"/>
+                </svg>
+              </div>
+              <!-- Overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
               <!-- Discord Stats -->
               <div class="absolute bottom-4 left-4 right-4 flex justify-around">
                 <div class="bg-black/60 backdrop-blur-sm px-4 py-2 rounded-lg">

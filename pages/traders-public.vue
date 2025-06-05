@@ -149,6 +149,9 @@
 
     <!-- Add Success Stories section -->
     <SuccessStories />
+    
+    <!-- Add Coaching Promotion section -->
+    <CoachingPromotion />
 
     <!-- CTA Section -->
     <section class="py-20 px-4">
