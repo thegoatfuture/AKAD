@@ -1,4 +1,3 @@
-```vue
 <template>
   <div class="min-h-screen bg-black text-white">
     <!-- Hero Section -->
@@ -300,4 +299,3 @@ useSeoMeta({
   animation-delay: 1000ms;
 }
 </style>
-```
