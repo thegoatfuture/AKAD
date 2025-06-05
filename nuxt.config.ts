@@ -6,10 +6,7 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  nitro: {
-    compatibilityDate: '2025-06-01',
-  },
-  plugins: ['@/plugins/intersect.client.js'], // 👈 Ajout du plugin d'intersection
+  plugins: ['@/plugins/intersect.client.js'],
   runtimeConfig: {
     stripeSecretKey: process.env.STRIPE_SECRET_KEY,
     public: {

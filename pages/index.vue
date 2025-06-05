@@ -7,7 +7,9 @@
     <CtaBoostAccueil />
 
     <!-- 3. Stats visibles rapidement -->
-    <StatsAccueil />
+    <ClientOnly>
+      <StatsAccueil />
+    </ClientOnly>
 
     <!-- 4. Trading view defile -->
     <DefilementAccueil />
