@@ -16,12 +16,12 @@
           <div class="absolute inset-0 bg-gradient-to-br from-yellow-400/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
           
           <!-- Image container -->
-          <div class="relative mb-6 transform transition-transform group-hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-xl"></div>
+          <div class="relative -mx-8 -mt-8 mb-6 transform transition-transform group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <img
               :src="testimonial.image"
               :alt="`Photo de ${testimonial.name}`"
-              class="w-full h-48 object-cover rounded-xl"
+              class="w-full h-48 object-cover"
             />
             <!-- Quote icon -->
             <div class="absolute -bottom-4 -right-4 bg-yellow-400 text-black p-2 rounded-full shadow-lg">
@@ -35,11 +35,9 @@
           <div class="relative">
             <h3 class="text-xl font-bold mb-1 text-yellow-400">{{ testimonial.name }}</h3>
             <p class="text-gray-400 text-sm mb-4">{{ testimonial.origin }}</p>
-            <blockquote class="relative">
-              <p class="italic text-sm text-gray-300 leading-relaxed">
-                « {{ testimonial.quote }} »
-              </p>
-            </blockquote>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              {{ testimonial.quote }}
+            </p>
 
             <!-- Rating stars -->
             <div class="flex gap-1 mt-4">
@@ -77,7 +75,7 @@ const testimonials = [
   },
   {
     name: 'DAISY',
-    origin: 'Kenya – 4 ans d'expérience',
+    origin: 'Kenya – 4 ans d\'expérience',
     image: '/images/daisy.png',
     quote: "AKAD change des vies si vous respectez votre plan de trading. Si je peux le faire, vous pouvez également le faire. N'abandonnez pas votre rêve.",
   },
