@@ -41,22 +41,25 @@
           <h2 class="text-2xl font-bold text-center mb-8">Nos Coachs Experts</h2>
           <div class="grid md:grid-cols-3 gap-8">
             <div v-for="coach in coaches" :key="coach.name" 
-                 class="bg-zinc-900/50 backdrop-blur rounded-2xl border border-zinc-800 text-center transition-all duration-300 cursor-pointer h-[180px] hover:h-[400px] overflow-hidden">
-              <div class="relative p-4">
-                <img :src="coach.image" :alt="coach.name" 
-                     class="w-24 h-24 rounded-full mx-auto object-cover border-4 border-yellow-400/20 transition-all duration-300" />
-                <div class="absolute -bottom-3 right-1/2 transform translate-x-1/2 bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">
+                 class="group bg-zinc-900/50 backdrop-blur rounded-2xl border border-zinc-800 text-center transition-all duration-500 ease-in-out h-[200px] hover:h-[380px] overflow-hidden hover:border-yellow-400/30 hover:shadow-[0_0_30px_rgba(250,204,21,0.1)]">
+              <div class="relative p-6">
+                <div class="relative inline-block">
+                  <div class="absolute inset-0 bg-gradient-to-b from-yellow-400/20 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <img :src="coach.image" :alt="coach.name" 
+                       class="w-28 h-28 rounded-full mx-auto object-cover border-4 border-zinc-800 group-hover:border-yellow-400/50 transition-all duration-500 transform group-hover:scale-105" />
+                </div>
+                <div class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-black text-xs font-bold px-4 py-1 rounded-full shadow-lg">
                   {{ coach.specialty }}
                 </div>
               </div>
               
-              <div class="p-4">
-                <h3 class="text-xl font-bold">{{ coach.name }}</h3>
-                <div class="overflow-hidden transition-all duration-300 h-0 group-hover:h-auto opacity-0 hover:opacity-100">
-                  <p class="text-gray-400 text-sm my-4">{{ coach.description }}</p>
+              <div class="px-6 pb-6">
+                <h3 class="text-xl font-bold mb-1 group-hover:text-yellow-400 transition-colors">{{ coach.name }}</h3>
+                <div class="transform transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0">
+                  <p class="text-gray-400 text-sm my-4 leading-relaxed">{{ coach.description }}</p>
                   <div class="flex flex-wrap justify-center gap-2">
                     <div v-for="badge in coach.badges" :key="badge" 
-                         class="bg-zinc-800 text-xs text-gray-300 px-2 py-1 rounded">
+                         class="bg-zinc-800/80 text-xs text-yellow-400/90 px-3 py-1 rounded-full border border-yellow-400/20">
                       {{ badge }}
                     </div>
                   </div>
@@ -84,7 +87,7 @@
               </thead>
               <tbody class="divide-y divide-zinc-800">
                 <tr v-for="(trader, index) in topTraders" :key="index" 
-                    class="hover:bg-zinc-800/50 transition-colors">
+                    class="hover:bg-zinc-800/50 transition-all duration-300">
                   <td class="px-6 py-4">
                     <div class="flex items-center gap-2">
                       <div v-if="index < 3" :class="[
@@ -204,46 +207,6 @@ const topTraders = [
     capital: '200,000€',
     performance: 11.2,
     profit: '22,400€'
-  },
-  {
-    name: 'Emma S.',
-    type: 'Swing Trader',
-    image: 'https://images.pexels.com/photos/3796220/pexels-photo-3796220.jpeg',
-    capital: '100,000€',
-    performance: 10.5,
-    profit: '10,500€'
-  },
-  {
-    name: 'Lucas P.',
-    type: 'Scalper',
-    image: 'https://images.pexels.com/photos/2379008/pexels-photo-2379008.jpeg',
-    capital: '50,000€',
-    performance: 9.8,
-    profit: '4,900€'
-  },
-  {
-    name: 'Marie C.',
-    type: 'Position Trader',
-    image: 'https://images.pexels.com/photos/3796221/pexels-photo-3796221.jpeg',
-    capital: '100,000€',
-    performance: 9.2,
-    profit: '9,200€'
-  },
-  {
-    name: 'Antoine D.',
-    type: 'Day Trader',
-    image: 'https://images.pexels.com/photos/2379009/pexels-photo-2379009.jpeg',
-    capital: '200,000€',
-    performance: 8.7,
-    profit: '17,400€'
-  },
-  {
-    name: 'Laura B.',
-    type: 'Swing Trader',
-    image: 'https://images.pexels.com/photos/3796222/pexels-photo-3796222.jpeg',
-    capital: '100,000€',
-    performance: 8.1,
-    profit: '8,100€'
   }
 ]
 
