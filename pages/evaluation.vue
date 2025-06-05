@@ -1,11 +1,13 @@
 <template>
-  <div class="bg-black text-white min-h-screen">
+  <div class="bg-black text-white min-h-screen overflow-x-hidden">
     <Header />
+    <HeroEvaluation />
+    <DefilementAccueil />
 
     <section class="max-w-5xl mx-auto px-4 py-20">
-      <h1 class="text-4xl font-bold text-yellow-400 mb-8">
+      <h2 class="text-4xl font-bold text-yellow-400 mb-8 text-center">
         Règles du Challenge AKAD
-      </h1>
+      </h2>
 
       <div class="space-y-12">
         <!-- Phase 1 -->
@@ -52,6 +54,8 @@
       </div>
     </section>
 
+    <MarketInspiration />
+
     <Footer />
   </div>
 </template>
@@ -59,4 +63,7 @@
 <script setup>
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
+import HeroEvaluation from '@/components/Hero-evaluation.vue'
+import MarketInspiration from '@/components/MarketInspiration.vue'
+import DefilementAccueil from '@/components/defilement-accueil.vue'
 </script>
