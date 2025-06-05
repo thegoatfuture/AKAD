@@ -123,11 +123,11 @@ const secondRow = computed(() => testimonials.slice(half))
 
 <style scoped>
 .animate-scroll-left {
-  animation: scroll-left 30s linear infinite;
+  animation: scroll-left 15s linear infinite;
 }
 
 .animate-scroll-right {
-  animation: scroll-right 30s linear infinite;
+  animation: scroll-right 15s linear infinite;
 }
 
 .group:hover .animate-scroll-left,

@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[
-      'bg-white rounded-xl p-6 shadow-lg border border-zinc-100 flex-shrink-0 w-[300px] transform transition duration-300',
+      'bg-white rounded-2xl p-6 shadow-lg border border-zinc-100 flex-shrink-0 w-[300px] transform transition duration-300',
       highlight ? 'scale-105 shadow-xl border-yellow-200' : 'hover:shadow-xl hover:-translate-y-1'
     ]"
   >
@@ -9,7 +9,7 @@
     <div class="flex items-center justify-between mb-4">
       <div class="flex items-center gap-3">
         <div
-          class="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-400 to-yellow-500 flex items-center justify-center text-white font-bold shadow-lg"
+          class="w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-500 flex items-center justify-center text-white font-bold shadow-lg transform rotate-3"
         >
           {{ initials }}
         </div>
@@ -26,17 +26,20 @@
     </div>
 
     <!-- Content -->
-    <div>
+    <div class="relative">
+      <div class="absolute -left-2 -top-2 text-4xl text-yellow-200 opacity-20">"</div>
       <h5 class="font-semibold text-zinc-900 mb-2">{{ testimonial.title }}</h5>
       <p class="text-sm text-zinc-600 line-clamp-3">{{ testimonial.content }}</p>
     </div>
 
     <!-- Verified badge -->
-    <div class="flex items-center gap-1.5 mt-4 text-xs text-emerald-600 font-medium">
-      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-      </svg>
-      Vérifié
+    <div class="flex items-center gap-1.5 mt-4 text-xs font-medium">
+      <div class="flex items-center gap-1 px-2 py-1 bg-emerald-50 text-emerald-600 rounded-full">
+        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        <span>Vérifié</span>
+      </div>
     </div>
   </div>
 </template>
