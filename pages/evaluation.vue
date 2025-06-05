@@ -66,4 +66,8 @@ import Footer from '~/components/Footer.vue'
 import HeroEvaluation from '@/components/Hero-evaluation.vue'
 import MarketInspiration from '@/components/MarketInspiration.vue'
 import DefilementAccueil from '@/components/defilement-accueil.vue'
+useSeoMeta({
+  title: 'Évaluation du Challenge - AKAD',
+  description: 'Découvrez les règles et étapes pour réussir le challenge AKAD.'
+})
 </script>

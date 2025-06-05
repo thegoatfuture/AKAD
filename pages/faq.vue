@@ -26,6 +26,10 @@
 </template>
 
 <script setup>
+useSeoMeta({
+  title: 'FAQ - AKAD',
+  description: 'Réponses aux questions fréquentes sur notre challenge de trading.'
+})
 import FaqFaq from '@/components/faq-faq.vue'
 </script>
 
