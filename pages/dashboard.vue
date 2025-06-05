@@ -6,6 +6,12 @@ definePageMeta({
   middleware: 'auth',
 })
 
+useSeoMeta({
+  title: 'Tableau de bord - AKAD',
+  description:
+    'Gérez vos comptes et suivez vos performances sur le tableau de bord AKAD.',
+})
+
 const activeTab = ref('akad')
 const modalContent = ref(null)
 const showModal = ref(false)

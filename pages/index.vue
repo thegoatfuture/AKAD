@@ -49,4 +49,10 @@ import AvisHorizontalAccueil from '@/components/AvisHorizontal-accueil.vue'
 import TrustAccueil from '@/components/trust-accueil.vue'
 import FaqAccueil from '@/components/faq-accueil.vue'
 import BlogAccueil from '@/components/blog-accueil.vue'
+
+useSeoMeta({
+  title: 'AKAD - Challenge de trading professionnel',
+  description:
+    'Rejoignez le challenge AKAD et accédez à des outils pour améliorer vos performances de trading.',
+})
 </script>
