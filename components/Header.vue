@@ -4,7 +4,7 @@
       <nav class="flex items-center justify-between">
         <!-- Logo -->
         <NuxtLink to="/" class="flex items-center">
-          <img src="/images/logo-pf.png" alt="Logo AKAD" class="h-12 w-auto transform hover:scale-105 transition-transform duration-300" />
+          <img src="/images/logo-pf-nofond.svg" alt="Logo AKAD" class="h-12 w-auto transform hover:scale-105 transition-transform duration-300" />
         </NuxtLink>
 
         <!-- Desktop Navigation -->
