@@ -1,3 +1,4 @@
+```vue
 <template>
   <div class="min-h-screen bg-black text-white">
     <!-- Hero Section -->
@@ -214,6 +215,7 @@
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
 const route = useRoute()
 const amount = ref(Number(route.query.amount) || 10000)
 
@@ -298,3 +300,4 @@ useSeoMeta({
   animation-delay: 1000ms;
 }
 </style>
+```
