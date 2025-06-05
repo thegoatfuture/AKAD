@@ -18,36 +18,59 @@
       </div>
     </div>
 
-    <!-- Weekly columns -->
-    <div class="grid grid-cols-4 gap-4">
-      <div v-for="week in currentMonthData" :key="week.weekNumber" class="space-y-2">
-        <div class="text-sm text-zinc-400">Semaine {{ week.weekNumber }}</div>
-        
-        <!-- Trading days -->
-        <div v-for="day in week.days" :key="day.date" 
-             @click="selectDay(day)"
-             class="bg-zinc-800/50 rounded-lg p-3 cursor-pointer hover:bg-zinc-700/50 transition-colors">
-          <div class="flex justify-between items-center">
-            <span class="text-sm">{{ formatDayNumber(day.date) }}</span>
-            <span :class="day.profit >= 0 ? 'text-green-400' : 'text-red-400'" class="text-sm font-medium">
-              {{ formatProfit(day.profit) }}
-            </span>
-          </div>
-          <div class="text-xs text-zinc-400 mt-1">{{ day.trades }} trades</div>
-        </div>
+    <!-- Trading calendar -->
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <!-- Days header -->
+        <thead>
+          <tr class="text-sm text-zinc-400">
+            <th class="p-2 text-left">Semaine</th>
+            <th v-for="day in ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi']" 
+                :key="day" 
+                class="p-2 text-center min-w-[150px]">
+              {{ day }}
+            </th>
+          </tr>
+        </thead>
 
-        <!-- Weekly summary -->
-        <div class="border-t border-zinc-800 mt-4 pt-4">
-          <div class="text-sm font-medium" :class="week.totalProfit >= 0 ? 'text-green-400' : 'text-red-400'">
-            {{ formatProfit(week.totalProfit) }}
-          </div>
-          <div class="text-xs text-zinc-400">Total</div>
-        </div>
-      </div>
+        <!-- Weeks and trading days -->
+        <tbody>
+          <tr v-for="(week, weekIndex) in currentMonthData" :key="weekIndex" 
+              class="border-t border-zinc-800">
+            <td class="p-2 text-zinc-400 font-medium">Semaine {{ week.weekNumber }}</td>
+            <td v-for="day in week.days" :key="day.date" 
+                class="p-2">
+              <div @click="selectDay(day)"
+                   class="bg-zinc-800/50 rounded-lg p-3 cursor-pointer hover:bg-zinc-700/50 transition-colors">
+                <div class="flex justify-between items-center">
+                  <span class="text-sm">{{ formatDayNumber(day.date) }}</span>
+                  <span :class="day.profit >= 0 ? 'text-green-400' : 'text-red-400'" 
+                        class="text-sm font-medium">
+                    {{ formatProfit(day.profit) }}
+                  </span>
+                </div>
+                <div class="text-xs text-zinc-400 mt-1">{{ day.trades }} trades</div>
+              </div>
+            </td>
+          </tr>
+          <!-- Weekly totals -->
+          <tr class="border-t border-zinc-800">
+            <td class="p-2 text-zinc-400 font-medium">Total</td>
+            <td v-for="(total, index) in weeklyTotals" :key="index" 
+                class="p-2">
+              <div class="text-sm font-medium" 
+                   :class="total >= 0 ? 'text-green-400' : 'text-red-400'">
+                {{ formatProfit(total) }}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <!-- Day Detail Modal -->
-    <div v-if="selectedDay" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div v-if="selectedDay" 
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div class="bg-zinc-900 rounded-2xl p-6 w-full max-w-3xl">
         <div class="flex justify-between items-center mb-6">
           <h4 class="text-xl font-bold text-yellow-400">
@@ -74,7 +97,8 @@
               <div class="text-sm text-zinc-400">{{ trade.type }} • {{ trade.size }} lots</div>
             </div>
             <div class="text-right">
-              <div :class="trade.profit >= 0 ? 'text-green-400' : 'text-red-400'" class="font-medium">
+              <div :class="trade.profit >= 0 ? 'text-green-400' : 'text-red-400'" 
+                   class="font-medium">
                 {{ formatProfit(trade.profit) }}
               </div>
               <div class="text-sm text-zinc-400">R:R {{ trade.rr }}</div>
@@ -104,8 +128,7 @@ const generateMonthData = () => {
 
   for (let week = 1; week <= numWeeks; week++) {
     const days = []
-    let weekTotal = 0
-
+    
     for (let day = 1; day <= daysInWeek; day++) {
       const date = new Date(currentMonth.value.getFullYear(), currentMonth.value.getMonth(), (week - 1) * 7 + day)
       const trades = Math.floor(Math.random() * 6) // 0-5 trades per day
@@ -134,14 +157,11 @@ const generateMonthData = () => {
         tradeList,
         drawdown
       })
-
-      weekTotal += profit
     }
 
     weeks.push({
       weekNumber: week,
-      days,
-      totalProfit: weekTotal
+      days
     })
   }
 
@@ -149,6 +169,16 @@ const generateMonthData = () => {
 }
 
 const currentMonthData = computed(() => generateMonthData())
+
+const weeklyTotals = computed(() => {
+  const totals = Array(5).fill(0) // 5 days per week
+  currentMonthData.value.forEach(week => {
+    week.days.forEach((day, index) => {
+      totals[index] += day.profit
+    })
+  })
+  return totals
+})
 
 const currentMonthDisplay = computed(() => {
   return new Intl.DateTimeFormat('fr-FR', { 
