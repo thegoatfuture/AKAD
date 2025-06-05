@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 definePageMeta({
   layout: 'dashboard',
@@ -254,7 +255,7 @@ function closeModal() {
               <ul
                 class="text-sm text-gray-300 list-disc list-inside space-y-1 mb-4"
               >
-                <li>Pas d’éligibilité pour le FTMO Account</li>
+                <li>Pas d'éligibilité pour le FTMO Account</li>
                 <li>14 jours</li>
                 <li>Analyse de Compte basique</li>
                 <li>Apps limitées</li>
@@ -285,12 +286,12 @@ function closeModal() {
                 FTMO Challenge
               </h3>
               <p class="text-sm text-gray-400 mb-4">
-                Tradez jusqu’à $200,000 sur un FTMO Account.
+                Tradez jusqu'à $200,000 sur un FTMO Account.
               </p>
               <ul
                 class="text-sm text-gray-300 list-disc list-inside space-y-1 mb-4"
               >
-                <li>Jusqu’à $200,000 de capital</li>
+                <li>Jusqu'à $200,000 de capital</li>
                 <li>Analyse complète</li>
                 <li>Apps Premium</li>
               </ul>
