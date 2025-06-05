@@ -1,73 +1,128 @@
+```vue
 <template>
-  <div class="bg-black text-white min-h-screen overflow-x-hidden">
-    <Header />
-    <HeroEvaluation />
-    <DefilementAccueil />
-
-    <section class="max-w-5xl mx-auto px-4 py-20">
-      <h2 class="text-4xl font-bold text-yellow-400 mb-8 text-center">
-        Règles du Challenge AKAD
-      </h2>
-
-      <div class="space-y-12">
-        <!-- Phase 1 -->
-        <div class="border-l-4 border-yellow-400 pl-6">
-          <h2 class="text-2xl font-bold mb-2">Phase 1</h2>
-          <ul class="list-disc list-inside text-gray-300 space-y-1">
-            <li>Objectif de gain : +10 %</li>
-            <li>Drawdown max : 10 %</li>
-            <li>Perte journalière max : 5 %</li>
-            <li>Levier autorisé : 1:100</li>
-            <li>Durée : illimitée</li>
-          </ul>
-        </div>
-
-        <!-- Phase 2 -->
-        <div class="border-l-4 border-yellow-400 pl-6">
-          <h2 class="text-2xl font-bold mb-2">Phase 2</h2>
-          <ul class="list-disc list-inside text-gray-300 space-y-1">
-            <li>Objectif de gain : +5 %</li>
-            <li>Même règles que la phase 1</li>
-            <li>Durée : illimitée</li>
-          </ul>
-        </div>
-
-        <!-- Compte financé -->
-        <div class="border-l-4 border-yellow-400 pl-6">
-          <h2 class="text-2xl font-bold mb-2">Compte Financé</h2>
-          <ul class="list-disc list-inside text-gray-300 space-y-1">
-            <li>Drawdown max : 10 %</li>
-            <li>Split des profits : 80/20 ou 90/10</li>
-            <li>Paiement des gains : tous les 14 jours</li>
-          </ul>
-        </div>
+  <div class="bg-black text-white min-h-screen">
+    <section class="relative py-20 px-4 overflow-hidden">
+      <!-- Background decorations -->
+      <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-0 left-0 w-64 h-64 bg-yellow-500 opacity-20 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 right-0 w-64 h-64 bg-yellow-400 opacity-20 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
       </div>
 
-      <div class="mt-12 text-center">
-        <NuxtLink to="/tarifs">
-          <button
-            class="bg-yellow-400 text-black px-6 py-3 font-semibold rounded hover:bg-yellow-500 transition"
-          >
+      <!-- Main content -->
+      <div class="max-w-6xl mx-auto relative z-10">
+        <h1 class="text-5xl font-bold text-center mb-8">
+          Challenge <span class="text-yellow-400">AKAD</span>
+        </h1>
+        <p class="text-xl text-gray-400 text-center max-w-3xl mx-auto mb-12">
+          Prouvez vos compétences de trading et accédez à un capital simulé jusqu'à 200 000 €
+        </p>
+
+        <!-- Challenge Steps -->
+        <div class="grid md:grid-cols-3 gap-8 mb-16">
+          <div class="bg-zinc-900 p-8 rounded-xl">
+            <h3 class="text-xl font-bold text-yellow-400 mb-4">Phase 1: Challenge</h3>
+            <ul class="space-y-3 text-gray-300">
+              <li class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                Objectif de gain: +10%
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                Durée illimitée
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                Drawdown max: 10%
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-zinc-900 p-8 rounded-xl">
+            <h3 class="text-xl font-bold text-yellow-400 mb-4">Phase 2: Vérification</h3>
+            <ul class="space-y-3 text-gray-300">
+              <li class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                Objectif de gain: +5%
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                Mêmes règles que phase 1
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                Durée illimitée
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-zinc-900 p-8 rounded-xl">
+            <h3 class="text-xl font-bold text-yellow-400 mb-4">Phase 3: Compte Financé</h3>
+            <ul class="space-y-3 text-gray-300">
+              <li class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                Split des profits: jusqu'à 90%
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                Paiements bi-mensuels
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                Support dédié
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <NuxtLink to="/tarifs" class="inline-block bg-yellow-400 text-black px-8 py-4 rounded-xl font-bold text-lg hover:bg-yellow-500 transition">
             Commencer le Challenge
-          </button>
-        </NuxtLink>
+          </NuxtLink>
+        </div>
       </div>
     </section>
 
-    <MarketInspiration />
+    <!-- Trading Rules -->
+    <section class="bg-zinc-900 py-20 px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-center text-yellow-400 mb-12">Règles de Trading</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="bg-zinc-800 p-6 rounded-xl">
+            <h3 class="text-xl font-bold mb-4">Gestion du Risque</h3>
+            <ul class="space-y-2 text-gray-300">
+              <li>Maximum 5% de perte journalière</li>
+              <li>Maximum 10% de drawdown total</li>
+              <li>Levier maximum de 1:100</li>
+            </ul>
+          </div>
+          
+          <div class="bg-zinc-800 p-6 rounded-xl">
+            <h3 class="text-xl font-bold mb-4">Durée & Trading</h3>
+            <ul class="space-y-2 text-gray-300">
+              <li>Minimum 4 jours de trading</li>
+              <li>Trading pendant les heures de marché</li>
+              <li>Pas de trading le week-end</li>
+            </ul>
+          </div>
 
-    <Footer />
+          <div class="bg-zinc-800 p-6 rounded-xl">
+            <h3 class="text-xl font-bold mb-4">Instruments</h3>
+            <ul class="space-y-2 text-gray-300">
+              <li>Forex majeurs et mineurs</li>
+              <li>Indices principaux</li>
+              <li>Matières premières</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup>
-import Header from '~/components/Header.vue'
-import Footer from '~/components/Footer.vue'
-import HeroEvaluation from '@/components/Hero-evaluation.vue'
-import MarketInspiration from '@/components/MarketInspiration.vue'
-import DefilementAccueil from '@/components/defilement-accueil.vue'
 useSeoMeta({
-  title: 'Évaluation du Challenge - AKAD',
-  description: 'Découvrez les règles et étapes pour réussir le challenge AKAD.'
+  title: 'Challenge AKAD - Évaluation de Trading',
+  description: 'Découvrez les règles et étapes du challenge AKAD pour devenir un trader financé.'
 })
 </script>
+```
