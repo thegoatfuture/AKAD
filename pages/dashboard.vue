@@ -56,11 +56,14 @@
       <div class="flex gap-6">
         <TradingJournal />
       </div>
+
+      <!-- Badges & Achievements -->
+      <BadgesAchievements />
     </main>
 
     <!-- Modal -->
     <div v-if="showModal" 
-         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div class="bg-zinc-800 p-6 rounded-xl shadow-xl w-full max-w-md relative">
         <button @click="closeModal" 
                 class="absolute top-3 right-3 text-zinc-400 hover:text-white">
@@ -82,6 +85,7 @@ import { ref } from 'vue'
 import EquityChart from '../components/EquityChart.vue'
 import ChallengeProgress from '../components/ChallengeProgress.vue'
 import TradingJournal from '../components/TradingJournal.vue'
+import BadgesAchievements from '../components/BadgesAchievements.vue'
 
 definePageMeta({
   layout: 'dashboard',
