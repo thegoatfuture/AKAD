@@ -197,7 +197,7 @@ const badges = [
     icon: '⏳',
     name: 'Patient Trader',
     description: 'Pas de fermeture prématurée',
-    condition: '3 trades tenus jusqu\'au TP',
+    condition: "3 trades tenus jusqu'au TP",
     unlocked: false,
     reward: '-10% sur votre prochain challenge',
     rewardCode: 'PATIENT10',
