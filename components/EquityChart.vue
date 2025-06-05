@@ -17,11 +17,13 @@
       </div>
     </div>
     
-    <Line
-      :data="chartData"
-      :options="chartOptions"
-      class="h-[300px]"
-    />
+    <div class="h-[400px]">
+      <Line
+        :data="chartData"
+        :options="chartOptions"
+        class="h-full w-full"
+      />
+    </div>
   </div>
 </template>
 
