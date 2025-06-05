@@ -1,9 +1,12 @@
 import { createClient } from '@supabase/supabase-js'
 import { ref, computed } from 'vue'
 
+const supabaseUrl = useRuntimeConfig().public.nuxtSupabaseUrl
+const supabaseAnonKey = useRuntimeConfig().public.nuxtSupabaseAnonKey
+
 const supabase = createClient(
-  process.env.NUXT_SUPABASE_URL || '',
-  process.env.NUXT_SUPABASE_ANON_KEY || ''
+  supabaseUrl,
+  supabaseAnonKey
 )
 
 export const useSupabase = () => {

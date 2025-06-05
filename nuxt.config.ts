@@ -11,6 +11,8 @@ export default defineNuxtConfig({
     stripeSecretKey: process.env.STRIPE_SECRET_KEY,
     public: {
       baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+      nuxtSupabaseUrl: process.env.NUXT_SUPABASE_URL,
+      nuxtSupabaseAnonKey: process.env.NUXT_SUPABASE_ANON_KEY
     },
   },
   devtools: {
