@@ -4,7 +4,9 @@
     <HeroAccueil />
 
     <!-- 2. Défilement des cours en temps réel -->
-    <DefilementAccueil />
+    <ClientOnly>
+      <DefilementAccueil />
+    </ClientOnly>
 
     <!-- 3. Stats avec animation au scroll -->
     <ClientOnly>
@@ -36,7 +38,9 @@
     <BlogAccueil />
 
     <!-- 12. CTA Boost avec compte à rebours -->
-    <CtaBoostAccueil />
+    <ClientOnly>
+      <CtaBoostAccueil />
+    </ClientOnly>
 
     <!-- 13. Bande flottante avec notifications -->
     <BandeFlottanteAccueil />
