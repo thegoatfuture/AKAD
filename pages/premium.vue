@@ -20,7 +20,7 @@ async function proceedToPayment() {
     body: { plan: 'premium' },
   })
   if (error.value) {
-    console.error(error.value)
+    // TODO: handle the error with proper user feedback
     return
   }
   if (data.value?.url) {
