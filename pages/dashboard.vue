@@ -44,65 +44,163 @@
 
       <!-- Account Status Cards -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Active Challenge -->
-        <div class="lg:col-span-2 bg-zinc-900/50 backdrop-blur-lg rounded-2xl p-8 border border-zinc-800/50 relative overflow-hidden">
-          <!-- Status indicator -->
-          <div class="absolute top-4 right-4">
-            <div class="flex items-center gap-2 bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium">
-              <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              Phase de Vérification
-            </div>
-          </div>
-
-          <div class="mb-6">
-            <h2 class="text-2xl font-bold text-yellow-400 mb-2">AKAD Challenge #510163222</h2>
-            <div class="flex items-center gap-4 text-sm text-zinc-400">
-              <span>Jour 8/14</span>
-              <span>•</span>
-              <span>Capital: €160,000</span>
-              <span>•</span>
-              <span>Objectif: €8,000</span>
-            </div>
-          </div>
-
-          <!-- Progress Bar -->
-          <div class="mb-6">
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-sm text-zinc-400">Progression vers l'objectif</span>
-              <span class="text-sm font-medium">-€2,500 / €8,000</span>
-            </div>
-            <div class="h-3 bg-zinc-800 rounded-full overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full transition-all duration-500" 
-                   style="width: 0%"></div>
-            </div>
-          </div>
-
-          <!-- Key Metrics Grid -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div v-for="stat in accountStats" :key="stat.label" 
-                 class="bg-zinc-800/30 p-4 rounded-xl border border-zinc-700/30 hover:border-yellow-400/30 transition-all duration-300 group">
-              <p class="text-xs text-zinc-400 mb-1">{{ stat.label }}</p>
-              <p :class="['text-lg font-bold', stat.color]">{{ stat.value }}</p>
-              <p v-if="stat.change" class="text-xs mt-1 flex items-center gap-1" :class="stat.color">
-                <svg v-if="stat.change.includes('+')" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"/>
+        <!-- Active Challenge - Enhanced with Account Selector -->
+        <div class="lg:col-span-2 bg-zinc-900/50 backdrop-blur-lg rounded-2xl border border-zinc-800/50 relative overflow-hidden">
+          <!-- Account Selector Header -->
+          <div class="bg-zinc-800/30 p-4 border-b border-zinc-700/50">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 00-2 2v2a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2"/>
                 </svg>
-                <svg v-else class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 7l-9.2 9.2M7 7v10h10"/>
-                </svg>
-                {{ stat.change }}
-              </p>
+                <h3 class="text-lg font-bold text-white">Mes Comptes</h3>
+              </div>
+              
+              <!-- Account Dropdown -->
+              <div class="relative">
+                <button @click="showAccountSelector = !showAccountSelector"
+                        class="flex items-center gap-2 bg-zinc-700/50 hover:bg-zinc-600/50 px-4 py-2 rounded-lg transition-all duration-300">
+                  <span class="text-sm font-medium">{{ selectedAccount.name }}</span>
+                  <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': showAccountSelector }" 
+                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </button>
+                
+                <!-- Dropdown Menu -->
+                <div v-if="showAccountSelector" 
+                     class="absolute right-0 top-full mt-2 w-80 bg-zinc-800/95 backdrop-blur-lg rounded-xl border border-zinc-700/50 shadow-2xl z-50 animate-fade-in">
+                  <div class="p-4">
+                    <h4 class="text-sm font-semibold text-zinc-400 mb-3">Sélectionner un compte</h4>
+                    <div class="space-y-2">
+                      <div v-for="account in accounts" :key="account.id"
+                           @click="selectAccount(account)"
+                           :class="[
+                             'p-3 rounded-lg cursor-pointer transition-all duration-200 border',
+                             selectedAccount.id === account.id 
+                               ? 'bg-yellow-400/10 border-yellow-400/30 text-yellow-400' 
+                               : 'bg-zinc-700/30 border-zinc-600/30 hover:bg-zinc-600/50 hover:border-zinc-500/50'
+                           ]">
+                        <div class="flex items-center justify-between">
+                          <div>
+                            <div class="font-medium text-sm">{{ account.name }}</div>
+                            <div class="text-xs text-zinc-400">{{ account.type }} • {{ account.capital }}</div>
+                          </div>
+                          <div class="flex items-center gap-2">
+                            <div :class="[
+                              'w-2 h-2 rounded-full',
+                              account.status === 'active' ? 'bg-green-400 animate-pulse' : 
+                              account.status === 'verification' ? 'bg-yellow-400 animate-pulse' : 'bg-zinc-500'
+                            ]"></div>
+                            <span class="text-xs capitalize" :class="[
+                              account.status === 'active' ? 'text-green-400' : 
+                              account.status === 'verification' ? 'text-yellow-400' : 'text-zinc-400'
+                            ]">
+                              {{ account.statusText }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Add New Account Button -->
+                    <button @click="createNewAccount" 
+                            class="w-full mt-4 p-3 bg-yellow-400/10 hover:bg-yellow-400/20 border border-yellow-400/30 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-yellow-400">
+                      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                      </svg>
+                      <span class="text-sm font-medium">Nouveau Challenge</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Action Buttons -->
-          <div class="flex gap-3 mt-6">
-            <button class="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black py-3 rounded-lg font-semibold transition-all duration-300">
-              Accéder au Trading
-            </button>
-            <button class="px-6 bg-zinc-700 hover:bg-zinc-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
-              Détails
-            </button>
+          <!-- Account Details -->
+          <div class="p-6">
+            <!-- Status indicator -->
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h2 class="text-2xl font-bold text-yellow-400 mb-2">{{ selectedAccount.name }}</h2>
+                <div class="flex items-center gap-4 text-sm text-zinc-400">
+                  <span>{{ selectedAccount.phase }}</span>
+                  <span>•</span>
+                  <span>Capital: {{ selectedAccount.capital }}</span>
+                  <span>•</span>
+                  <span>Objectif: {{ selectedAccount.target }}</span>
+                </div>
+              </div>
+              
+              <div class="flex items-center gap-2 bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-sm font-medium">
+                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                {{ selectedAccount.statusText }}
+              </div>
+            </div>
+
+            <!-- Dynamic Progress Bar -->
+            <div class="mb-6">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-sm text-zinc-400">Progression vers l'objectif</span>
+                <span class="text-sm font-medium">{{ selectedAccount.currentPnL }} / {{ selectedAccount.target }}</span>
+              </div>
+              <div class="h-3 bg-zinc-800 rounded-full overflow-hidden">
+                <div :class="[
+                  'h-full rounded-full transition-all duration-500',
+                  selectedAccount.progressColor
+                ]" :style="{ width: `${Math.max(0, selectedAccount.progressPercent)}%` }"></div>
+              </div>
+              <div class="flex justify-between text-xs text-zinc-500 mt-1">
+                <span>{{ selectedAccount.progressPercent }}% complété</span>
+                <span>{{ selectedAccount.daysRemaining }} jours restants</span>
+              </div>
+            </div>
+
+            <!-- Key Metrics Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div v-for="stat in selectedAccount.stats" :key="stat.label" 
+                   class="bg-zinc-800/30 p-4 rounded-xl border border-zinc-700/30 hover:border-yellow-400/30 transition-all duration-300 group">
+                <p class="text-xs text-zinc-400 mb-1">{{ stat.label }}</p>
+                <p :class="['text-lg font-bold', stat.color]">{{ stat.value }}</p>
+                <p v-if="stat.change" class="text-xs mt-1 flex items-center gap-1" :class="stat.color">
+                  <svg v-if="stat.change.includes('+')" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"/>
+                  </svg>
+                  <svg v-else class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 7l-9.2 9.2M7 7v10h10"/>
+                  </svg>
+                  {{ stat.change }}
+                </p>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-3">
+              <button class="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                Accéder au Trading
+              </button>
+              <button class="px-6 bg-zinc-700 hover:bg-zinc-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                Détails
+              </button>
+              <button @click="showAccountHistory = !showAccountHistory"
+                      class="px-6 bg-zinc-700 hover:bg-zinc-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                Historique
+              </button>
+            </div>
+
+            <!-- Account History (Collapsible) -->
+            <div v-if="showAccountHistory" class="mt-6 p-4 bg-zinc-800/30 rounded-xl border border-zinc-700/30 animate-fade-in">
+              <h4 class="text-sm font-semibold text-yellow-400 mb-3">Historique des performances</h4>
+              <div class="space-y-2">
+                <div v-for="entry in selectedAccount.history" :key="entry.date"
+                     class="flex justify-between items-center text-sm">
+                  <span class="text-zinc-400">{{ entry.date }}</span>
+                  <span :class="entry.pnl >= 0 ? 'text-green-400' : 'text-red-400'">
+                    {{ entry.pnl >= 0 ? '+' : '' }}{{ entry.pnl }}%
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -120,19 +218,19 @@
             <div class="space-y-4">
               <div class="flex justify-between items-center">
                 <span class="text-zinc-400">Win Rate</span>
-                <span class="font-bold text-green-400">68%</span>
+                <span class="font-bold text-green-400">{{ selectedAccount.performance.winRate }}%</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-zinc-400">Profit Factor</span>
-                <span class="font-bold text-blue-400">1.45</span>
+                <span class="font-bold text-blue-400">{{ selectedAccount.performance.profitFactor }}</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-zinc-400">Avg R:R</span>
-                <span class="font-bold text-purple-400">1:2.3</span>
+                <span class="font-bold text-purple-400">{{ selectedAccount.performance.avgRR }}</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-zinc-400">Max Drawdown</span>
-                <span class="font-bold text-red-400">4.8%</span>
+                <span class="font-bold text-red-400">{{ selectedAccount.performance.maxDrawdown }}%</span>
               </div>
             </div>
           </div>
@@ -149,19 +247,19 @@
             <div class="space-y-4">
               <div class="flex justify-between items-center">
                 <span class="text-zinc-400">Trades aujourd'hui</span>
-                <span class="font-bold">3</span>
+                <span class="font-bold">{{ selectedAccount.activity.tradesToday }}</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-zinc-400">Trades cette semaine</span>
-                <span class="font-bold">12</span>
+                <span class="font-bold">{{ selectedAccount.activity.tradesWeek }}</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-zinc-400">Jours actifs</span>
-                <span class="font-bold">8/14</span>
+                <span class="font-bold">{{ selectedAccount.activity.activeDays }}</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-zinc-400">Dernière activité</span>
-                <span class="font-bold text-green-400">Il y a 2h</span>
+                <span class="font-bold text-green-400">{{ selectedAccount.activity.lastActivity }}</span>
               </div>
             </div>
           </div>
@@ -330,7 +428,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import TradingJournal from '../components/TradingJournal.vue'
 import EquityChart from '../components/EquityChart.vue'
 import TradingPlan from '../components/TradingPlan.vue'
@@ -341,12 +439,134 @@ definePageMeta({
   middleware: 'auth',
 })
 
-const accountStats = [
-  { label: 'Balance', value: '€160,000.00', change: '-2.5%', color: 'text-red-400' },
-  { label: 'Equity', value: '€157,500.00', change: '-1.8%', color: 'text-red-400' },
-  { label: 'Profit/Loss', value: '-€2,500.00', change: null, color: 'text-red-400' },
-  { label: 'Drawdown', value: '4.8%', change: '+0.5%', color: 'text-yellow-400' }
-]
+const showAccountSelector = ref(false)
+const showAccountHistory = ref(false)
+const selectedAccountId = ref(1)
+
+// Multiple accounts data
+const accounts = ref([
+  {
+    id: 1,
+    name: 'AKAD Challenge #510163222',
+    type: 'Challenge',
+    capital: '€160,000',
+    target: '€8,000',
+    currentPnL: '-€2,500',
+    progressPercent: 0,
+    progressColor: 'bg-red-400',
+    phase: 'Jour 8/14',
+    status: 'verification',
+    statusText: 'Phase de Vérification',
+    daysRemaining: 6,
+    stats: [
+      { label: 'Balance', value: '€160,000.00', change: '-2.5%', color: 'text-red-400' },
+      { label: 'Equity', value: '€157,500.00', change: '-1.8%', color: 'text-red-400' },
+      { label: 'Profit/Loss', value: '-€2,500.00', change: null, color: 'text-red-400' },
+      { label: 'Drawdown', value: '4.8%', change: '+0.5%', color: 'text-yellow-400' }
+    ],
+    performance: {
+      winRate: 68,
+      profitFactor: 1.45,
+      avgRR: '1:2.3',
+      maxDrawdown: 4.8
+    },
+    activity: {
+      tradesToday: 3,
+      tradesWeek: 12,
+      activeDays: '8/14',
+      lastActivity: 'Il y a 2h'
+    },
+    history: [
+      { date: '15 Juin', pnl: -1.2 },
+      { date: '14 Juin', pnl: 0.8 },
+      { date: '13 Juin', pnl: -0.5 },
+      { date: '12 Juin', pnl: 1.5 },
+      { date: '11 Juin', pnl: -2.1 }
+    ]
+  },
+  {
+    id: 2,
+    name: 'AKAD Challenge #510163111',
+    type: 'Challenge',
+    capital: '€100,000',
+    target: '€10,000',
+    currentPnL: '+€7,500',
+    progressPercent: 75,
+    progressColor: 'bg-green-400',
+    phase: 'Jour 12/14',
+    status: 'active',
+    statusText: 'Challenge Actif',
+    daysRemaining: 2,
+    stats: [
+      { label: 'Balance', value: '€107,500.00', change: '+1.2%', color: 'text-green-400' },
+      { label: 'Equity', value: '€107,200.00', change: '+0.8%', color: 'text-green-400' },
+      { label: 'Profit/Loss', value: '+€7,500.00', change: null, color: 'text-green-400' },
+      { label: 'Drawdown', value: '2.1%', change: '-0.3%', color: 'text-green-400' }
+    ],
+    performance: {
+      winRate: 72,
+      profitFactor: 1.85,
+      avgRR: '1:2.8',
+      maxDrawdown: 2.1
+    },
+    activity: {
+      tradesToday: 5,
+      tradesWeek: 18,
+      activeDays: '12/14',
+      lastActivity: 'Il y a 30min'
+    },
+    history: [
+      { date: '15 Juin', pnl: 2.1 },
+      { date: '14 Juin', pnl: 1.8 },
+      { date: '13 Juin', pnl: 0.5 },
+      { date: '12 Juin', pnl: 1.2 },
+      { date: '11 Juin', pnl: 1.9 }
+    ]
+  },
+  {
+    id: 3,
+    name: 'AKAD Trader #510163000',
+    type: 'Funded',
+    capital: '€200,000',
+    target: 'Aucun objectif',
+    currentPnL: '+€15,200',
+    progressPercent: 100,
+    progressColor: 'bg-yellow-400',
+    phase: 'Compte financé',
+    status: 'active',
+    statusText: 'Trader Financé',
+    daysRemaining: 'Illimité',
+    stats: [
+      { label: 'Balance', value: '€215,200.00', change: '+0.9%', color: 'text-green-400' },
+      { label: 'Equity', value: '€214,800.00', change: '+0.7%', color: 'text-green-400' },
+      { label: 'Profit/Loss', value: '+€15,200.00', change: null, color: 'text-green-400' },
+      { label: 'Drawdown', value: '1.2%', change: '+0.1%', color: 'text-green-400' }
+    ],
+    performance: {
+      winRate: 78,
+      profitFactor: 2.15,
+      avgRR: '1:3.1',
+      maxDrawdown: 1.2
+    },
+    activity: {
+      tradesToday: 2,
+      tradesWeek: 8,
+      activeDays: '∞',
+      lastActivity: 'Il y a 1h'
+    },
+    history: [
+      { date: '15 Juin', pnl: 1.5 },
+      { date: '14 Juin', pnl: 2.2 },
+      { date: '13 Juin', pnl: 0.8 },
+      { date: '12 Juin', pnl: 1.8 },
+      { date: '11 Juin', pnl: 2.5 }
+    ]
+  }
+])
+
+const selectedAccount = computed(() => {
+  return accounts.value.find(acc => acc.id === selectedAccountId.value) || accounts.value[0]
+})
 
 const recentTrades = [
   {
@@ -378,6 +598,32 @@ const recentTrades = [
     size: 0.1
   }
 ]
+
+function selectAccount(account) {
+  selectedAccountId.value = account.id
+  showAccountSelector.value = false
+}
+
+function createNewAccount() {
+  showAccountSelector.value = false
+  // Redirect to challenge creation
+  navigateTo('/challenge')
+}
+
+// Close dropdown when clicking outside
+function handleClickOutside(event) {
+  if (!event.target.closest('.account-selector')) {
+    showAccountSelector.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 </script>
 
 <style scoped>
@@ -409,6 +655,22 @@ const recentTrades = [
 
 .animate-float-fast {
   animation: float-fast 4s ease-in-out infinite;
+}
+
+/* Fade in animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
 }
 
 /* Backdrop blur support */
