@@ -22,7 +22,8 @@
     "vue-chartjs": "^5.3.0",
     "vue-router": "^4.2.5",
     "zod": "^3.22.4",
-    "heatmap.js": "^2.0.5"
+    "heatmap.js": "^2.0.5",
+    "@vueuse/core": "^10.7.0"
   },
   "devDependencies": {
     "@nuxt/test-utils": "^3.9.0",

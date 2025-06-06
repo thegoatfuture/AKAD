@@ -13,7 +13,7 @@
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
       <div v-for="badge in badges" :key="badge.id" 
            @click="showBadgeDetails(badge)"
-           class="group relative bg-zinc-800/50 rounded-xl p-4 cursor-pointer border border-zinc-700/30 transition-all duration-300 hover:border-yellow-400/30 hover:transform hover:scale-105">
+           class="group relative bg-zinc-800/50 rounded-xl p-4 cursor-pointer border border-zinc-700/30 transition-all duration-300 hover:border-yellow-400/30">
         <!-- Badge Icon & Status -->
         <div class="relative flex justify-center mb-3">
           <div :class="[
@@ -53,49 +53,6 @@
         <!-- Glow Effect for Unlocked Badges -->
         <div v-if="badge.unlocked" 
              class="absolute inset-0 bg-yellow-400/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity">
-        </div>
-      </div>
-    </div>
-
-    <!-- Badge Details Modal -->
-    <div v-if="selectedBadge" 
-         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
-         @click.self="selectedBadge = null">
-      <div class="bg-zinc-900 rounded-2xl p-6 w-full max-w-md">
-        <div class="flex justify-between items-center mb-6">
-          <div class="text-4xl">{{ selectedBadge.icon }}</div>
-          <button @click="selectedBadge = null" class="text-zinc-400 hover:text-white">
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
-        </div>
-
-        <h3 class="text-xl font-bold text-yellow-400 mb-2">{{ selectedBadge.name }}</h3>
-        <p class="text-zinc-300 mb-4">{{ selectedBadge.description }}</p>
-
-        <div class="space-y-3">
-          <div class="bg-zinc-800 rounded-lg p-3">
-            <div class="text-sm text-zinc-400 mb-1">Condition</div>
-            <div class="font-medium">{{ selectedBadge.condition }}</div>
-          </div>
-
-          <div v-if="selectedBadge.unlocked" class="bg-zinc-800 rounded-lg p-3">
-            <div class="text-sm text-zinc-400 mb-1">Débloqué le</div>
-            <div class="font-medium">{{ selectedBadge.unlockedDate }}</div>
-          </div>
-
-          <div v-if="selectedBadge.reward" class="bg-zinc-800 rounded-lg p-3">
-            <div class="text-sm text-zinc-400 mb-1">Récompense</div>
-            <div class="flex justify-between items-center">
-              <div class="font-medium text-yellow-400">{{ selectedBadge.reward }}</div>
-              <button v-if="selectedBadge.unlocked" 
-                      @click="copyReward(selectedBadge.rewardCode)"
-                      class="text-sm bg-yellow-400 text-black px-3 py-1 rounded-lg hover:bg-yellow-500">
-                Copier
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -149,107 +106,13 @@ const badges = [
     reward: '-15% sur votre prochain challenge',
     rewardCode: 'GOAL15',
     progress: 65
-  },
-  {
-    id: 5,
-    icon: '🔒',
-    name: 'Consistency King',
-    description: 'Aucune violation de règle pendant 10 jours',
-    condition: '10 jours sans violation',
-    unlocked: true,
-    unlockedDate: '10 juin 2025',
-    reward: '-20% sur votre prochain challenge',
-    rewardCode: 'KING20',
-    progress: 100
-  },
-  {
-    id: 6,
-    icon: '⚖️',
-    name: 'Perfect R/R',
-    description: 'Trade avec un excellent ratio risque/récompense',
-    condition: '1 trade avec R > 3',
-    unlocked: false,
-    reward: '-5% sur votre prochain challenge',
-    rewardCode: 'RR05',
-    progress: 45
-  },
-  {
-    id: 7,
-    icon: '💡',
-    name: 'Setup Master',
-    description: 'Même setup utilisé avec succès plusieurs fois',
-    condition: 'Même setup 3x gagnant',
-    unlocked: false,
-    progress: 33
-  },
-  {
-    id: 8,
-    icon: '🧘',
-    name: 'No Revenge',
-    description: 'Excellent contrôle émotionnel',
-    condition: '5 jours sans surtrade',
-    unlocked: true,
-    unlockedDate: '8 juin 2025',
-    progress: 100
-  },
-  {
-    id: 9,
-    icon: '⏳',
-    name: 'Patient Trader',
-    description: 'Pas de fermeture prématurée',
-    condition: "3 trades tenus jusqu'au TP",
-    unlocked: false,
-    reward: '-10% sur votre prochain challenge',
-    rewardCode: 'PATIENT10',
-    progress: 67
-  },
-  {
-    id: 10,
-    icon: '🧪',
-    name: 'Backtester',
-    description: 'Préparation complète avant trading',
-    condition: '1 semaine de backtest',
-    unlocked: false,
-    progress: 20
-  },
-  {
-    id: 11,
-    icon: '🎓',
-    name: 'Academy Master',
-    description: 'Formation AKAD complétée',
-    condition: '100% des modules terminés',
-    unlocked: false,
-    progress: 85
-  },
-  {
-    id: 12,
-    icon: '🏆',
-    name: 'Challenge Complete',
-    description: 'Challenge AKAD réussi',
-    condition: 'Objectif du challenge atteint',
-    unlocked: true,
-    unlockedDate: '5 juin 2025',
-    reward: 'Accès Premium 1 mois',
-    rewardCode: 'PREMIUM30',
-    progress: 100
   }
 ]
 
-const selectedBadge = ref(null)
 const unlockedCount = computed(() => badges.filter(b => b.unlocked).length)
 
 function showBadgeDetails(badge) {
-  selectedBadge.value = badge
-}
-
-function copyReward(code) {
-  navigator.clipboard.writeText(code)
-    .then(() => {
-      // TODO: Show success notification
-      console.log('Code copied!')
-    })
-    .catch(err => {
-      console.error('Failed to copy code:', err)
-    })
+  // TODO: Implement badge details modal
+  console.log('Show badge details:', badge)
 }
 </script>
