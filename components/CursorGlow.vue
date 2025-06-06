@@ -2,7 +2,7 @@
   <div ref="cursor" class="fixed inset-0 pointer-events-none" style="z-index: 0;">
     <div 
       ref="glowElement"
-      class="absolute w-32 h-32 bg-yellow-400/20 rounded-full blur-3xl transition-transform duration-200 ease-out"
+      class="absolute w-16 h-16 bg-yellow-400/10 rounded-full blur-xl transition-transform duration-100 ease-out"
       :style="{ transform: `translate(${position.x}px, ${position.y}px)` }"
     ></div>
   </div>
@@ -20,8 +20,8 @@ function updateCursorPosition(e) {
   
   // Center the glow effect relative to the cursor
   position.value = {
-    x: e.clientX - 64,
-    y: e.clientY - 64
+    x: e.clientX - 32, // Half of width (16px)
+    y: e.clientY - 32  // Half of height (16px)
   }
 }
 
@@ -38,6 +38,6 @@ onBeforeUnmount(() => {
 .transition-transform {
   transition-property: transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 200ms;
+  transition-duration: 100ms;
 }
 </style>
