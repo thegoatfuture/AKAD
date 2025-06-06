@@ -3,7 +3,7 @@ export const products = {
     id: 'prod_SRn3BMWIRKMioj',
     priceId: 'price_1RWtTUCjlPQkil09pzr8f5uY',
     name: 'AKAD Academy',
-    description: 'Rejoignez AKAD Academy et bénéficiez chaque mois d'un coaching pro, d'analyses exclusives et d'un accompagnement personnalisé. Optimisez vos performances et devenez un trader rentable avec notre communauté.',
+    description: 'Rejoignez AKAD Academy et bénéficiez chaque mois d\'un coaching pro, d'analyses exclusives et d\'un accompagnement personnalisé. Optimisez vos performances et devenez un trader rentable avec notre communauté.',
     mode: 'subscription'
   },
   propfirm10k: {
