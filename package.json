@@ -12,7 +12,8 @@
     "@supabase/supabase-js": "^2.39.0",
     "@vueuse/core": "^10.7.0",
     "lucide-vue-next": "^0.303.0",
-    "nuxt": "^3.9.0"
+    "nuxt": "^3.9.0",
+    "stripe": "^18.2.1"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
