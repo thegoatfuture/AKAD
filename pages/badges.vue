@@ -142,28 +142,58 @@ const badgeCategories = [
     name: 'Performance',
     badges: [
       {
-        id: 1,
-        icon: '📈',
-        name: '3 Green Days',
-        description: 'Trois jours consécutifs de trading gagnants',
-        condition: '3 jours de trading positifs consécutifs',
+        id: 'first-blood',
+        icon: '🩸',
+        name: 'First Blood',
+        description: 'Premier trade réussi',
+        condition: 'Réaliser votre premier trade gagnant',
         unlocked: true,
-        unlockedDate: '15 juin 2025',
-        reward: '-10% sur votre prochain challenge',
-        rewardCode: 'GREEN10',
+        unlockedDate: '10 juin 2025',
         progress: 100,
         rare: false
       },
       {
-        id: 4,
-        icon: '🎯',
-        name: 'Hit Your Goal',
-        description: 'Objectif mensuel atteint',
-        condition: '+5% sur le mois',
+        id: 'the-streak',
+        icon: '🔥',
+        name: 'The Streak',
+        description: '5 jours gagnants consécutifs',
+        condition: '5 jours de trading positifs d\'affilée',
+        unlocked: false,
+        reward: '-10% sur votre prochain challenge',
+        rewardCode: 'STREAK10',
+        progress: 60,
+        rare: true
+      },
+      {
+        id: 'the-phoenix',
+        icon: '🦅',
+        name: 'The Phoenix',
+        description: 'Retour gagnant après 3 jours perdants',
+        condition: 'Journée positive après 3 jours de pertes',
+        unlocked: false,
+        progress: 33,
+        rare: true
+      },
+      {
+        id: 'all-green-week',
+        icon: '💚',
+        name: 'All Green Week',
+        description: '5 jours sans perte',
+        condition: '5 jours consécutifs sans perte',
         unlocked: false,
         reward: '-15% sur votre prochain challenge',
-        rewardCode: 'GOAL15',
-        progress: 65,
+        rewardCode: 'GREEN15',
+        progress: 20,
+        rare: true
+      },
+      {
+        id: 'underdog-comeback',
+        icon: '🔄',
+        name: 'Underdog Comeback',
+        description: 'Retour de -5% à +1% en 3 jours',
+        condition: 'Remonter de -5% à +1% en 3 jours',
+        unlocked: false,
+        progress: 45,
         rare: true
       }
     ]
@@ -172,27 +202,48 @@ const badgeCategories = [
     name: 'Discipline',
     badges: [
       {
-        id: 2,
-        icon: '🧊',
-        name: 'Risk Manager',
-        description: 'Excellent contrôle du risque sur une semaine complète',
-        condition: 'Drawdown < 3% sur une semaine',
-        unlocked: true,
-        unlockedDate: '12 juin 2025',
-        progress: 100,
-        rare: false
-      },
-      {
-        id: 3,
-        icon: '✍️',
-        name: 'Disciplined Trader',
-        description: 'Journal de trading rempli pendant 5 jours consécutifs',
-        condition: 'Journal complété 5 jours de suite',
+        id: 'journal-hero',
+        icon: '📝',
+        name: 'Journal Hero',
+        description: '10 jours de journalisation',
+        condition: 'Remplir son journal 10 jours de suite',
         unlocked: false,
         reward: '-10% sur votre prochain challenge',
         rewardCode: 'JOURNAL10',
         progress: 80,
         rare: false
+      },
+      {
+        id: 'steady-hand',
+        icon: '🤚',
+        name: 'Steady Hand',
+        description: 'Une semaine sans perte impulsive',
+        condition: 'Pas de trade impulsif pendant 7 jours',
+        unlocked: false,
+        reward: '-10% sur votre prochain challenge',
+        rewardCode: 'STEADY10',
+        progress: 85,
+        rare: false
+      },
+      {
+        id: 'daily-discipline',
+        icon: '⏰',
+        name: 'Daily Discipline',
+        description: 'Actif 7 jours consécutifs',
+        condition: 'Trading actif pendant 7 jours',
+        unlocked: false,
+        progress: 71,
+        rare: false
+      },
+      {
+        id: 'no-violation-king',
+        icon: '👑',
+        name: 'No Violation King',
+        description: '1 mois sans violation de règles',
+        condition: '30 jours sans enfreindre les règles',
+        unlocked: false,
+        progress: 50,
+        rare: true
       }
     ]
   },
@@ -200,25 +251,62 @@ const badgeCategories = [
     name: 'Expertise',
     badges: [
       {
-        id: 6,
-        icon: '⚖️',
-        name: 'Perfect R/R',
-        description: 'Trade avec un excellent ratio risque/récompense',
-        condition: '1 trade avec R > 3',
+        id: 'precision-master',
+        icon: '🎯',
+        name: 'Precision Master',
+        description: '3 trades avec R > 2',
+        condition: 'Réaliser 3 trades avec ratio > 2',
         unlocked: false,
-        reward: '-5% sur votre prochain challenge',
-        rewardCode: 'RR05',
-        progress: 45,
+        progress: 66,
+        rare: false
+      },
+      {
+        id: 'the-sniper',
+        icon: '🎯',
+        name: 'The Sniper',
+        description: '2 TP atteints sans drawdown majeur',
+        condition: '2 take profits sans drawdown > 1%',
+        unlocked: false,
+        progress: 50,
         rare: true
       },
       {
-        id: 7,
-        icon: '💡',
-        name: 'Setup Master',
-        description: 'Même setup utilisé avec succès plusieurs fois',
-        condition: 'Même setup 3x gagnant',
+        id: 'late-game-closer',
+        icon: '⚡',
+        name: 'Late Game Closer',
+        description: 'Dernier trade gagnant 3 jours de suite',
+        condition: 'Dernier trade positif sur 3 jours',
         unlocked: false,
         progress: 33,
+        rare: false
+      }
+    ]
+  },
+  {
+    name: 'Community',
+    badges: [
+      {
+        id: 'community-builder',
+        icon: '🤝',
+        name: 'Community Builder',
+        description: 'Inviter 3 nouveaux traders',
+        condition: '3 parrainages actifs',
+        unlocked: false,
+        reward: '-15% sur votre prochain challenge',
+        rewardCode: 'COMMUNITY15',
+        progress: 33,
+        rare: false
+      },
+      {
+        id: 'challenge-crusher',
+        icon: '🏆',
+        name: 'Challenge Crusher',
+        description: '3 challenges réussis',
+        condition: 'Réussir 3 challenges AKAD',
+        unlocked: false,
+        reward: 'Challenge gratuit',
+        rewardCode: 'CRUSHER100',
+        progress: 66,
         rare: true
       }
     ]
@@ -275,3 +363,9 @@ function copyReward(code) {
     })
 }
 </script>
+
+<style scoped>
+.backdrop-blur {
+  backdrop-filter: blur(8px);
+}
+</style>
