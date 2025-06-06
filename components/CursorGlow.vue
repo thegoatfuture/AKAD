@@ -2,7 +2,7 @@
   <div ref="cursor" class="fixed inset-0 pointer-events-none" style="z-index: 0;">
     <div 
       ref="glowElement"
-      class="absolute w-32 h-32 bg-yellow-400/5 rounded-full blur-xl transition-transform duration-50 ease-out"
+      class="absolute w-16 h-16 bg-yellow-400/10 rounded-full blur-xl transition-transform duration-100 ease-out"
       :style="{ transform: `translate(${position.x}px, ${position.y}px)` }"
     ></div>
   </div>
@@ -10,7 +10,6 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { useMouseInElement } from '@vueuse/core'
 
 const cursor = ref(null)
 const glowElement = ref(null)
@@ -21,8 +20,8 @@ function updateCursorPosition(e) {
   
   // Center the glow effect relative to the cursor
   position.value = {
-    x: e.clientX - 64, // Half of width (32px)
-    y: e.clientY - 64  // Half of height (32px)
+    x: e.clientX - 32, // Half of width (16px)
+    y: e.clientY - 65  // Half of height (16px)
   }
 }
 
