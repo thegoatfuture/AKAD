@@ -64,12 +64,12 @@
           </div>
 
           <!-- Monday to Friday (Trading Days) -->
-          <div v-for="(day, dayIndex) in week.days.slice(1, 6)" :key="dayIndex"
+          <div v-for="(day, dayIndex) in week.days.slice(1, 6)" :key="`${weekIndex}-${dayIndex}`"
                @click="openDayPanel(day)"
                @mouseenter="day.isHovered = true"
                @mouseleave="day.isHovered = false"
                :class="[
-                 'group relative rounded-lg p-3 border-2 transition-all duration-300 cursor-pointer',
+                 'group relative rounded-lg p-3 border-2 transition-all duration-300 cursor-pointer min-h-[120px]',
                  'hover:transform hover:-translate-y-2 hover:shadow-lg hover:shadow-yellow-400/20',
                  getDayColorClass(day),
                  day.isToday ? 'ring-2 ring-blue-400' : '',
@@ -255,7 +255,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 
-const currentMonth = ref(0) // January 2025
+const currentMonth = ref(5) // June 2025 (0-indexed)
 const currentYear = ref(2025)
 const selectedDay = ref(null)
 const notesSaved = ref(false)
@@ -265,7 +265,7 @@ const monthNames = [
   'July', 'August', 'September', 'October', 'November', 'December'
 ]
 
-const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const dayNames = ['Saturday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Sunday']
 
 const currentMonthName = computed(() => monthNames[currentMonth.value])
 
@@ -300,12 +300,18 @@ const tradingNotes = [
 // Generate realistic trading data
 function generateRealisticTrades(dateString, dayOfWeek) {
   const trades = []
-  const numTrades = Math.floor(Math.random() * 4) + 1 // 1-4 trades per day
+  
+  // Skip weekends (Saturday = 6, Sunday = 0)
+  if (dayOfWeek === 0 || dayOfWeek === 6) {
+    return { trades: [], notes: '' }
+  }
   
   // Higher probability of trading on Tuesday-Thursday
-  const tradingProbability = dayOfWeek === 2 || dayOfWeek === 3 || dayOfWeek === 4 ? 0.9 : 0.7
+  const tradingProbability = dayOfWeek === 2 || dayOfWeek === 3 || dayOfWeek === 4 ? 0.85 : 0.65
   
   if (Math.random() > tradingProbability) return { trades: [], notes: '' }
+  
+  const numTrades = Math.floor(Math.random() * 4) + 1 // 1-4 trades per day
   
   for (let i = 0; i < numTrades; i++) {
     const symbol = tradingSymbols[Math.floor(Math.random() * tradingSymbols.length)]
@@ -363,31 +369,21 @@ onMounted(() => {
     // Generate realistic sample data for the current month and previous months
     tradingData.value = {}
     
-    // Generate data for December 2024 and January 2025
-    for (let month = 11; month <= 12; month++) {
-      const year = month === 11 ? 2024 : 2025
-      const actualMonth = month === 11 ? 11 : 0
-      const daysInMonth = new Date(year, actualMonth + 1, 0).getDate()
+    // Generate data for May and June 2025
+    for (let month = 4; month <= 5; month++) {
+      const daysInMonth = new Date(2025, month + 1, 0).getDate()
       
       for (let day = 1; day <= daysInMonth; day++) {
-        const date = new Date(year, actualMonth, day)
+        const date = new Date(2025, month, day)
         const dayOfWeek = date.getDay()
+        const dateString = date.toISOString().split('T')[0]
         
-        // Only generate trades for weekdays (Monday-Friday)
-        if (dayOfWeek >= 1 && dayOfWeek <= 5) {
-          const dateString = date.toISOString().split('T')[0]
-          tradingData.value[dateString] = generateRealisticTrades(dateString, dayOfWeek)
-        }
+        tradingData.value[dateString] = generateRealisticTrades(dateString, dayOfWeek)
       }
     }
     
     saveToLocalStorage()
   }
-  
-  // Set current month based on today's date
-  const today = new Date()
-  currentMonth.value = today.getMonth()
-  currentYear.value = today.getFullYear()
 })
 
 // Save to localStorage whenever data changes
