@@ -1,5 +1,5 @@
 <template>
-  <div ref="cursor" class="fixed inset-0 pointer-events-none z-50">
+  <div ref="cursor" class="fixed inset-0 pointer-events-none" style="z-index: 0;">
     <div 
       ref="glowElement"
       class="absolute w-32 h-32 bg-yellow-400/20 rounded-full blur-3xl transition-transform duration-200 ease-out"
