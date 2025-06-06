@@ -1,5 +1,5 @@
 <template>
-  <div ref="cursor" class="cursor-glow fixed pointer-events-none z-50 transition-transform duration-100 ease-out">
+  <div ref="cursor" class="cursor-glow fixed pointer-events-none z-50 transition-transform duration-100 ease-out top-0">
     <div :class="[
       'w-16 h-16 bg-yellow-400/30 rounded-full blur-2xl transform scale-150 transition-opacity duration-300',
       { 'opacity-0': isMoving }
