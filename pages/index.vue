@@ -34,7 +34,9 @@
     <TrustAccueil />
 
     <!-- 10. FAQ interactive -->
-    <FaqAccueil />
+    <ClientOnly>
+      <FaqAccueil />
+    </ClientOnly>
 
     <!-- 11. Blog avec images optimisées -->
     <BlogAccueil />
