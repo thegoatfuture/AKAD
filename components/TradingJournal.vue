@@ -26,6 +26,12 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
           </svg>
         </button>
+
+        <!-- Monthly Summary Button -->
+        <button @click="showMonthlySummary = true"
+                class="px-4 py-2 bg-yellow-400 text-black rounded-lg font-medium hover:bg-yellow-500 transition-colors">
+          Monthly Summary
+        </button>
       </div>
     </div>
 
@@ -127,8 +133,8 @@
             </div>
           </div>
 
-          <!-- Weekly Summary -->
-          <div class="bg-zinc-800/50 rounded-lg p-3 border border-zinc-700/50">
+          <!-- Weekly Summary with Button -->
+          <div class="bg-zinc-800/50 rounded-lg p-3 border border-zinc-700/50 relative">
             <div class="text-center space-y-1">
               <div class="text-xs text-zinc-400">Total</div>
               <div class="text-sm font-bold">{{ week.summary.totalTrades }} trades</div>
@@ -139,6 +145,12 @@
                 {{ week.summary.totalPnL >= 0 ? '+' : '' }}{{ week.summary.totalPnL.toFixed(1) }}%
               </div>
               <div class="text-xs text-zinc-400">{{ week.summary.winRate }}% WR</div>
+              
+              <!-- Weekly Summary Button -->
+              <button @click="showWeeklySummary(week, weekIndex)"
+                      class="mt-2 px-2 py-1 bg-yellow-400/20 text-yellow-400 rounded text-xs hover:bg-yellow-400/30 transition-colors">
+                Details
+              </button>
             </div>
           </div>
         </div>
@@ -249,6 +261,161 @@
         </div>
       </div>
     </div>
+
+    <!-- Weekly Summary Modal -->
+    <div v-if="showWeeklySummaryModal" 
+         class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+         @click.self="showWeeklySummaryModal = false">
+      <div class="bg-zinc-900 rounded-2xl border border-zinc-800 w-full max-w-2xl">
+        <div class="flex justify-between items-center p-6 border-b border-zinc-800">
+          <h3 class="text-xl font-bold text-yellow-400">Week {{ selectedWeek?.weekNumber }} Summary</h3>
+          <button @click="showWeeklySummaryModal = false" 
+                  class="p-2 hover:bg-zinc-800 rounded-lg transition-colors">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="p-6">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-zinc-800/50 p-4 rounded-xl text-center">
+              <div class="text-2xl font-bold text-yellow-400">{{ selectedWeek?.summary.totalTrades }}</div>
+              <div class="text-xs text-zinc-400">Total Trades</div>
+            </div>
+            <div class="bg-zinc-800/50 p-4 rounded-xl text-center">
+              <div :class="[
+                'text-2xl font-bold',
+                selectedWeek?.summary.totalPnL >= 0 ? 'text-green-400' : 'text-red-400'
+              ]">
+                {{ selectedWeek?.summary.totalPnL >= 0 ? '+' : '' }}{{ selectedWeek?.summary.totalPnL.toFixed(1) }}%
+              </div>
+              <div class="text-xs text-zinc-400">Total P&L</div>
+            </div>
+            <div class="bg-zinc-800/50 p-4 rounded-xl text-center">
+              <div class="text-2xl font-bold text-yellow-400">{{ selectedWeek?.summary.winRate }}%</div>
+              <div class="text-xs text-zinc-400">Win Rate</div>
+            </div>
+            <div class="bg-zinc-800/50 p-4 rounded-xl text-center">
+              <div class="text-2xl font-bold text-blue-400">{{ selectedWeek?.activeDays }}</div>
+              <div class="text-xs text-zinc-400">Active Days</div>
+            </div>
+          </div>
+
+          <!-- Daily Breakdown -->
+          <h4 class="text-lg font-bold text-white mb-4">Daily Breakdown</h4>
+          <div class="space-y-2">
+            <div v-for="day in selectedWeek?.days.slice(1, 6)" :key="day.date"
+                 class="flex justify-between items-center p-3 bg-zinc-800/30 rounded-lg">
+              <div class="flex items-center gap-3">
+                <div class="font-medium">{{ day.dayName }}</div>
+                <div class="text-sm text-zinc-400">{{ day.date }}</div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="text-sm">{{ day.trades.length }} trades</div>
+                <div v-if="day.trades.length > 0" :class="[
+                  'text-sm font-bold',
+                  day.pnl >= 0 ? 'text-green-400' : 'text-red-400'
+                ]">
+                  {{ day.pnl >= 0 ? '+' : '' }}{{ day.pnl.toFixed(1) }}%
+                </div>
+                <div v-else class="text-sm text-zinc-500">No trades</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monthly Summary Modal -->
+    <div v-if="showMonthlySummary" 
+         class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+         @click.self="showMonthlySummary = false">
+      <div class="bg-zinc-900 rounded-2xl border border-zinc-800 w-full max-w-4xl max-h-[90vh] overflow-hidden">
+        <div class="flex justify-between items-center p-6 border-b border-zinc-800">
+          <h3 class="text-xl font-bold text-yellow-400">{{ currentMonthName }} {{ currentYear }} - Monthly Summary</h3>
+          <button @click="showMonthlySummary = false" 
+                  class="p-2 hover:bg-zinc-800 rounded-lg transition-colors">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+            <div class="bg-zinc-800/50 p-4 rounded-xl text-center">
+              <div class="text-2xl font-bold text-yellow-400">{{ monthlyStats.totalTrades }}</div>
+              <div class="text-xs text-zinc-400">Total Trades</div>
+            </div>
+            <div class="bg-zinc-800/50 p-4 rounded-xl text-center">
+              <div :class="[
+                'text-2xl font-bold',
+                monthlyStats.totalPnL >= 0 ? 'text-green-400' : 'text-red-400'
+              ]">
+                {{ monthlyStats.totalPnL >= 0 ? '+' : '' }}{{ monthlyStats.totalPnL.toFixed(1) }}%
+              </div>
+              <div class="text-xs text-zinc-400">Total P&L</div>
+            </div>
+            <div class="bg-zinc-800/50 p-4 rounded-xl text-center">
+              <div class="text-2xl font-bold text-yellow-400">{{ monthlyStats.winRate }}%</div>
+              <div class="text-xs text-zinc-400">Win Rate</div>
+            </div>
+            <div class="bg-zinc-800/50 p-4 rounded-xl text-center">
+              <div class="text-2xl font-bold text-blue-400">{{ monthlyStats.activeDays }}</div>
+              <div class="text-xs text-zinc-400">Active Days</div>
+            </div>
+            <div class="bg-zinc-800/50 p-4 rounded-xl text-center">
+              <div class="text-2xl font-bold text-purple-400">{{ monthlyStats.avgDaily.toFixed(1) }}%</div>
+              <div class="text-xs text-zinc-400">Avg Daily</div>
+            </div>
+          </div>
+
+          <!-- Weekly Performance Chart -->
+          <div class="mb-8">
+            <h4 class="text-lg font-bold text-white mb-4">Weekly Performance</h4>
+            <div class="bg-zinc-800/50 rounded-lg p-4 h-64 flex items-center justify-center border border-zinc-700/50">
+              <div class="text-center">
+                <div class="text-3xl mb-2">📊</div>
+                <div class="text-sm text-zinc-400">Weekly P&L Chart</div>
+                <div class="text-xs text-zinc-500 mt-1">(Chart visualization would go here)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Best and Worst Days -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 class="text-lg font-bold text-green-400 mb-4">Best Trading Days</h4>
+              <div class="space-y-2">
+                <div v-for="day in monthlyStats.bestDays" :key="day.date"
+                     class="flex justify-between items-center p-3 bg-green-900/20 rounded-lg border border-green-700/30">
+                  <div>
+                    <div class="font-medium">{{ day.dayName }}, {{ day.date }}</div>
+                    <div class="text-sm text-zinc-400">{{ day.trades.length }} trades</div>
+                  </div>
+                  <div class="text-green-400 font-bold">+{{ day.pnl.toFixed(1) }}%</div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="text-lg font-bold text-red-400 mb-4">Challenging Days</h4>
+              <div class="space-y-2">
+                <div v-for="day in monthlyStats.worstDays" :key="day.date"
+                     class="flex justify-between items-center p-3 bg-red-900/20 rounded-lg border border-red-700/30">
+                  <div>
+                    <div class="font-medium">{{ day.dayName }}, {{ day.date }}</div>
+                    <div class="text-sm text-zinc-400">{{ day.trades.length }} trades</div>
+                  </div>
+                  <div class="text-red-400 font-bold">{{ day.pnl.toFixed(1) }}%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -259,6 +426,9 @@ const currentMonth = ref(0) // January 2025
 const currentYear = ref(2025)
 const selectedDay = ref(null)
 const notesSaved = ref(false)
+const showWeeklySummaryModal = ref(false)
+const showMonthlySummary = ref(false)
+const selectedWeek = ref(null)
 
 const monthNames = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -300,6 +470,12 @@ const tradingNotes = [
 // Generate realistic trading data
 function generateRealisticTrades(dateString, dayOfWeek) {
   const trades = []
+  
+  // Skip weekends
+  if (dayOfWeek === 0 || dayOfWeek === 6) {
+    return { trades: [], notes: '' }
+  }
+  
   const numTrades = Math.floor(Math.random() * 4) + 1 // 1-4 trades per day
   
   // Higher probability of trading on Tuesday-Thursday
@@ -372,12 +548,8 @@ onMounted(() => {
       for (let day = 1; day <= daysInMonth; day++) {
         const date = new Date(year, actualMonth, day)
         const dayOfWeek = date.getDay()
-        
-        // Only generate trades for weekdays (Monday-Friday)
-        if (dayOfWeek >= 1 && dayOfWeek <= 5) {
-          const dateString = date.toISOString().split('T')[0]
-          tradingData.value[dateString] = generateRealisticTrades(dateString, dayOfWeek)
-        }
+        const dateString = date.toISOString().split('T')[0]
+        tradingData.value[dateString] = generateRealisticTrades(dateString, dayOfWeek)
       }
     }
     
@@ -416,7 +588,8 @@ const calendarWeeks = computed(() => {
     const week = {
       weekNumber: weekNumber++,
       days: [],
-      summary: { totalTrades: 0, totalPnL: 0, winRate: 0 }
+      summary: { totalTrades: 0, totalPnL: 0, winRate: 0 },
+      activeDays: 0
     }
     
     // Generate 7 days for the week (Sat, Mon, Tue, Wed, Thu, Fri, Sun)
@@ -444,6 +617,7 @@ const calendarWeeks = computed(() => {
     week.summary.totalPnL = tradingDays.reduce((sum, day) => sum + day.pnl, 0)
     week.summary.winRate = week.summary.totalTrades > 0 ? 
       Math.round((tradingDays.reduce((sum, day) => sum + day.trades.filter(t => t.pnl > 0).length, 0) / week.summary.totalTrades) * 100) : 0
+    week.activeDays = tradingDays.filter(day => day.trades.length > 0).length
     
     weeks.push(week)
     
@@ -451,6 +625,40 @@ const calendarWeeks = computed(() => {
   }
   
   return weeks
+})
+
+// Monthly statistics
+const monthlyStats = computed(() => {
+  const allDays = calendarWeeks.value.flatMap(week => 
+    week.days.slice(1, 6).filter(day => day.isCurrentMonth && !day.isWeekend)
+  )
+  
+  const activeDays = allDays.filter(day => day.trades.length > 0)
+  const totalTrades = allDays.reduce((sum, day) => sum + day.trades.length, 0)
+  const totalPnL = allDays.reduce((sum, day) => sum + day.pnl, 0)
+  const totalWins = allDays.reduce((sum, day) => sum + day.trades.filter(t => t.pnl > 0).length, 0)
+  
+  // Best and worst days
+  const daysWithTrades = activeDays.filter(day => day.trades.length > 0)
+  const bestDays = daysWithTrades
+    .filter(day => day.pnl > 0)
+    .sort((a, b) => b.pnl - a.pnl)
+    .slice(0, 3)
+  
+  const worstDays = daysWithTrades
+    .filter(day => day.pnl < 0)
+    .sort((a, b) => a.pnl - b.pnl)
+    .slice(0, 3)
+  
+  return {
+    totalTrades,
+    totalPnL,
+    winRate: totalTrades > 0 ? Math.round((totalWins / totalTrades) * 100) : 0,
+    activeDays: activeDays.length,
+    avgDaily: activeDays.length > 0 ? totalPnL / activeDays.length : 0,
+    bestDays,
+    worstDays
+  }
 })
 
 function createDayObject(dayDate) {
@@ -536,6 +744,11 @@ function openDayPanel(day) {
 function closeDayPanel() {
   selectedDay.value = null
   notesSaved.value = false
+}
+
+function showWeeklySummary(week, weekIndex) {
+  selectedWeek.value = week
+  showWeeklySummaryModal.value = true
 }
 
 function addTrade() {

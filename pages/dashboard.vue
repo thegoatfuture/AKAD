@@ -25,9 +25,6 @@
         </div>
       </div>
 
-      <!-- Trading Journal - Full Width -->
-      <TradingJournal />
-
       <!-- Equity Chart -->
       <EquityChart />
 
@@ -36,6 +33,9 @@
         <ChallengeProgress />
         <BadgesAchievements />
       </div>
+
+      <!-- Trading Journal - Moved to bottom -->
+      <TradingJournal />
     </main>
   </div>
 </template>
