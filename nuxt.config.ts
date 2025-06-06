@@ -31,7 +31,6 @@ export default defineNuxtConfig({
     payloadExtraction: false
   },
   runtimeConfig: {
-    stripeSecretKey: process.env.STRIPE_SECRET_KEY,
     public: {
       baseUrl: process.env.BASE_URL || 'http://localhost:3000',
       nuxtSupabaseUrl: process.env.SUPABASE_URL,

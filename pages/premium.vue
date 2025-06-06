@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 
 definePageMeta({
   layout: 'dashboard',
 })
 
-const router = useRouter()
 const showModal = ref(false)
 
 function handleSubscribe() {
@@ -15,17 +13,8 @@ function handleSubscribe() {
 
 async function proceedToPayment() {
   showModal.value = false
-  const { data, error } = await useFetch('/api/create-checkout-session', {
-    method: 'POST',
-    body: { plan: 'premium' },
-  })
-  if (error.value) {
-    // TODO: handle the error with proper user feedback
-    return
-  }
-  if (data.value?.url) {
-    window.location.href = data.value.url as string
-  }
+  // Redirection vers la page de contact pour l'abonnement
+  navigateTo('/contact')
 }
 </script>
 
@@ -80,7 +69,7 @@ async function proceedToPayment() {
           <div class="flex-1">
             <p class="mb-1">Essai gratuit</p>
             <p class="text-green-400 font-bold text-lg">
-              7 jours d’accès sans engagement
+              7 jours d'accès sans engagement
             </p>
           </div>
         </div>
@@ -95,7 +84,7 @@ async function proceedToPayment() {
           S'abonner à AKAD Premium
         </button>
         <p class="text-xs text-gray-400 mt-2">
-          Annulable à tout moment depuis votre espace personnel.
+          Contactez-nous pour plus d'informations sur l'abonnement.
         </p>
       </div>
 
@@ -116,14 +105,14 @@ async function proceedToPayment() {
             Souscription AKAD Premium
           </h3>
           <p class="text-sm text-gray-300 mb-6">
-            Vous allez être redirigé vers la page de paiement pour finaliser
+            Vous allez être redirigé vers la page de contact pour finaliser
             votre abonnement.
           </p>
           <button
             @click="proceedToPayment"
             class="bg-yellow-400 text-black font-bold px-4 py-2 rounded hover:bg-yellow-500 transition w-full"
           >
-            Procéder au paiement
+            Nous contacter
           </button>
         </div>
       </div>
