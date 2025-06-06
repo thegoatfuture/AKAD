@@ -2,7 +2,7 @@
   <div ref="cursor" class="fixed inset-0 pointer-events-none" style="z-index: 0;">
     <div 
       ref="glowElement"
-      class="absolute w-12 h-12 bg-yellow-400/10 rounded-full blur-x3 transition-transform duration-100 ease-out"
+      class="absolute w-12 h-12 bg-yellow-400/10 rounded-full blur-x1 transition-transform duration-100 ease-out"
       :style="{ transform: `translate(${position.x}px, ${position.y}px)` }"
     ></div>
   </div>
