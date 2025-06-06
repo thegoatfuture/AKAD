@@ -26,6 +26,10 @@ export default defineNuxtConfig({
       }
     }
   },
+  ssr: true,
+  experimental: {
+    payloadExtraction: false
+  },
   runtimeConfig: {
     stripeSecretKey: process.env.STRIPE_SECRET_KEY,
     public: {
