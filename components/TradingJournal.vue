@@ -272,35 +272,115 @@ const currentMonthName = computed(() => monthNames[currentMonth.value])
 // Sample trading data with localStorage persistence
 const tradingData = ref({})
 
+// Realistic trading symbols and scenarios
+const tradingSymbols = [
+  'EUR/USD', 'GBP/USD', 'USD/JPY', 'AUD/USD', 'USD/CHF', 'NZD/USD',
+  'EUR/GBP', 'GBP/JPY', 'EUR/JPY', 'AUD/JPY', 'CAD/JPY', 'CHF/JPY',
+  'XAU/USD', 'US30', 'NAS100', 'SPX500', 'UK100', 'GER40'
+]
+
+const tradingNotes = [
+  'Strong momentum after NFP release. Clean breakout above resistance.',
+  'Caught the London session reversal perfectly. Risk/reward 1:3.',
+  'Market consolidation phase. Waited for clear direction before entry.',
+  'News-driven volatility created excellent scalping opportunities.',
+  'Trend continuation trade worked well. Held position through minor pullback.',
+  'Quick scalp during NY session overlap. In and out within 15 minutes.',
+  'Support level held perfectly. Bounced exactly as expected.',
+  'Breakout failed, but quick exit limited losses. Good risk management.',
+  'Patience paid off. Waited 2 hours for the perfect setup.',
+  'Strong dollar momentum across all pairs. Rode the trend.',
+  'ECB dovish tone created EUR weakness. Capitalized on the move.',
+  'Technical analysis spot on. Fibonacci retracement worked perfectly.',
+  'Market sentiment shifted after Fed minutes. Adapted strategy quickly.',
+  'Clean price action setup. No indicators needed for this trade.',
+  'Volatility spike during Asian session. Managed risk carefully.'
+]
+
+// Generate realistic trading data
+function generateRealisticTrades(dateString, dayOfWeek) {
+  const trades = []
+  const numTrades = Math.floor(Math.random() * 4) + 1 // 1-4 trades per day
+  
+  // Higher probability of trading on Tuesday-Thursday
+  const tradingProbability = dayOfWeek === 2 || dayOfWeek === 3 || dayOfWeek === 4 ? 0.9 : 0.7
+  
+  if (Math.random() > tradingProbability) return { trades: [], notes: '' }
+  
+  for (let i = 0; i < numTrades; i++) {
+    const symbol = tradingSymbols[Math.floor(Math.random() * tradingSymbols.length)]
+    const isWin = Math.random() > 0.35 // 65% win rate
+    const pnl = isWin ? 
+      (Math.random() * 2.5 + 0.5) : // Win: 0.5% to 3%
+      -(Math.random() * 1.5 + 0.3)   // Loss: -0.3% to -1.8%
+    
+    const hour = Math.floor(Math.random() * 10) + 8 // 8:00 to 17:59
+    const minute = Math.floor(Math.random() * 60)
+    
+    // Generate realistic prices based on symbol
+    let entry, exit, size
+    if (symbol.includes('JPY')) {
+      entry = (Math.random() * 20 + 140).toFixed(2)
+      exit = (parseFloat(entry) + (pnl > 0 ? Math.random() * 0.5 : -Math.random() * 0.3)).toFixed(2)
+      size = (Math.random() * 0.8 + 0.2).toFixed(1)
+    } else if (symbol.includes('XAU')) {
+      entry = (Math.random() * 100 + 2000).toFixed(2)
+      exit = (parseFloat(entry) + (pnl > 0 ? Math.random() * 15 : -Math.random() * 10)).toFixed(2)
+      size = (Math.random() * 0.3 + 0.1).toFixed(1)
+    } else if (symbol.includes('US30') || symbol.includes('NAS') || symbol.includes('SPX')) {
+      entry = (Math.random() * 1000 + 35000).toFixed(0)
+      exit = (parseFloat(entry) + (pnl > 0 ? Math.random() * 50 : -Math.random() * 30)).toFixed(0)
+      size = (Math.random() * 0.5 + 0.1).toFixed(1)
+    } else {
+      entry = (Math.random() * 0.3 + 1.0).toFixed(4)
+      exit = (parseFloat(entry) + (pnl > 0 ? Math.random() * 0.01 : -Math.random() * 0.008)).toFixed(4)
+      size = (Math.random() * 0.8 + 0.2).toFixed(1)
+    }
+    
+    trades.push({
+      symbol,
+      time: `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`,
+      entry,
+      exit,
+      size,
+      pnl: parseFloat(pnl.toFixed(2))
+    })
+  }
+  
+  // Generate realistic notes
+  const notes = Math.random() > 0.4 ? 
+    tradingNotes[Math.floor(Math.random() * tradingNotes.length)] : ''
+  
+  return { trades, notes }
+}
+
 // Load data from localStorage on mount
 onMounted(() => {
   const saved = localStorage.getItem('tradingJournalData')
   if (saved) {
     tradingData.value = JSON.parse(saved)
   } else {
-    // Initialize with sample data
-    tradingData.value = {
-      '2025-01-06': {
-        trades: [
-          { symbol: 'EUR/USD', time: '09:30', entry: '1.0450', exit: '1.0465', size: '0.5', pnl: 1.44 },
-          { symbol: 'GBP/USD', time: '14:15', entry: '1.2750', exit: '1.2735', size: '0.3', pnl: -1.18 }
-        ],
-        notes: 'Good momentum in EUR/USD morning session. GBP/USD stopped out due to unexpected news.'
-      },
-      '2025-01-07': {
-        trades: [
-          { symbol: 'USD/JPY', time: '10:00', entry: '157.50', exit: '158.20', size: '0.4', pnl: 1.78 },
-          { symbol: 'EUR/USD', time: '15:30', entry: '1.0440', exit: '1.0455', size: '0.6', pnl: 0.86 }
-        ],
-        notes: 'Strong JPY weakness continued. EUR showing resilience.'
-      },
-      '2025-01-08': {
-        trades: [
-          { symbol: 'GBP/JPY', time: '08:45', entry: '200.50', exit: '201.80', size: '0.2', pnl: 1.30 }
-        ],
-        notes: 'Single high-conviction trade on GBP/JPY breakout.'
+    // Generate realistic sample data for the current month and previous months
+    tradingData.value = {}
+    
+    // Generate data for December 2024 and January 2025
+    for (let month = 11; month <= 12; month++) {
+      const year = month === 11 ? 2024 : 2025
+      const actualMonth = month === 11 ? 11 : 0
+      const daysInMonth = new Date(year, actualMonth + 1, 0).getDate()
+      
+      for (let day = 1; day <= daysInMonth; day++) {
+        const date = new Date(year, actualMonth, day)
+        const dayOfWeek = date.getDay()
+        
+        // Only generate trades for weekdays (Monday-Friday)
+        if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+          const dateString = date.toISOString().split('T')[0]
+          tradingData.value[dateString] = generateRealisticTrades(dateString, dayOfWeek)
+        }
       }
     }
+    
     saveToLocalStorage()
   }
   
@@ -375,6 +455,13 @@ const calendarWeeks = computed(() => {
 
 function createDayObject(dayDate) {
   const dateString = dayDate.toISOString().split('T')[0]
+  const dayOfWeek = dayDate.getDay()
+  
+  // Generate data for weekdays if not exists
+  if (!tradingData.value[dateString] && dayOfWeek >= 1 && dayOfWeek <= 5) {
+    tradingData.value[dateString] = generateRealisticTrades(dateString, dayOfWeek)
+  }
+  
   const dayData = tradingData.value[dateString] || { trades: [], notes: '' }
   
   return {
@@ -454,13 +541,32 @@ function closeDayPanel() {
 function addTrade() {
   if (!selectedDay.value) return
   
+  const symbol = tradingSymbols[Math.floor(Math.random() * tradingSymbols.length)]
+  const isWin = Math.random() > 0.35
+  const pnl = isWin ? (Math.random() * 2.5 + 0.5) : -(Math.random() * 1.5 + 0.3)
+  
+  let entry, exit, size
+  if (symbol.includes('JPY')) {
+    entry = (Math.random() * 20 + 140).toFixed(2)
+    exit = (parseFloat(entry) + (pnl > 0 ? Math.random() * 0.5 : -Math.random() * 0.3)).toFixed(2)
+    size = (Math.random() * 0.8 + 0.2).toFixed(1)
+  } else if (symbol.includes('XAU')) {
+    entry = (Math.random() * 100 + 2000).toFixed(2)
+    exit = (parseFloat(entry) + (pnl > 0 ? Math.random() * 15 : -Math.random() * 10)).toFixed(2)
+    size = (Math.random() * 0.3 + 0.1).toFixed(1)
+  } else {
+    entry = (Math.random() * 0.3 + 1.0).toFixed(4)
+    exit = (parseFloat(entry) + (pnl > 0 ? Math.random() * 0.01 : -Math.random() * 0.008)).toFixed(4)
+    size = (Math.random() * 0.8 + 0.2).toFixed(1)
+  }
+  
   const newTrade = {
-    symbol: 'EUR/USD',
+    symbol,
     time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
-    entry: '1.0500',
-    exit: '1.0520',
-    size: '0.5',
-    pnl: 1.90
+    entry,
+    exit,
+    size,
+    pnl: parseFloat(pnl.toFixed(2))
   }
   
   selectedDay.value.trades.push(newTrade)
