@@ -25,6 +25,9 @@
         </div>
       </div>
 
+      <!-- Trading Plan - New Component -->
+      <TradingPlan />
+
       <!-- Equity Chart -->
       <EquityChart />
 
@@ -33,20 +36,15 @@
         <ChallengeProgress />
         <BadgesAchievements />
       </div>
-
-      <!-- Trading Journal -->
-      <div class="flex gap-6">
-        <TradingJournal />
-      </div>
     </main>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import TradingPlan from '../components/TradingPlan.vue'
 import EquityChart from '../components/EquityChart.vue'
 import ChallengeProgress from '../components/ChallengeProgress.vue'
-import TradingJournal from '../components/TradingJournal.vue'
 import BadgesAchievements from '../components/BadgesAchievements.vue'
 
 definePageMeta({
