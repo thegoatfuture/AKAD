@@ -1,5 +1,5 @@
 <template>
-  <div ref="cursor" class="cursor-glow fixed pointer-events-none z-50 transition-transform duration-100 ease-out top-0">
+  <div ref="cursor" class="cursor-glow fixed pointer-events-none z-50 transition-transform duration-100 ease-out">
     <div :class="[
       'w-16 h-16 bg-yellow-400/30 rounded-full blur-2xl transform scale-150 transition-opacity duration-300',
       { 'opacity-0': isMoving }
@@ -14,7 +14,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-const cursor = ref(false)
+const cursor = ref(null)
 const isMoving = ref(false)
 let timeout = null
 
@@ -24,8 +24,8 @@ function updateCursorPosition(e) {
   const x = e.clientX
   const y = e.clientY
   
-  // Offset the glow effect to the left by 32px
-  cursor.value.style.transform = `translate(${x - 32}px, ${y}px)`
+  // Center the glow effect precisely under the cursor
+  cursor.value.style.transform = `translate(${x - 32}px, ${y - 32}px)`
 
   // Set isMoving to true and clear any existing timeout
   isMoving.value = true
