@@ -3,10 +3,10 @@
     <div class="flex justify-between items-center mb-6">
       <div>
         <h3 class="text-xl font-bold text-yellow-400">Plan de Trading</h3>
-        <p class="text-sm text-zinc-400 mt-1">Semaine {{ currentWeek + 1 }} - Planification week-end</p>
+        <p class="text-sm text-zinc-400 mt-1">Semaine {{ currentWeek + 1 }} - {{ isWeekend ? 'Planification active' : 'Exécution uniquement' }}</p>
       </div>
       <div class="flex gap-2">
-        <button @click="currentWeek = Math.max(0, currentWeek - 1)" 
+        <button @click="previousWeek" 
                 class="p-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
@@ -15,7 +15,7 @@
         <span class="px-3 py-2 bg-yellow-400 text-black rounded-lg font-medium text-sm">
           Week {{ currentWeek + 1 }}
         </span>
-        <button @click="currentWeek++" 
+        <button @click="nextWeek" 
                 class="p-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -52,7 +52,7 @@
                ? 'border-yellow-400 bg-yellow-400/10' 
                : 'border-zinc-700 bg-zinc-800/30 hover:border-zinc-600',
              day.isToday ? 'ring-1 ring-blue-400' : '',
-             !isWeekend && day.isEditable ? 'opacity-50 cursor-not-allowed' : ''
+             !isWeekend && !day.canModify ? 'opacity-75' : ''
            ]">
         
         <!-- Day Header -->
@@ -62,23 +62,23 @@
         </div>
 
         <!-- Status Indicator -->
-        <div class="mb-2">
+        <div class="mb-2 flex justify-center">
           <div v-if="day.status === 'completed'" 
-               class="w-4 h-4 bg-green-400 rounded-full mx-auto flex items-center justify-center">
+               class="w-4 h-4 bg-green-400 rounded-full flex items-center justify-center">
             <svg class="w-2 h-2 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
             </svg>
           </div>
           <div v-else-if="day.status === 'executed'" 
-               class="w-4 h-4 bg-blue-400 rounded-full mx-auto flex items-center justify-center">
+               class="w-4 h-4 bg-blue-400 rounded-full flex items-center justify-center">
             <svg class="w-2 h-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/>
             </svg>
           </div>
           <div v-else-if="day.status === 'active'" 
-               class="w-4 h-4 bg-yellow-400 rounded-full mx-auto animate-pulse"></div>
+               class="w-4 h-4 bg-yellow-400 rounded-full animate-pulse"></div>
           <div v-else 
-               class="w-4 h-4 bg-zinc-600 rounded-full mx-auto"></div>
+               class="w-4 h-4 bg-zinc-600 rounded-full"></div>
         </div>
 
         <!-- Quick Stats -->
@@ -104,7 +104,7 @@
         </div>
 
         <!-- Lock indicator for weekdays when not weekend -->
-        <div v-if="!isWeekend && day.isEditable" 
+        <div v-if="!isWeekend && !day.canModify" 
              class="absolute top-1 right-1 text-zinc-500">
           <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
@@ -113,15 +113,27 @@
       </div>
     </div>
 
-    <!-- Weekend Planning Notice -->
+    <!-- Weekend/Weekday Notice -->
     <div v-if="!isWeekend" class="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4">
       <div class="flex items-center gap-3">
         <svg class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
         <div>
-          <p class="text-sm font-medium text-blue-400">Planification week-end uniquement</p>
-          <p class="text-xs text-blue-300/80">Vous pouvez modifier les objectifs seulement le week-end. En semaine, marquez les jours comme "exécutés" ou "complétés".</p>
+          <p class="text-sm font-medium text-blue-400">Mode exécution - Semaine</p>
+          <p class="text-xs text-blue-300/80">Planification verrouillée. Vous pouvez seulement marquer les jours comme "exécutés" ou "complétés".</p>
+        </div>
+      </div>
+    </div>
+
+    <div v-else class="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-4">
+      <div class="flex items-center gap-3">
+        <svg class="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+        </svg>
+        <div>
+          <p class="text-sm font-medium text-green-400">Mode planification - Week-end</p>
+          <p class="text-xs text-green-300/80">Vous pouvez modifier les objectifs pour la semaine prochaine et gérer la semaine actuelle.</p>
         </div>
       </div>
     </div>
@@ -184,10 +196,18 @@
 
     <!-- Weekly Summary - Compact -->
     <div class="mt-4 p-4 bg-gradient-to-r from-yellow-400/10 to-yellow-500/10 rounded-xl border border-yellow-400/20">
-      <div class="grid grid-cols-2 gap-4 text-sm">
+      <div class="grid grid-cols-4 gap-4 text-sm">
         <div>
-          <div class="text-zinc-400">Jours complétés</div>
+          <div class="text-zinc-400">Complétés</div>
           <div class="font-bold">{{ completedDays }}/5</div>
+        </div>
+        <div>
+          <div class="text-zinc-400">Exécutés</div>
+          <div class="font-bold">{{ executedDays }}/5</div>
+        </div>
+        <div>
+          <div class="text-zinc-400">Avg Trades</div>
+          <div class="font-bold">{{ avgDailyTrades }}</div>
         </div>
         <div>
           <div class="text-zinc-400">Focus</div>
@@ -217,7 +237,7 @@ const weekDays = ref([
     shortName: 'Lun',
     date: '15',
     isToday: false,
-    isEditable: true,
+    canModify: false, // Can only modify on weekends
     tradesPlanned: 3,
     tradesExecuted: 2,
     winRate: 75,
@@ -228,7 +248,7 @@ const weekDays = ref([
     shortName: 'Mar',
     date: '16',
     isToday: true,
-    isEditable: true,
+    canModify: false,
     tradesPlanned: 4,
     tradesExecuted: 1,
     winRate: 100,
@@ -239,7 +259,7 @@ const weekDays = ref([
     shortName: 'Mer',
     date: '17',
     isToday: false,
-    isEditable: true,
+    canModify: false,
     tradesPlanned: 2,
     tradesExecuted: 0,
     winRate: 0,
@@ -250,7 +270,7 @@ const weekDays = ref([
     shortName: 'Jeu',
     date: '18',
     isToday: false,
-    isEditable: true,
+    canModify: false,
     tradesPlanned: 3,
     tradesExecuted: 0,
     winRate: 0,
@@ -261,7 +281,7 @@ const weekDays = ref([
     shortName: 'Ven',
     date: '19',
     isToday: false,
-    isEditable: true,
+    canModify: false,
     tradesPlanned: 2,
     tradesExecuted: 0,
     winRate: 0,
@@ -287,6 +307,17 @@ const weekStats = computed(() => {
 
 const completedDays = computed(() => {
   return tradingDays.value.filter(day => day.status === 'completed').length
+})
+
+const executedDays = computed(() => {
+  return tradingDays.value.filter(day => day.status === 'executed' || day.status === 'completed').length
+})
+
+const avgDailyTrades = computed(() => {
+  const activeDays = tradingDays.value.filter(day => day.tradesExecuted > 0)
+  if (activeDays.length === 0) return 0
+  const total = activeDays.reduce((sum, day) => sum + day.tradesExecuted, 0)
+  return Math.round((total / activeDays.length) * 10) / 10
 })
 
 const focusArea = computed(() => {
@@ -338,6 +369,14 @@ function resetDay(dayIndex) {
   day.tradesExecuted = 0
   day.winRate = 0
   day.status = 'pending'
+}
+
+function previousWeek() {
+  currentWeek.value = Math.max(0, currentWeek.value - 1)
+}
+
+function nextWeek() {
+  currentWeek.value++
 }
 
 onMounted(() => {
