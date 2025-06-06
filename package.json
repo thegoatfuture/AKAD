@@ -9,6 +9,8 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "@vueuse/core": "^10.7.0",
     "lucide-vue-next": "^0.303.0",
     "nuxt": "^3.9.0"
   },
