@@ -24,8 +24,8 @@ function updateCursorPosition(e) {
   const x = e.clientX
   const y = e.clientY
   
-  // Center the glow effect precisely under the cursor
-  cursor.value.style.transform = `translate(${x - 0}px, ${y - 0}px)`
+  // Offset the glow effect to the left by 32px
+  cursor.value.style.transform = `translate(${x - 32}px, ${y}px)`
 
   // Set isMoving to true and clear any existing timeout
   isMoving.value = true
