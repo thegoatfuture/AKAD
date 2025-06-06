@@ -44,8 +44,8 @@
 
       <!-- Account Status Cards -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Active Challenge -->
-        <div class="lg:col-span-2 bg-zinc-900/50 backdrop-blur-lg rounded-2xl p-8 border border-zinc-800/50 relative overflow-hidden">
+        <!-- Active Challenge - Reduced size -->
+        <div class="lg:col-span-2 bg-zinc-900/50 backdrop-blur-lg rounded-2xl p-6 border border-zinc-800/50 relative overflow-hidden">
           <!-- Status indicator -->
           <div class="absolute top-4 right-4">
             <div class="flex items-center gap-2 bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium">
@@ -54,8 +54,8 @@
             </div>
           </div>
 
-          <div class="mb-6">
-            <h2 class="text-2xl font-bold text-yellow-400 mb-2">AKAD Challenge #510163222</h2>
+          <div class="mb-4">
+            <h2 class="text-xl font-bold text-yellow-400 mb-1">AKAD Challenge #510163222</h2>
             <div class="flex items-center gap-4 text-sm text-zinc-400">
               <span>Jour 8/14</span>
               <span>•</span>
@@ -66,23 +66,23 @@
           </div>
 
           <!-- Progress Bar -->
-          <div class="mb-6">
+          <div class="mb-4">
             <div class="flex justify-between items-center mb-2">
               <span class="text-sm text-zinc-400">Progression vers l'objectif</span>
               <span class="text-sm font-medium">-€2,500 / €8,000</span>
             </div>
-            <div class="h-3 bg-zinc-800 rounded-full overflow-hidden">
+            <div class="h-2 bg-zinc-800 rounded-full overflow-hidden">
               <div class="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full transition-all duration-500" 
                    style="width: 0%"></div>
             </div>
           </div>
 
-          <!-- Key Metrics Grid -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <!-- Key Metrics Grid - Compact -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
             <div v-for="stat in accountStats" :key="stat.label" 
-                 class="bg-zinc-800/30 p-4 rounded-xl border border-zinc-700/30 hover:border-yellow-400/30 transition-all duration-300 group">
+                 class="bg-zinc-800/30 p-3 rounded-xl border border-zinc-700/30 hover:border-yellow-400/30 transition-all duration-300 group">
               <p class="text-xs text-zinc-400 mb-1">{{ stat.label }}</p>
-              <p :class="['text-lg font-bold', stat.color]">{{ stat.value }}</p>
+              <p :class="['text-base font-bold', stat.color]">{{ stat.value }}</p>
               <p v-if="stat.change" class="text-xs mt-1 flex items-center gap-1" :class="stat.color">
                 <svg v-if="stat.change.includes('+')" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"/>
@@ -96,11 +96,11 @@
           </div>
 
           <!-- Action Buttons -->
-          <div class="flex gap-3 mt-6">
-            <button class="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black py-3 rounded-lg font-semibold transition-all duration-300">
+          <div class="flex gap-3">
+            <button class="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black py-2.5 rounded-lg font-semibold transition-all duration-300">
               Accéder au Trading
             </button>
-            <button class="px-6 bg-zinc-700 hover:bg-zinc-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+            <button class="px-6 bg-zinc-700 hover:bg-zinc-600 text-white py-2.5 rounded-lg font-semibold transition-all duration-300">
               Détails
             </button>
           </div>
