@@ -40,9 +40,10 @@
                    class="absolute top-0 right-0 text-xl opacity-70">
                 🔒
               </div>
-              <!-- Points indicator -->
-              <div v-if="badge.points" class="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded-full">
-                +{{ badge.points }} pts
+              <!-- Points indicator - Updated positioning and styling -->
+              <div v-if="badge.points" 
+                   class="absolute -left-2 top-0 text-xs text-zinc-400 opacity-50 group-hover:opacity-0 transition-opacity duration-300">
+                +{{ badge.points }}
               </div>
             </div>
 
