@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center mb-6">
       <div>
         <h3 class="text-xl font-bold text-yellow-400">Plan de Trading</h3>
-        <p class="text-sm text-zinc-400 mt-1">Semaine {{ currentWeek + 1 }} - Suivi hebdomadaire</p>
+        <p class="text-sm text-zinc-400 mt-1">Semaine {{ currentWeek + 1 }} - Planification week-end</p>
       </div>
       <div class="flex gap-2">
         <button @click="currentWeek = Math.max(0, currentWeek - 1)" 
@@ -51,7 +51,8 @@
              selectedDay === index 
                ? 'border-yellow-400 bg-yellow-400/10' 
                : 'border-zinc-700 bg-zinc-800/30 hover:border-zinc-600',
-             day.isToday ? 'ring-1 ring-blue-400' : ''
+             day.isToday ? 'ring-1 ring-blue-400' : '',
+             !isWeekend && day.isEditable ? 'opacity-50 cursor-not-allowed' : ''
            ]">
         
         <!-- Day Header -->
@@ -66,6 +67,12 @@
                class="w-4 h-4 bg-green-400 rounded-full mx-auto flex items-center justify-center">
             <svg class="w-2 h-2 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+          <div v-else-if="day.status === 'executed'" 
+               class="w-4 h-4 bg-blue-400 rounded-full mx-auto flex items-center justify-center">
+            <svg class="w-2 h-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/>
             </svg>
           </div>
           <div v-else-if="day.status === 'active'" 
@@ -95,14 +102,37 @@
             day.winRate >= 50 ? 'bg-yellow-400' : 'bg-red-400'
           ]" :style="{ width: `${Math.max(10, day.winRate)}%` }"></div>
         </div>
+
+        <!-- Lock indicator for weekdays when not weekend -->
+        <div v-if="!isWeekend && day.isEditable" 
+             class="absolute top-1 right-1 text-zinc-500">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+        </div>
       </div>
     </div>
 
-    <!-- Selected Day Quick Actions -->
+    <!-- Weekend Planning Notice -->
+    <div v-if="!isWeekend" class="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4">
+      <div class="flex items-center gap-3">
+        <svg class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <div>
+          <p class="text-sm font-medium text-blue-400">Planification week-end uniquement</p>
+          <p class="text-xs text-blue-300/80">Vous pouvez modifier les objectifs seulement le week-end. En semaine, marquez les jours comme "exécutés" ou "complétés".</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selected Day Actions -->
     <div v-if="selectedDay !== null" class="bg-zinc-800/50 rounded-xl p-4">
       <div class="flex justify-between items-center mb-3">
         <h4 class="font-bold text-yellow-400">{{ tradingDays[selectedDay].name }}</h4>
-        <div class="flex gap-2">
+        
+        <!-- Weekend: Full editing -->
+        <div v-if="isWeekend" class="flex gap-2">
           <button @click="updateCounter(selectedDay, 'planned', -1)"
                   class="w-6 h-6 rounded bg-red-500/20 hover:bg-red-500/30 flex items-center justify-center transition-colors">
             <svg class="w-3 h-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -117,9 +147,15 @@
             </svg>
           </button>
         </div>
+        
+        <!-- Weekday: Read-only display -->
+        <div v-else class="text-sm text-zinc-400">
+          Objectif: {{ tradingDays[selectedDay].tradesPlanned }} trades
+        </div>
       </div>
       
-      <div class="flex gap-2">
+      <!-- Weekend: Full control buttons -->
+      <div v-if="isWeekend" class="flex gap-2">
         <button @click="markDayComplete(selectedDay)"
                 :disabled="tradingDays[selectedDay].status === 'completed'"
                 class="flex-1 px-3 py-2 bg-green-400 text-black rounded-lg font-medium text-sm hover:bg-green-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
@@ -128,6 +164,20 @@
         <button @click="resetDay(selectedDay)"
                 class="px-3 py-2 bg-zinc-700 text-white rounded-lg font-medium text-sm hover:bg-zinc-600 transition-colors">
           Reset
+        </button>
+      </div>
+      
+      <!-- Weekday: Limited actions -->
+      <div v-else class="flex gap-2">
+        <button @click="markDayExecuted(selectedDay)"
+                :disabled="tradingDays[selectedDay].status === 'executed' || tradingDays[selectedDay].status === 'completed'"
+                class="flex-1 px-3 py-2 bg-blue-400 text-black rounded-lg font-medium text-sm hover:bg-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+          {{ tradingDays[selectedDay].status === 'executed' ? 'Exécuté' : 'Marquer exécuté' }}
+        </button>
+        <button @click="markDayComplete(selectedDay)"
+                :disabled="tradingDays[selectedDay].status === 'completed'"
+                class="flex-1 px-3 py-2 bg-green-400 text-black rounded-lg font-medium text-sm hover:bg-green-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+          {{ tradingDays[selectedDay].status === 'completed' ? 'Complété' : 'Marquer complété' }}
         </button>
       </div>
     </div>
@@ -154,12 +204,20 @@ import { ref, computed, onMounted } from 'vue'
 const currentWeek = ref(0)
 const selectedDay = ref(null)
 
+// Check if it's weekend (Saturday or Sunday)
+const isWeekend = computed(() => {
+  const today = new Date()
+  const dayOfWeek = today.getDay()
+  return dayOfWeek === 0 || dayOfWeek === 6 // Sunday = 0, Saturday = 6
+})
+
 const weekDays = ref([
   {
     name: 'Lundi',
     shortName: 'Lun',
     date: '15',
     isToday: false,
+    isEditable: true,
     tradesPlanned: 3,
     tradesExecuted: 2,
     winRate: 75,
@@ -170,16 +228,18 @@ const weekDays = ref([
     shortName: 'Mar',
     date: '16',
     isToday: true,
+    isEditable: true,
     tradesPlanned: 4,
     tradesExecuted: 1,
     winRate: 100,
-    status: 'active'
+    status: 'executed'
   },
   {
     name: 'Mercredi',
     shortName: 'Mer',
     date: '17',
     isToday: false,
+    isEditable: true,
     tradesPlanned: 2,
     tradesExecuted: 0,
     winRate: 0,
@@ -190,6 +250,7 @@ const weekDays = ref([
     shortName: 'Jeu',
     date: '18',
     isToday: false,
+    isEditable: true,
     tradesPlanned: 3,
     tradesExecuted: 0,
     winRate: 0,
@@ -200,6 +261,7 @@ const weekDays = ref([
     shortName: 'Ven',
     date: '19',
     isToday: false,
+    isEditable: true,
     tradesPlanned: 2,
     tradesExecuted: 0,
     winRate: 0,
@@ -237,6 +299,9 @@ function selectDay(index) {
 }
 
 function updateCounter(dayIndex, type, delta) {
+  // Only allow editing on weekends
+  if (!isWeekend.value) return
+  
   const day = tradingDays.value[dayIndex]
   if (type === 'planned') {
     day.tradesPlanned = Math.max(0, day.tradesPlanned + delta)
@@ -250,11 +315,24 @@ function updateCounter(dayIndex, type, delta) {
   }
 }
 
+function markDayExecuted(dayIndex) {
+  tradingDays.value[dayIndex].status = 'executed'
+  // Simulate some trading activity
+  const day = tradingDays.value[dayIndex]
+  if (day.tradesExecuted === 0) {
+    day.tradesExecuted = Math.min(day.tradesPlanned, Math.floor(Math.random() * 3) + 1)
+    day.winRate = Math.round((Math.random() * 40 + 50))
+  }
+}
+
 function markDayComplete(dayIndex) {
   tradingDays.value[dayIndex].status = 'completed'
 }
 
 function resetDay(dayIndex) {
+  // Only allow reset on weekends
+  if (!isWeekend.value) return
+  
   const day = tradingDays.value[dayIndex]
   day.tradesPlanned = 0
   day.tradesExecuted = 0
