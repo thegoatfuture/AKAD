@@ -5,8 +5,8 @@
         <h3 class="text-xl font-bold text-yellow-400">Badges & Achievements</h3>
         <p class="text-sm text-zinc-400">{{ unlockedCount }}/{{ badges.length }} badges débloqués</p>
       </div>
-      <NuxtLink to="/challenge" class="text-sm text-yellow-400 hover:text-yellow-300">
-        Voir tous les challenges
+      <NuxtLink to="/badges" class="text-sm text-yellow-400 hover:text-yellow-300">
+        Voir tous les badges
       </NuxtLink>
     </div>
 
