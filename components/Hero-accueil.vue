@@ -2,9 +2,10 @@
   <section class="relative bg-black text-white overflow-hidden py-28 px-6 lg:px-12">
     <!-- Animated background elements -->
     <div class="absolute inset-0 overflow-hidden">
-      <div class="absolute top-0 left-0 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
-      <div class="absolute bottom-0 right-0 w-96 h-96 bg-yellow-400/20 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2 animate-pulse delay-1000"></div>
-      <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-yellow-300/10 rounded-full blur-2xl transform -translate-x-1/2 -translate-y-1/2 animate-pulse delay-500"></div>
+      <!-- Gradient orbs with smooth fade -->
+      <div class="absolute top-0 left-0 w-96 h-96 bg-gradient-to-r from-yellow-500/20 via-yellow-500/10 to-transparent rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
+      <div class="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-l from-yellow-400/20 via-yellow-400/10 to-transparent rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2 animate-pulse delay-1000"></div>
+      <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-br from-yellow-300/10 via-yellow-300/5 to-transparent rounded-full blur-2xl transform -translate-x-1/2 -translate-y-1/2 animate-pulse delay-500"></div>
     </div>
 
     <!-- Main content -->
