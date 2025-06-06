@@ -25,8 +25,8 @@
         </div>
       </div>
 
-      <!-- Trading Plan - New Component -->
-      <TradingPlan />
+      <!-- Trading Journal - Full Width -->
+      <TradingJournal />
 
       <!-- Equity Chart -->
       <EquityChart />
@@ -42,7 +42,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import TradingPlan from '../components/TradingPlan.vue'
+import TradingJournal from '../components/TradingJournal.vue'
 import EquityChart from '../components/EquityChart.vue'
 import ChallengeProgress from '../components/ChallengeProgress.vue'
 import BadgesAchievements from '../components/BadgesAchievements.vue'
