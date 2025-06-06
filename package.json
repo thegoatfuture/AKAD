@@ -14,7 +14,6 @@
     "@supabase/supabase-js": "^2.39.3",
     "@stripe/stripe-js": "^2.2.0",
     "@vitejs/plugin-vue": "^4.5.2",
-    "@vueuse/core": "^10.7.0",
     "chart.js": "^4.4.1",
     "lucide-vue-next": "^0.303.0",
     "nuxt": "^3.9.0",
@@ -23,7 +22,8 @@
     "vue-chartjs": "^5.3.0",
     "vue-router": "^4.2.5",
     "zod": "^3.22.4",
-    "heatmap.js": "^2.0.5"
+    "heatmap.js": "^2.0.5",
+    "@vueuse/core": "^10.7.0"
   },
   "devDependencies": {
     "@nuxt/test-utils": "^3.9.0",
