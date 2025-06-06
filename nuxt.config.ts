@@ -17,6 +17,15 @@ export default defineNuxtConfig({
       ]
     }
   },
+  nitro: {
+    routeRules: {
+      '/**': {
+        headers: {
+          'Content-Security-Policy': "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://s3.tradingview.com"
+        }
+      }
+    }
+  },
   runtimeConfig: {
     stripeSecretKey: process.env.STRIPE_SECRET_KEY,
     public: {
