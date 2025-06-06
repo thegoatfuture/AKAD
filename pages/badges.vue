@@ -1,76 +1,72 @@
 <template>
-  <div class="min-h-screen bg-black text-white py-20 px-4">
-    <div class="max-w-7xl mx-auto">
-      <h1 class="text-4xl font-bold text-yellow-400 mb-8">Badges & Réalisations</h1>
-      
-      <!-- Stats Overview -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-        <div class="bg-zinc-900/80 backdrop-blur rounded-xl p-6 border border-zinc-800/50">
-          <div class="text-3xl font-bold text-yellow-400 mb-2">{{ unlockedCount }}/{{ totalBadges }}</div>
-          <div class="text-zinc-400">Badges Débloqués</div>
-        </div>
-        <div class="bg-zinc-900/80 backdrop-blur rounded-xl p-6 border border-zinc-800/50">
-          <div class="text-3xl font-bold text-yellow-400 mb-2">{{ rareCount }}</div>
-          <div class="text-zinc-400">Badges Rares</div>
-        </div>
-        <div class="bg-zinc-900/80 backdrop-blur rounded-xl p-6 border border-zinc-800/50">
-          <div class="text-3xl font-bold text-yellow-400 mb-2">{{ rewardsValue }}€</div>
-          <div class="text-zinc-400">Récompenses Débloquées</div>
-        </div>
-        <div class="bg-zinc-900/80 backdrop-blur rounded-xl p-6 border border-zinc-800/50">
-          <div class="text-3xl font-bold text-yellow-400 mb-2">{{ nextUnlock }}</div>
-          <div class="text-zinc-400">Prochain Badge</div>
-        </div>
+  <div class="space-y-8">
+    <!-- Stats Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+      <div class="bg-zinc-900/80 backdrop-blur rounded-xl p-6 border border-zinc-800/50">
+        <div class="text-3xl font-bold text-yellow-400 mb-2">{{ unlockedCount }}/{{ totalBadges }}</div>
+        <div class="text-zinc-400">Badges Débloqués</div>
       </div>
+      <div class="bg-zinc-900/80 backdrop-blur rounded-xl p-6 border border-zinc-800/50">
+        <div class="text-3xl font-bold text-yellow-400 mb-2">{{ rareCount }}</div>
+        <div class="text-zinc-400">Badges Rares</div>
+      </div>
+      <div class="bg-zinc-900/80 backdrop-blur rounded-xl p-6 border border-zinc-800/50">
+        <div class="text-3xl font-bold text-yellow-400 mb-2">{{ rewardsValue }}€</div>
+        <div class="text-zinc-400">Récompenses Débloquées</div>
+      </div>
+      <div class="bg-zinc-900/80 backdrop-blur rounded-xl p-6 border border-zinc-800/50">
+        <div class="text-3xl font-bold text-yellow-400 mb-2">{{ nextUnlock }}</div>
+        <div class="text-zinc-400">Prochain Badge</div>
+      </div>
+    </div>
 
-      <!-- Badge Categories -->
-      <div class="space-y-12">
-        <div v-for="(category, index) in badgeCategories" :key="index">
-          <h2 class="text-2xl font-bold mb-6">{{ category.name }}</h2>
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            <div v-for="badge in category.badges" :key="badge.id"
-                 @click="showBadgeDetails(badge)"
-                 class="group relative bg-zinc-800/50 rounded-xl p-6 cursor-pointer border border-zinc-700/30 transition-all duration-300 hover:border-yellow-400/30 hover:transform hover:scale-105">
-              <!-- Badge Icon & Status -->
-              <div class="relative flex justify-center mb-4">
-                <div :class="[
-                  'text-5xl transition-all duration-300 group-hover:scale-110',
-                  badge.unlocked ? 'opacity-100' : 'opacity-40 grayscale'
-                ]">
-                  {{ badge.icon }}
-                </div>
-                <div v-if="!badge.unlocked" 
-                     class="absolute top-0 right-0 text-xl opacity-70">
-                  🔒
+    <!-- Badge Categories -->
+    <div class="space-y-12">
+      <div v-for="(category, index) in badgeCategories" :key="index">
+        <h2 class="text-2xl font-bold mb-6">{{ category.name }}</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div v-for="badge in category.badges" :key="badge.id"
+               @click="showBadgeDetails(badge)"
+               class="group relative bg-zinc-800/50 rounded-xl p-6 cursor-pointer border border-zinc-700/30 transition-all duration-300 hover:border-yellow-400/30 hover:transform hover:scale-105">
+            <!-- Badge Icon & Status -->
+            <div class="relative flex justify-center mb-4">
+              <div :class="[
+                'text-5xl transition-all duration-300 group-hover:scale-110',
+                badge.unlocked ? 'opacity-100' : 'opacity-40 grayscale'
+              ]">
+                {{ badge.icon }}
+              </div>
+              <div v-if="!badge.unlocked" 
+                   class="absolute top-0 right-0 text-xl opacity-70">
+                🔒
+              </div>
+            </div>
+
+            <!-- Badge Info -->
+            <div class="text-center">
+              <h4 class="font-medium mb-2" :class="badge.unlocked ? 'text-white' : 'text-zinc-500'">
+                {{ badge.name }}
+              </h4>
+              <div v-if="badge.unlocked" class="text-xs text-yellow-400">
+                Débloqué {{ badge.unlockedDate }}
+              </div>
+              <div v-else class="text-xs text-zinc-500">
+                {{ badge.progress }}% complété
+              </div>
+            </div>
+
+            <!-- Progress Bar for Locked Badges -->
+            <div v-if="!badge.unlocked" class="absolute bottom-0 left-0 right-0 px-4 pb-4">
+              <div class="h-1 bg-zinc-700 rounded-full overflow-hidden">
+                <div class="h-full bg-yellow-400/50 transition-all duration-300"
+                     :style="{ width: `${badge.progress}%` }">
                 </div>
               </div>
+            </div>
 
-              <!-- Badge Info -->
-              <div class="text-center">
-                <h4 class="font-medium mb-2" :class="badge.unlocked ? 'text-white' : 'text-zinc-500'">
-                  {{ badge.name }}
-                </h4>
-                <div v-if="badge.unlocked" class="text-xs text-yellow-400">
-                  Débloqué {{ badge.unlockedDate }}
-                </div>
-                <div v-else class="text-xs text-zinc-500">
-                  {{ badge.progress }}% complété
-                </div>
-              </div>
-
-              <!-- Progress Bar for Locked Badges -->
-              <div v-if="!badge.unlocked" class="absolute bottom-0 left-0 right-0 px-4 pb-4">
-                <div class="h-1 bg-zinc-700 rounded-full overflow-hidden">
-                  <div class="h-full bg-yellow-400/50 transition-all duration-300"
-                       :style="{ width: `${badge.progress}%` }">
-                  </div>
-                </div>
-              </div>
-
-              <!-- Glow Effect for Unlocked Badges -->
-              <div v-if="badge.unlocked" 
-                   class="absolute inset-0 bg-yellow-400/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity">
-              </div>
+            <!-- Glow Effect for Unlocked Badges -->
+            <div v-if="badge.unlocked" 
+                 class="absolute inset-0 bg-yellow-400/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity">
             </div>
           </div>
         </div>
@@ -134,6 +130,10 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+
+definePageMeta({
+  layout: 'dashboard'
+})
 
 const selectedBadge = ref(null)
 
