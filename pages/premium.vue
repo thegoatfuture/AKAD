@@ -235,21 +235,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { 
-  CheckIcon, 
-  XIcon, 
-  ChevronDownIcon, 
-  CrownIcon, 
-  StarIcon, 
-  ChartBarIcon, 
-  GraduationCap, 
-  HeadphonesIcon, 
-  BellIcon, 
-  ShieldCheckIcon, 
-  ZapIcon, 
-  UsersIcon, 
-  TrendingUpIcon 
-} from 'lucide-vue-next'
+import { CheckIcon, XIcon, ChevronDownIcon, CrownIcon, StarIcon, BarChartIcon as ChartBarIcon, GraduationCap, HeadphonesIcon, BellIcon, ShieldCheckIcon, ZapIcon, UsersIcon, TrendingUpIcon } from 'lucide-vue-next'
 
 definePageMeta({
   layout: 'dashboard',
