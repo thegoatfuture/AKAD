@@ -20,8 +20,8 @@ function updateCursorPosition(e) {
   
   // Center the glow effect relative to the cursor
   position.value = {
-    x: e.clientX - 38, // Half of width (16px)
-    y: e.clientY - 32  // Half of height (16px)
+    x: e.clientX - 32, // Half of width (16px)
+    y: e.clientY - 45  // Half of height (16px)
   }
 }
 
