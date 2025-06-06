@@ -7,6 +7,16 @@ export default defineNuxtConfig({
     },
   },
   plugins: ['@/plugins/intersect.client.js'],
+  app: {
+    head: {
+      meta: [
+        {
+          'http-equiv': 'Content-Security-Policy',
+          content: "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://s3.tradingview.com"
+        }
+      ]
+    }
+  },
   runtimeConfig: {
     stripeSecretKey: process.env.STRIPE_SECRET_KEY,
     public: {
