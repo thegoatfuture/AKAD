@@ -1,11 +1,13 @@
 import Stripe from 'stripe'
 import { readBody } from 'h3'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2024-04-10',
-})
-
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig()
+  
+  const stripe = new Stripe(config.stripeSecretKey as string, {
+    apiVersion: '2024-04-10',
+  })
+
   const body = await readBody(event)
 
   const session = await stripe.checkout.sessions.create({
@@ -21,8 +23,8 @@ export default defineEventHandler(async (event) => {
         quantity: 1,
       },
     ],
-    success_url: `${process.env.BASE_URL || 'http://localhost:3000'}/facturation`,
-    cancel_url: `${process.env.BASE_URL || 'http://localhost:3000'}/premium`,
+    success_url: `${config.public.baseUrl || 'http://localhost:3000'}/facturation`,
+    cancel_url: `${config.public.baseUrl || 'http://localhost:3000'}/premium`,
   })
 
   return { url: session.url }
