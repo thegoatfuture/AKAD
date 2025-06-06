@@ -7,8 +7,8 @@
         <div class="text-zinc-400">Badges Débloqués</div>
       </div>
       <div class="bg-zinc-900/80 backdrop-blur rounded-xl p-6 border border-zinc-800/50">
-        <div class="text-3xl font-bold text-yellow-400 mb-2">{{ rareCount }}</div>
-        <div class="text-zinc-400">Badges Rares</div>
+        <div class="text-3xl font-bold text-yellow-400 mb-2">{{ totalPoints }}</div>
+        <div class="text-zinc-400">Points AKAD</div>
       </div>
       <div class="bg-zinc-900/80 backdrop-blur rounded-xl p-6 border border-zinc-800/50">
         <div class="text-3xl font-bold text-yellow-400 mb-2">{{ rewardsValue }}€</div>
@@ -39,6 +39,10 @@
               <div v-if="!badge.unlocked" 
                    class="absolute top-0 right-0 text-xl opacity-70">
                 🔒
+              </div>
+              <!-- Points indicator -->
+              <div v-if="badge.points" class="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded-full">
+                +{{ badge.points }} pts
               </div>
             </div>
 
@@ -96,6 +100,11 @@
             <div class="font-medium">{{ selectedBadge.condition }}</div>
           </div>
 
+          <div class="bg-zinc-800 rounded-xl p-4">
+            <div class="text-sm text-zinc-400 mb-1">Points</div>
+            <div class="font-medium text-yellow-400">{{ selectedBadge.points }} points AKAD</div>
+          </div>
+
           <div v-if="selectedBadge.unlocked" class="bg-zinc-800 rounded-xl p-4">
             <div class="text-sm text-zinc-400 mb-1">Débloqué le</div>
             <div class="font-medium">{{ selectedBadge.unlockedDate }}</div>
@@ -150,7 +159,8 @@ const badgeCategories = [
         unlocked: true,
         unlockedDate: '10 juin 2025',
         progress: 100,
-        rare: false
+        rare: false,
+        points: 10
       },
       {
         id: 'the-streak',
@@ -162,7 +172,8 @@ const badgeCategories = [
         reward: '-10% sur votre prochain challenge',
         rewardCode: 'STREAK10',
         progress: 60,
-        rare: true
+        rare: true,
+        points: 50
       },
       {
         id: 'the-phoenix',
@@ -172,7 +183,8 @@ const badgeCategories = [
         condition: 'Journée positive après 3 jours de pertes',
         unlocked: false,
         progress: 33,
-        rare: true
+        rare: true,
+        points: 30
       },
       {
         id: 'all-green-week',
@@ -184,7 +196,8 @@ const badgeCategories = [
         reward: '-15% sur votre prochain challenge',
         rewardCode: 'GREEN15',
         progress: 20,
-        rare: true
+        rare: true,
+        points: 50
       },
       {
         id: 'underdog-comeback',
@@ -194,7 +207,8 @@ const badgeCategories = [
         condition: 'Remonter de -5% à +1% en 3 jours',
         unlocked: false,
         progress: 45,
-        rare: true
+        rare: true,
+        points: 40
       }
     ]
   },
@@ -211,7 +225,8 @@ const badgeCategories = [
         reward: '-10% sur votre prochain challenge',
         rewardCode: 'JOURNAL10',
         progress: 80,
-        rare: false
+        rare: false,
+        points: 20
       },
       {
         id: 'steady-hand',
@@ -223,7 +238,8 @@ const badgeCategories = [
         reward: '-10% sur votre prochain challenge',
         rewardCode: 'STEADY10',
         progress: 85,
-        rare: false
+        rare: false,
+        points: 30
       },
       {
         id: 'daily-discipline',
@@ -233,7 +249,8 @@ const badgeCategories = [
         condition: 'Trading actif pendant 7 jours',
         unlocked: false,
         progress: 71,
-        rare: false
+        rare: false,
+        points: 20
       },
       {
         id: 'no-violation-king',
@@ -243,7 +260,8 @@ const badgeCategories = [
         condition: '30 jours sans enfreindre les règles',
         unlocked: false,
         progress: 50,
-        rare: true
+        rare: true,
+        points: 50
       }
     ]
   },
@@ -258,7 +276,8 @@ const badgeCategories = [
         condition: 'Réaliser 3 trades avec ratio > 2',
         unlocked: false,
         progress: 66,
-        rare: false
+        rare: false,
+        points: 30
       },
       {
         id: 'the-sniper',
@@ -268,7 +287,8 @@ const badgeCategories = [
         condition: '2 take profits sans drawdown > 1%',
         unlocked: false,
         progress: 50,
-        rare: true
+        rare: true,
+        points: 40
       },
       {
         id: 'late-game-closer',
@@ -278,7 +298,8 @@ const badgeCategories = [
         condition: 'Dernier trade positif sur 3 jours',
         unlocked: false,
         progress: 33,
-        rare: false
+        rare: false,
+        points: 20
       }
     ]
   },
@@ -295,7 +316,8 @@ const badgeCategories = [
         reward: '-15% sur votre prochain challenge',
         rewardCode: 'COMMUNITY15',
         progress: 33,
-        rare: false
+        rare: false,
+        points: 30
       },
       {
         id: 'challenge-crusher',
@@ -307,7 +329,8 @@ const badgeCategories = [
         reward: 'Challenge gratuit',
         rewardCode: 'CRUSHER100',
         progress: 66,
-        rare: true
+        rare: true,
+        points: 100
       }
     ]
   }
@@ -324,9 +347,11 @@ const unlockedCount = computed(() => {
   }, 0)
 })
 
-const rareCount = computed(() => {
+const totalPoints = computed(() => {
   return badgeCategories.reduce((total, category) => {
-    return total + category.badges.filter(b => b.rare && b.unlocked).length
+    return total + category.badges.reduce((sum, badge) => {
+      return sum + (badge.unlocked ? badge.points : 0)
+    }, 0)
   }, 0)
 })
 
