@@ -12,7 +12,7 @@ export default defineNuxtConfig({
       meta: [
         {
           'http-equiv': 'Content-Security-Policy',
-          content: "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://s3.tradingview.com"
+          content: "script-src 'self' 'unsafe-inline' 'unsafe-eval' data: https://s3.tradingview.com"
         }
       ]
     }
@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     routeRules: {
       '/**': {
         headers: {
-          'Content-Security-Policy': "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://s3.tradingview.com"
+          'Content-Security-Policy': "script-src 'self' 'unsafe-inline' 'unsafe-eval' data: https://s3.tradingview.com"
         }
       }
     }
