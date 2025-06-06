@@ -31,17 +31,32 @@
 
           <div v-if="showProfileMenu" 
                class="absolute right-0 mt-2 w-48 bg-zinc-900 rounded-xl shadow-lg py-2 border border-zinc-800">
+            <NuxtLink to="/dashboard" class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800">
+              Dashboard
+            </NuxtLink>
+            <NuxtLink to="/challenge" class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800">
+              New Challenge
+            </NuxtLink>
+            <NuxtLink to="/billing" class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800">
+              Billing
+            </NuxtLink>
+            <NuxtLink to="/payment-request" class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800">
+              Payment Request
+            </NuxtLink>
             <NuxtLink to="/profile" class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800">
-              Mon Profil
+              Profile
             </NuxtLink>
-            <NuxtLink to="/badges" class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800">
-              Badges & Réalisations
+            <NuxtLink to="/change-password" class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800">
+              Change Password
             </NuxtLink>
-            <NuxtLink to="/settings" class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800">
-              Paramètres
+            <NuxtLink to="/help" class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800">
+              Help Center
+            </NuxtLink>
+            <NuxtLink to="/community" class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800">
+              Join Community
             </NuxtLink>
             <button @click="logout" class="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-zinc-800">
-              Déconnexion
+              Logout
             </button>
           </div>
         </div>
@@ -91,22 +106,6 @@
           >
             {{ item.name }}
           </NuxtLink>
-          <div class="flex flex-col gap-2 pt-4 border-t border-zinc-800">
-            <NuxtLink
-              to="/login"
-              class="text-center py-2 text-gray-300 hover:text-yellow-400 transition-colors"
-              @click="mobileOpen = false"
-            >
-              Connexion
-            </NuxtLink>
-            <NuxtLink
-              to="/register"
-              class="text-center py-2 bg-yellow-400 hover:bg-yellow-500 text-black rounded-lg transition-colors"
-              @click="mobileOpen = false"
-            >
-              Inscription
-            </NuxtLink>
-          </div>
         </nav>
       </div>
     </div>
