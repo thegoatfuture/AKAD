@@ -1,5 +1,14 @@
 <template>
-  <div class="bg-zinc-900/80 backdrop-blur rounded-2xl p-6 border border-zinc-800/50">
+  <div class="bg-zinc-900/80 backdrop-blur rounded-2xl p-6 border border-zinc-800/50 relative overflow-hidden">
+    <!-- Glow effect container -->
+    <div ref="glowContainer" class="absolute inset-0 pointer-events-none">
+      <div 
+        ref="glowElement"
+        class="absolute w-32 h-32 bg-yellow-400/20 rounded-full blur-3xl opacity-0 transition-opacity duration-300"
+        :style="{ transform: `translate(${glowPosition.x}px, ${glowPosition.y}px)` }"
+      ></div>
+    </div>
+
     <div class="flex justify-between items-center mb-6">
       <div>
         <h3 class="text-xl font-bold text-yellow-400">Badges & Achievements</h3>
@@ -60,7 +69,8 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useMouseInElement } from '@vueuse/core'
 
 const badges = [
   {
@@ -111,8 +121,41 @@ const badges = [
 
 const unlockedCount = computed(() => badges.filter(b => b.unlocked).length)
 
+const glowContainer = ref(null)
+const glowElement = ref(null)
+const glowPosition = ref({ x: 0, y: 0 })
+
+const { elementX, elementY, isOutside } = useMouseInElement(glowContainer)
+
+function updateGlowPosition() {
+  if (glowElement.value && !isOutside.value) {
+    // Center the glow effect by subtracting half its width/height
+    glowPosition.value = {
+      x: elementX.value - 64,
+      y: elementY.value - 64
+    }
+    glowElement.value.style.opacity = '1'
+  } else if (glowElement.value) {
+    glowElement.value.style.opacity = '0'
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('mousemove', updateGlowPosition)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('mousemove', updateGlowPosition)
+})
+
 function showBadgeDetails(badge) {
   // TODO: Implement badge details modal
   console.log('Show badge details:', badge)
 }
 </script>
+
+<style scoped>
+.backdrop-blur {
+  backdrop-filter: blur(8px);
+}
+</style>
