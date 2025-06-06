@@ -14,7 +14,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-const cursor = ref(null)
+const cursor = ref(false)
 const isMoving = ref(false)
 let timeout = null
 
@@ -25,7 +25,7 @@ function updateCursorPosition(e) {
   const y = e.clientY
   
   // Center the glow effect precisely under the cursor
-  cursor.value.style.transform = `translate(${x - 32}px, ${y - 32}px)`
+  cursor.value.style.transform = `translate(${x - 0}px, ${y - 0}px)`
 
   // Set isMoving to true and clear any existing timeout
   isMoving.value = true
