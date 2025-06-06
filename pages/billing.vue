@@ -1,1 +1,9 @@
-// Content from the provided billing.vue file
+<template>
+  <div>
+    <h1>Billing</h1>
+  </div>
+</template>
+
+<script setup>
+// Content will be added later
+</script>
