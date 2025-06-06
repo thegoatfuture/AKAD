@@ -16,22 +16,34 @@
     </ClientOnly>
 
     <!-- 4. Étapes du trading avec design amélioré -->
-    <EtapeTradingAccueil />
+    <ClientOnly>
+      <EtapeTradingAccueil />
+    </ClientOnly>
 
     <!-- 5. Objectifs de trading dynamiques -->
-    <ObjectifAccueil />
+    <ClientOnly>
+      <ObjectifAccueil />
+    </ClientOnly>
 
     <!-- 6. Comparatif des comptes -->
-    <ComparatifAccueil />
+    <ClientOnly>
+      <ComparatifAccueil />
+    </ClientOnly>
 
     <!-- 7. Avis clients avec carrousel -->
-    <AvisClientAccueil />
+    <ClientOnly>
+      <AvisClientAccueil />
+    </ClientOnly>
 
     <!-- 8. Avis horizontaux avec animation -->
-    <AvisHorizontalAccueil />
+    <ClientOnly>
+      <AvisHorizontalAccueil />
+    </ClientOnly>
 
     <!-- 9. Marques de confiance -->
-    <TrustAccueil />
+    <ClientOnly>
+      <TrustAccueil />
+    </ClientOnly>
 
     <!-- 10. FAQ interactive -->
     <ClientOnly>
@@ -39,7 +51,9 @@
     </ClientOnly>
 
     <!-- 11. Blog avec images optimisées -->
-    <BlogAccueil />
+    <ClientOnly>
+      <BlogAccueil />
+    </ClientOnly>
 
     <!-- 12. CTA Boost avec compte à rebours -->
     <ClientOnly>
@@ -47,7 +61,9 @@
     </ClientOnly>
 
     <!-- 13. Bande flottante avec notifications -->
-    <BandeFlottanteAccueil />
+    <ClientOnly>
+      <BandeFlottanteAccueil />
+    </ClientOnly>
   </div>
 </template>
 
