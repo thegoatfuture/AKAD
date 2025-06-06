@@ -38,6 +38,6 @@ onBeforeUnmount(() => {
 .transition-transform {
   transition-property: transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 50ms;
+  transition-duration: 10ms;
 }
 </style>
